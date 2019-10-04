@@ -147,6 +147,10 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 <h3>dTUG</h3>
 
+
+
+<h3>Descripcción del registro de la marcha</h3>
+
 <table>
 	<tbody>
 		<tr>
