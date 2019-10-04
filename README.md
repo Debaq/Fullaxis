@@ -166,7 +166,7 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 			<td style="width: 263px;">
 		 Daniela Villarroel Vera 
 		<P>
-		<a href="da.alejandra@hotmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
+		<a href="mailto:da.alejandra@hotmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
 		</P>
 	</td>
 	</tr>
