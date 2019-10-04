@@ -1,7 +1,7 @@
 <h1 align="center">
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo.png" alt="simPEATC" width="256"/>
-<p><strong>&nbsp;FullAxis<br /></strong></p>
-]
+<p><strong>&nbsp;FullAxis<br/></strong></p>
+
 <br/>
 </h1>
 
@@ -16,9 +16,8 @@
 </div>
 
 
-### simPEATC, Simulador de Potenciales Evocados de Tronco Cerebral.
+### FullAxis, Sistema de evaluación del control postural.
 
-simPEATC, es un proyecto de simulador de PEATC, para estudiantes de electrofisiología auditiva, en el cual se intenta recrear el procedimineto completo
 
 
 ### Estado actual del proyecto
@@ -145,6 +144,9 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 <h3>Investigadores Asociados:</h3>
 
+
+<h3>dTUG</h3>
+
 <table>
 	<tbody>
 		<tr>
@@ -171,7 +173,7 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 ### Licencia 📄
 
-Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+Este proyecto está bajo la Licencia GNU - mira el archivo [LICENSE.md](LICENSE.md) para detalles
 
 ### Agradecimientos 🎁
 
