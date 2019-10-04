@@ -149,7 +149,7 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 
 
-<h3>Descripcción del registro de la marcha</h3>
+<a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Descripcción del registro de la marcha</h3></a>
 
 <table>
 	<tbody>
