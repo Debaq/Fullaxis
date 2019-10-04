@@ -144,9 +144,8 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 <h3>Investigadores Asociados:</h3>
 
-<
 
-<a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Craneocorporografía</h3></a>
+<h2>#</h2><a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Craneocorporografía</h3></a>
 
 <h4>2018</h4>
 <table>
@@ -173,7 +172,7 @@ Elvis Eduardo Mancilla Goldschmidt
 	</tbody>
 </table>
 
-<a href="https://github.com/Debaq/Fullaxis/tree/master/dTug"><h3>dTug</h3></a>
+<h2>#</h2><a href="https://github.com/Debaq/Fullaxis/tree/master/dTug"><h3>dTug</h3></a>
 <h4>2018</h4>
 <table>
 	<tbody>
@@ -226,7 +225,7 @@ Julio Cesar  Soto González
 
 
 
-<a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Descripcción del registro de la marcha</h3></a>
+<h2>#</h2><a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Descripcción del registro de la marcha</h3></a>
 <h4>2019</h4>
 <table>
 	<tbody>
