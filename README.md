@@ -145,7 +145,7 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 <h3>Investigadores Asociados:</h3>
 
 
-<h3># <a href="https://github.com/Debaq/Fullaxis/tree/master/Craneocorporografía">Craneocorporografía</a></h3>
+<h3># <a href="https://github.com/Debaq/Fullaxis/tree/master/Craneocorporografia">Craneocorporografía</a></h3>
 
 <h4>2018</h4>
 <table>
