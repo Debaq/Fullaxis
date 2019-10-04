@@ -162,7 +162,7 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 	</td>
 </tr>
 		<tr>
-		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Villarroel.jpg" alt="Villarroel" width="100" height="100" /></td>
+		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Villarroel.png" alt="Villarroel" width="100" height="100" /></td>
 			<td style="width: 263px;">
 		 Daniela Villarroel Vera 
 		<P>
