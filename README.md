@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo.png" alt="simPEATC" width="256"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo.png" alt="Fullaxis" width="256"/>
 <p><strong>&nbsp;FullAxis<br/></strong></p>
 
 <br/>
@@ -9,7 +9,7 @@
 
 [![Universidad Austral PM](https://img.shields.io/badge/UACH-PM-green.svg)](http://www.pmontt.uach.cl/)
 [![TecMed](https://img.shields.io/badge/TM-PM-critical.svg)](http://tmedicapm.uach.cl/)
-[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=flat&logo=twitter)](https://twitter.com/intent/tweet?hashtags=imagesharp,dotnet,oss&text=simPEATC.Un+simulador+de+potenciales+evocados+auditivos+de+tronco+cerebral+en+Python+https://github.com/debaq/simPEATC+#simPEATC+#simulador+#UACH+#TM-PM)
+[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=flat&logo=twitter)](https://twitter.com/intent/tweet?hashtags=imagesharp,dotnet,oss&text=Fullaxis.Un+simulador+de+potenciales+evocados+auditivos+de+tronco+cerebral+en+Python+https://github.com/debaq/Fullaxis+#Fullaxis+#simulador+#UACH+#TM-PM)
 [![GitHub license](https://img.shields.io/badge/license-GNU-blue.svg)](LICENSE.md)
 
 
@@ -45,8 +45,8 @@
 <table>
 	<tbody>
 		<tr>
-			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Hardware/img/Stickers_preamplificador_portaelectrodos.jpeg" alt="Stickers" width="263" height="230" /></td>
-			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Hardware/img/Preamplificador_electronica_1.png" alt="Electronica" width="263" height="230" /></td>
+			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/Stickers_preamplificador_portaelectrodos.jpeg" alt="Stickers" width="263" height="230" /></td>
+			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/Preamplificador_electronica_1.png" alt="Electronica" width="263" height="230" /></td>
 		</tr>
 		<tr>
 			<td style="width: 263px;">Stickers</td>
@@ -64,9 +64,9 @@
 <table>
 <tbody>
 <tr>
-<td style="width: 252px; text-align: center;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Hardware/img/portaelectrodo1.jpg" alt="Porta Electrodos" width="252" height="189" /></td>
-<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Hardware/img/preamplificador.jpg" alt="Preamplificador" width="236" height="177" /></td>
-<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Hardware/img/3d_preamplificador_portaelectrodos.jpeg" alt="impresi&oacute;n3d" width="263" height="230" /></td>
+<td style="width: 252px; text-align: center;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/portaelectrodo1.jpg" alt="Porta Electrodos" width="252" height="189" /></td>
+<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/preamplificador.jpg" alt="Preamplificador" width="236" height="177" /></td>
+<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/3d_preamplificador_portaelectrodos.jpeg" alt="impresi&oacute;n3d" width="263" height="230" /></td>
 
 </tr>
 
@@ -85,12 +85,12 @@
 <p style="text-align: justify;"><em>bugs:</em> el sistema queda en un bucle de matplotlib impidiendo realizar acciones mientras se genera el potencial</p>
 <p style="text-align: justify;">&nbsp;</p>
 <p align="center">
-<img width="505" height="284" src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/video.gif" alt="Video generaci&oacute;n de curva"  /></p>
+<img width="505" height="284" src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/video.gif" alt="Video generaci&oacute;n de curva"  /></p>
 <p style="text-align: justify;">&nbsp;</p>
 <p style="text-align: justify;"><strong>02-09-2019:</strong></p>
 <p style="text-align: justify;">- Se realiza gui completa de la pantalla principal</p>
 <p align="center">
-<img width="505" height="306" src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/Screenshot1.png" alt="Gui principal completo"  /></p>
+<img width="505" height="306" src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Screenshot1.png" alt="Gui principal completo"  /></p>
 
 ### Pre-requisitos
 _Para correr este script de Python es necesario tener instalado:_
@@ -107,8 +107,8 @@ csv
 ### Paquetes de instalación
 |           |Paquete|Código|
 |-----------|-------|------|
-|**Linux**  |[![Build Status](https://img.shields.io/badge/build-faling-critical.svg)](https://github.com/Debaq/simPEATC)|[![Build Status](https://img.shields.io/badge/code-10-green.svg)](https://github.com/Debaq/simPEATC)|
-|**windows**|[![Build Status](https://img.shields.io/badge/build-faling-critical.svg)](https://github.com/Debaq/simPEATC)|[![Build Status](https://img.shields.io/badge/code-0-red.svg)](https://github.com/Debaq/simPEATC)|
+|**Linux**  |[![Build Status](https://img.shields.io/badge/build-faling-critical.svg)](https://github.com/Debaq/Fullaxis)|[![Build Status](https://img.shields.io/badge/code-10-green.svg)](https://github.com/Debaq/Fullaxis)|
+|**windows**|[![Build Status](https://img.shields.io/badge/build-faling-critical.svg)](https://github.com/Debaq/Fullaxis)|[![Build Status](https://img.shields.io/badge/code-0-red.svg)](https://github.com/Debaq/Fullaxis)|
 
 
 ### Construido con 🛠️
@@ -129,13 +129,13 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 <table>
 	<tbody>
 		<tr>
-			<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/Autores/Ávila.jpg" alt="Davila" width="100" height="100" /></td>		
+			<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Ávila.jpg" alt="Davila" width="100" height="100" /></td>		
 			<td style="width: 263px;">
 			David Ávila Quezada
 			<p>
-			<a href="david.avila@uach.cl"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/externos/mail.png"  width="20" height="20" ></a>
-			<a href="http://tmedicapm.uach.cl/docentes/david-%C3%A1vila-quezada"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/externos/TMPM.png"  width="20" height="20" ></a>
-			<a href="http://www.linkedin.com/in/david-avila-quezada-9a577113a"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/externos/Linkedin.png"  width="20" height="20" ></a>
+			<a href="david.avila@uach.cl"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
+			<a href="http://tmedicapm.uach.cl/docentes/david-%C3%A1vila-quezada"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/TMPM.png"  width="20" height="20" ></a>
+			<a href="http://www.linkedin.com/in/david-avila-quezada-9a577113a"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/Linkedin.png"  width="20" height="20" ></a>
 			</p>
 			</td>
 		</tr>
@@ -154,20 +154,20 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 <table>
 	<tbody>
 		<tr>
-		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/Autores/Latorre.jpg" alt="Latorre" width="100" height="100" /></td>	
+		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Latorre.jpg" alt="Latorre" width="100" height="100" /></td>	
 		<td style="width: 263px;">
 		María Paz Latorre Gonzalez
 		<p>
-		<a href="mailto:Marialatorre.1f@gmail.com"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/externos/mail.png"  width="20" height="20" ></a>
+		<a href="mailto:Marialatorre.1f@gmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
 		</p>
 	</td>
 </tr>
 		<tr>
-		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/Autores/Inarejo.jpg" alt="Inarejo" width="100" height="100" /></td>
+		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Inarejo.jpg" alt="Inarejo" width="100" height="100" /></td>
 			<td style="width: 263px;">
 			Ignacia Inarejo Inarejo
 		<P>
-		<a href="ignaciainarejoinarejo@gmail.com"><img src="https://raw.githubusercontent.com/Debaq/simPEATC/master/Images/externos/mail.png"  width="20" height="20" ></a>
+		<a href="ignaciainarejoinarejo@gmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
 		</P>
 	</td>
 	</tr>
