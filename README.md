@@ -144,9 +144,34 @@ _Este proyecto se ha desarrollado con las siguientes herramenientas_
 
 <h3>Investigadores Asociados:</h3>
 
-<a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Descripcción del registro de la marcha - 2019</h3></a>
+<
 
+<a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Craneocorporografía</h3></a>
 
+<h4>2018</h4>
+<table>
+	<tbody>
+		<tr>
+		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Gallo.jpeg" alt="Gallo" width="100" height="100" /></td>	
+		<td style="width: 263px;">
+Enrique Gallo Barraza 
+		<p>
+		<a href="mailto:enriquegallo.b@gmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
+		</p>
+	</td>
+</tr>
+		<tr>
+		<td style="width: 263px; border: 10px solid black;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Autores/Mancilla.jpeg" alt="Mancilla" width="100" height="100" /></td>
+			<td style="width: 263px;">
+Elvis Eduardo Mancilla Goldschmidt 
+		<P>
+		<a href="mailto:mancilla_e@hotmail.com"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/externos/mail.png"  width="20" height="20" ></a>
+		</P>
+	</td>
+	</tr>
+		</tr>
+	</tbody>
+</table>
 
 <a href="https://github.com/Debaq/Fullaxis/tree/master/dTug"><h3>dTug</h3></a>
 <h4>2018</h4>
@@ -202,7 +227,7 @@ Julio Cesar  Soto González
 
 
 <a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha"><h3>Descripcción del registro de la marcha</h3></a>
-
+<h4>2019</h4>
 <table>
 	<tbody>
 		<tr>
