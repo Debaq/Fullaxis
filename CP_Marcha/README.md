@@ -1,3 +1,19 @@
+<h1 align="center">
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
+<p><strong>Control Postural - Estudio de la Marcha<br/></strong></p>
+
+<br/>
+</h1>
+
+<div align="center">
+
+[![Universidad Austral PM](https://img.shields.io/badge/UACH-PM-green.svg)](http://www.pmontt.uach.cl/)
+[![TecMed](https://img.shields.io/badge/TM-PM-critical.svg)](http://tmedicapm.uach.cl/)
+[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=flat&logo=twitter)](https://twitter.com/intent/tweet?hashtags=imagesharp,dotnet,oss&text=Fullaxis.Un+simulador+de+potenciales+evocados+auditivos+de+tronco+cerebral+en+Python+https://github.com/debaq/Fullaxis+#Fullaxis+#simulador+#UACH+#TM-PM)
+[![GitHub license](https://img.shields.io/badge/license-GNU-blue.svg)](LICENSE.md)
+
+</div>
+
 <p><strong>&ldquo;Descripci&oacute;n del control postural en la marcha mediante instrumentos de medici&oacute;n inercial digitales.&rdquo;</strong></p>
 <p>&nbsp;</p>
 <p><strong>Introducci&oacute;n.</strong></p>
