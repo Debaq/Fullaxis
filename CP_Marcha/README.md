@@ -50,7 +50,7 @@
 <table>
 <tbody>
 <tr>
-<td><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="experimeto1" width="236"  /></td>
+<td><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="experimeto1" width="400"  /></td>
 <td><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img2.jpeg" alt="experimiento1" width="263"  /></td>
 </tr>
 <tr>
