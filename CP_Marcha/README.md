@@ -19,7 +19,7 @@
 
 <p><strong>&ldquo;Descripci&oacute;n del control postural en la marcha mediante instrumentos de medici&oacute;n inercial.</strong></p>
 
-
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Avila.jpg" alt="Avila" width="80"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Inarejo.jpg" alt="Inarejo" width="80"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Latorre.jpg" alt="Latorre" width="80"/>
 
