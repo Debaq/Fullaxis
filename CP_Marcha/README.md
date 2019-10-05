@@ -40,7 +40,7 @@
 
 <p><strong>28/08/2019:</strong></p>
 <p>- Corte de im&aacute;genes de marchas realizadas el 26/08/2019 Marcha completa:</p>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/28-08_img1.jpg" alt="experimeto1" width="400"  />
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/28-08_img1.jpg" alt="experimeto1" width="800"  />
 <p>Zoom o corte de la marcha</p>
 
 
