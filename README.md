@@ -166,7 +166,7 @@ Julio Cesar  Soto González
 
 
 
-<h3># <a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha">Descripcción del registro de la marcha</a></h3>
+<h3># <a href="https://github.com/Debaq/Fullaxis/tree/master/CP_Marcha">Descripción del registro de la marcha</a></h3>
 <h4>2019</h4>
 <table>
 	<tbody>
