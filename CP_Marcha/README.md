@@ -15,9 +15,9 @@
 </div>
 
 <div>
-	<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
+	<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="80"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="60"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="40"/>
 
 </div>
 
