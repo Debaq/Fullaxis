@@ -140,7 +140,7 @@
 
 <p><strong>Agradecimientos</strong></p>
 
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/Agradecimientos/1.jpg" alt="1" width="60"/>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/Agradecimientos/2.jpg" alt="1" width="60"/>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/Agradecimientos/3.jpg" alt="1" width="60"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/1.jpg" alt="1" width="60"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/2.jpg" alt="2" width="60"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/3.jpg" alt="3" width="60"/>
 </div>
