@@ -25,7 +25,7 @@
 * **[:ok:]Prototipo 2**
 * **[:construction_worker:]Prototipo 3**
 * **[:ok:]Programación Arduino**
-* **[:ok:]Creación Cli**
+* **[:ok:]Creación Cli (python)**
 * **[:rat:]Creación GUI**
 * **[:rat:]Placas finales**
 
