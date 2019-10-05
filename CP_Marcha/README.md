@@ -14,6 +14,13 @@
 
 </div>
 
+<div>
+	<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/logo_marcha.png" alt="CP_Marcha" width="256"/>
+
+</div>
+
 <p><strong>&ldquo;Descripci&oacute;n del control postural en la marcha mediante instrumentos de medici&oacute;n inercial digitales.&rdquo;</strong></p>
 <p>&nbsp;</p>
 <p><strong>Introducci&oacute;n.</strong></p>
