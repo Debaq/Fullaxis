@@ -38,26 +38,24 @@
 <p><strong>16/09/2019:</strong></p>
 <p>- Avance marco te&oacute;rico, materiales y m&eacute;todos y protocolo de experimento. Posicionamiento de cintas el&aacute;sticas (cintas verdes en extremidades derechas, cintas blancas en extremidades izquierdas)</p>
 
+<p><strong>28/08/2019:</strong></p>
+<p>- Corte de im&aacute;genes de marchas realizadas el 26/08/2019 Marcha completa:</p>
+
 
 <p><strong>26/08/2019:</strong></p>
-<p>- 1&deg; experimento, obtenci&oacute;n de registros de la marcha en prueba TUG con IMU en zona lumbar, con luces ubicadas a modo de cintillo para correlacionar movimientos ejecutados reflejados en la gr&aacute;fica entregada por el software. 3 repeticiones por sujeto. 28/08/2019 Corte de im&aacute;genes de marchas realizadas el 26/08/2019 Marcha completa:</p>
-
-<p>&nbsp;</p>
-<p><strong>&nbsp;01-10-2019:<br /></strong></p>
-<p style="text-align: justify;">- Se agregan formatos STL, para impresi&oacute;n en 3d del preamplificador y portaelectros (carpeta STL): Se construyo el porta electrodos para poder fabricar electrodos con pin dupont de 1 pin</p>
-<p style="text-align: justify;">&nbsp;</p>
+<p>- 1&deg; experimento, obtenci&oacute;n de registros de la marcha en prueba TUG con IMU en zona lumbar, con luces ubicadas a modo de cintillo para correlacionar movimientos ejecutados reflejados en la gr&aacute;fica entregada por el software. 3 repeticiones por sujeto. 
 <p align="center">
 <table>
 <tbody>
 <tr>
-<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="experimeto1" width="236" height="177" /></td>
-<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img2.jpeg" alt="experimiento1" width="263" height="230" /></td>
+<td><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="experimeto1" width="236"  /></td>
+<td><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img2.jpeg" alt="experimiento1" width="263"  /></td>
 
 </tr>
 
 <tr>
-<td style="width: 252px;"></td>
-<td style="width: 236px;">preamplificador</td>
+<td></td>
+<td>preamplificador</td>
 </tr>
 </tbody>
 </table>
