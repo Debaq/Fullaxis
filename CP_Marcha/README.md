@@ -50,13 +50,13 @@
 <table>
 <tbody>
 <tr>
-<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="Preamplificador" width="236" height="177" /></td>
-<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img2.jpg" alt="impresi&oacute;n3d" width="263" height="230" /></td>
+<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img1.jpg" alt="experimeto1" width="236" height="177" /></td>
+<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/26-08_img2.jpeg" alt="experimiento1" width="263" height="230" /></td>
 
 </tr>
 
 <tr>
-<td style="width: 252px;">porta electrodos</td>
+<td style="width: 252px;"></td>
 <td style="width: 236px;">preamplificador</td>
 </tr>
 </tbody>
