@@ -16,7 +16,7 @@
 
 <div>
 	<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Inarejo.jpg" alt="Inarejo" width="80"/>
-<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Latorre.jpg" alt="Latorre" width="80"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Latorre.jpg" alt="Latorre" width="80"/>
 
 </div>
 
