@@ -22,7 +22,7 @@
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Ávila.jpg" alt="Avila" width="80"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Inarejo.jpg" alt="Inarejo" width="80"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/Images/Autores/Latorre.jpg" alt="Latorre" width="80"/>
-
+<p></p>
 <p><strong>Introducci&oacute;n.</strong></p>
 <p style="text-align: justify;">El control postural es la capacidad de mantener el equilibrio y orientaci&oacute;n del cuerpo en un entorno gravitacional est&aacute;tico o din&aacute;mico y puede verse afectado por alteraciones del sistema m&uacute;sculo esquel&eacute;tico. En la marcha se encuentran periodos de apoyo monopodal y bipodal generando el paso b&iacute;pedo. El an&aacute;lisis cl&iacute;nico del control postural en la marcha se puede realizar mediante las unidades de medici&oacute;n inercial (IMU), estos analizan velocidad angular, orientaci&oacute;n y rotaci&oacute;n del cuerpo y campo magn&eacute;tico mediante aceler&oacute;metros, giroscopios y magnet&oacute;metros respectivamente, en una direcci&oacute;n en particular.</p>
 <p style="text-align: justify;"><strong>Objetivo.</strong></p>
