@@ -12,7 +12,6 @@
 [![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=flat&logo=twitter)](https://twitter.com/intent/tweet?hashtags=imagesharp,dotnet,oss&text=Fullaxis.Un+simulador+de+potenciales+evocados+auditivos+de+tronco+cerebral+en+Python+https://github.com/debaq/Fullaxis+#Fullaxis+#simulador+#UACH+#TM-PM)
 [![GitHub license](https://img.shields.io/badge/license-GNU-blue.svg)](LICENSE.md)
 
-
 </div>
 
 
@@ -22,75 +21,17 @@
 
 ### Estado actual del proyecto
 
-* **[:speak_no_evil:]GUI**
-* **[:speak_no_evil:]Insertar Matplotlib seteado**
-* **[:construction_worker:]i18n**
-* **[:rat:]Configuración de tonos**
-* **[:speak_no_evil:]Desarrollo del Hadware**
-
+* **[:ok:]Prototipo 1**
+* **[:ok:]Prototipo 2**
+* **[:construction_worker:]Prototipo 3**
+* **[:ok:]Programación Arduino**
+* **[:ok:]Creación Cli**
+* **[:rat:]Creación GUI**
+* **[:rat:]Placas finales**
 
 :ok::OK, :speak_no_evil::50/50, :construction_worker::en construcción, :rat:: nivel rata(no funciona, ¡aún!)
 
 ### Avances:
-
-<p><strong>&nbsp;02-10-2019:<br /></strong></p>
-
-<p style="text-align: justify;">- Se agregan stickers para preamplificador y portaelectrodos en formato SVG de Inkscaper</p>
-<p style="text-align: justify;">- Se modifica orden de las carpetas y archivos para una mejor interpretación</p>
-<p style="text-align: justify;">- Se comienzan a crear los archivos FZZ de fritzing para mostrar de forma sencilla los cirtuitos internos del preamplificador y portaelectrodos</p>
-
-
-<p style="text-align: justify;">&nbsp;</p>
-<p align="center">
-<table>
-	<tbody>
-		<tr>
-			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/Stickers_preamplificador_portaelectrodos.jpeg" alt="Stickers" width="263" height="230" /></td>
-			<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/Preamplificador_electronica_1.png" alt="Electronica" width="263" height="230" /></td>
-		</tr>
-		<tr>
-			<td style="width: 263px;">Stickers</td>
-			<td style="width: 263px;">Fritzing -  Preamplificador</td>
-		</tr>
-	</tbody>
-</table>
-</p>
-
-<p>&nbsp;</p>
-<p><strong>&nbsp;01-10-2019:<br /></strong></p>
-<p style="text-align: justify;">- Se agregan formatos STL, para impresi&oacute;n en 3d del preamplificador y portaelectros (carpeta STL): Se construyo el porta electrodos para poder fabricar electrodos con pin dupont de 1 pin</p>
-<p style="text-align: justify;">&nbsp;</p>
-<p align="center">
-<table>
-<tbody>
-<tr>
-<td style="width: 252px; text-align: center;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/portaelectrodo1.jpg" alt="Porta Electrodos" width="252" height="189" /></td>
-<td style="width: 236px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/preamplificador.jpg" alt="Preamplificador" width="236" height="177" /></td>
-<td style="width: 263px;"><img src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Hardware/img/3d_preamplificador_portaelectrodos.jpeg" alt="impresi&oacute;n3d" width="263" height="230" /></td>
-
-</tr>
-
-<tr>
-<td style="width: 252px;">porta electrodos</td>
-<td style="width: 236px;">preamplificador</td>
-<td style="width: 263px;">impresi&oacute;n 3d</td>
-</tr>
-</tbody>
-</table>
-</p>
-<p style="text-align: justify;">&nbsp;</p>
-<p style="text-align: justify;">&nbsp;</p>
-<p style="text-align: justify;"><strong>08-09-2019:</strong></p>
-<p style="text-align: justify;">- Se consigue generar animaci&oacute;n de la formaci&oacute;n de los potenciales evocados dentro de la gui.</p>
-<p style="text-align: justify;"><em>bugs:</em> el sistema queda en un bucle de matplotlib impidiendo realizar acciones mientras se genera el potencial</p>
-<p style="text-align: justify;">&nbsp;</p>
-<p align="center">
-<img width="505" height="284" src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/video.gif" alt="Video generaci&oacute;n de curva"  /></p>
-<p style="text-align: justify;">&nbsp;</p>
-<p style="text-align: justify;"><strong>02-09-2019:</strong></p>
-<p style="text-align: justify;">- Se realiza gui completa de la pantalla principal</p>
-<p align="center">
-<img width="505" height="306" src="https://raw.githubusercontent.com/Debaq/Fullaxis/master/Images/Screenshot1.png" alt="Gui principal completo"  /></p>
 
 ### Pre-requisitos
 _Para correr este script de Python es necesario tener instalado:_
