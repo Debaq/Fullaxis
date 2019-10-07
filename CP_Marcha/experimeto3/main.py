@@ -25,7 +25,7 @@ window.geometry('600x400')
 lbl = Label(window, text="Tipo de prueba: ")
 lbl.grid(column=0, row=0)
 combo = Combobox(window, width=10)
-combo['values']= ("Marcha", "TUG", "Unipodal")
+combo['values']= ("Marcha", "TUG", "Unipodal","cabeza")
 combo.current(0)
 combo.grid(column=1, row=0)
 
@@ -63,6 +63,8 @@ def conectar():
 	global prueba
 	try:
 		n_prueba.configure(state=DISABLED)
+		combo.configure(state=DISABLED)
+
 		index = int(n_prueba.get())
 		prueba=combo.get()
 		print(prueba)
@@ -221,11 +223,14 @@ def reset():
 	global arduino
 	progress_var.set(0)
 	spin.configure(state=NORMAL)
+	combo.configure(state=NORMAL)
 	n_prueba.configure(state=NORMAL)
 	btn1.configure(text="Comenzar",state=DISABLED, command=medir)
 	btn.configure(text="Conectar",state=NORMAL, command=conectar)
-	graph()
-
+	try:
+		graph()
+	except:
+		pass
 	try:
 		arduino.setDTR(False)
 		time.sleep(1)
@@ -298,5 +303,10 @@ btn1 = Button(window, state=DISABLED, text="Comenzar", command=medir)
 btn1.grid(column=1, row=3)
 
 
+def printt():
+	print("hola")
+
+frame = Frame(window)	
+frame.bind("<b>", printt)
 
 window.mainloop()
