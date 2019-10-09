@@ -143,4 +143,6 @@
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/1.png" alt="1" width="60"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/2.png" alt="2" width="60"/>
 <img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/3.png" alt="3" width="60"/>
+<img src="https://raw.githubusercontent.com/Debaq/FullAxis/master/CP_Marcha/img/agradecimiento/4.png" alt="4" width="60"/>
+
 </div>
