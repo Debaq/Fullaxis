@@ -198,7 +198,7 @@ def medir(modo=0):
 			else:
 				medir(0)
 		else:
-			messagebox.showwarning('Error de Comunicación', 'Verifique el equipo')
+			messagebox.showwarning('Error de Comunicación', 'Verifique el equipoff')
 			reset()
 	except TypeError:
 		if intento_error<= 3:
