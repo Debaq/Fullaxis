@@ -34,6 +34,7 @@ import pandas
 import os
 import sys
 import setproctitle
+import shutil
 sys.path.insert(1, 'config/') #se señala carpeta donde se encuentran librerias propias
 
 #Librerias propias para manejar componentes externos, principalmente configuraciones
@@ -60,21 +61,23 @@ setproctitle.setproctitle('FullAxis')
 
 #Establece Idioma seteado
 LANG=0
+path=".tmp"
 
 
-
-def delete_window():
-	q=messagebox.askyesnocancel(message="¿Desea guardar antes de salir?", title="FullAxis")
-	if q==True:
-		messagebox.showinfo(message="Registros Guardados Exitosamente", title="FullAxis")		
-		root.destroy()
-	if q==False:
+def delete_window(save=True):
+	if save:
+		q=messagebox.askyesnocancel(message="¿Desea guardar antes de salir?", title="FullAxis")
+		if q==True:
+			messagebox.showinfo(message="Registros Guardados Exitosamente", title="FullAxis")		
+			root.destroy()
+		if q==False:
+			print("no se guardo nada")
+			raise SystemExit
+			root.destroy()
+	else:
 		print("no se guardo nada")
+		raise SystemExit
 		root.destroy()
-
-def destroy(event):
-	pass
-
 
 
 class Lelitxipawe():
@@ -82,7 +85,6 @@ class Lelitxipawe():
 	Clase principal de la Ventana
 	'''
 	def __init__(self, master=None): #Se inicia la ventana con sus caracteristicas predeterminadas
-		os.mkdir(".tmp")
 		self.root = master
 		self.root.config(background='white')#Color de fondo
 		self.root.update_idletasks()
@@ -111,8 +113,8 @@ class Lelitxipawe():
 		file.add_command(label="Nuevo usuario", command=self.we_kakon)
 		file.add_command(label="Cerrar usuario")
 		file.add_separator()
-		file.add_command(label="Salir",command=delete_window)
-		file.add_command(label="Salir sin guardar",command=root.destroy)
+		file.add_command(label="Salir",command=lambda:delete_window(True))
+		file.add_command(label="Salir sin guardar",command=lambda:delete_window(False))
 		menu.add_cascade(label="Archivo", menu=file)
 		edit = Menu(menu, tearoff=0)
 		edit.add_command(label="Nueva Prueba")
@@ -288,18 +290,18 @@ class Lelitxipawe():
 			self.btn_crear.config(state=DISABLED)
 
 	def new_user(self):
-		#if acction == 1:
-			#Invoco funciones externas:
-		tools.new_user(self.ID.get(), self.Name.get(), self.LastName.get(), self.edad.get()) 
-	#	if acction == 2:
-	#		print("acction2")
-		
+		#Invoco funciones externas:
+		try:
+			tools.new_user(path,self.ID.get(),self.Name.get(),self.LastName.get(),self.edad.get()) 
+			self.kakon.destroy()
+			messagebox.showinfo(message="Creado Correctamente", title="FullAxis")		
+		except:
+			messagebox.showinfo(message="Error al Crear el perfil", title="FullAxis")
+
 	def focus_kakon(self,event):
 		self.kakon.focus_force()
 
 	def abrir(self):
-		#dd = filedialog()
-		#dd.askopenfile(mode="r", **options)
 		file = filedialog.askopenfilename(parent=self.root, initialdir = "~/",
 										  title = "Seleccione el archivo",
 										  filetypes = [("tar.gz","*.tar.gz")
@@ -308,15 +310,23 @@ class Lelitxipawe():
 
 
 if __name__ == '__main__':
-	path = os.getcwd()
+	path_actual = os.getcwd()
+	try:
+		os.mkdir(path)
+	except FileExistsError:
+		shutil.rmtree(path)
+		os.mkdir(path)
+
 	root = Tk()
 	root.protocol("WM_DELETE_WINDOW", delete_window)
-	root.bind("<Destroy>", destroy)
+	#root.bind("<Destroy>", destroy)
 
 	my_gui = Lelitxipawe(master=root)
 	my_gui.root.wm_title("FullAxis V.4")
 	root.mainloop()
-	os.rmdir(".tmp")
+	shutil.rmtree(path)
+	raise SystemExit
+
 
 
 #------------------------------------------------------------
