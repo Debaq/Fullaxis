@@ -1,420 +1,326 @@
-# Librerias Necesarias
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# name:        main.py (Python 3.x).
+# description: Software para la medición de IMU 9DOF
+# purpose:     Analisis de la marcha y movimientos corporales
+#              mediante IMU
+# author:      David Avila Quezada
+#
+#------------------------------------------------------------
+
+'''FullAxis: Software para la medición de los movimientos corporales'''
+   
+__author__ = 'Debaq'
+__title__= 'FullAxis'
+__date__ = '12/19'
+__version__ = '0.4'
+__license__ = 'MIT'
+
+#Librerias Necesarias
+#Tkinter para dibujar el Gui, PIL para trabajar con img
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+from tkinter import filedialog
+from tkinter import messagebox
+
+#Librerias para trabajr numeros y datos importados
 import numpy as np
+import csv 
+import pandas
+
+#Libreria para utilizar parametros especificos del sistema
+import os
 import sys
-sys.path.insert(1, 'config/')
+import setproctitle
+sys.path.insert(1, 'config/') #se señala carpeta donde se encuentran librerias propias
+
+#Librerias propias para manejar componentes externos, principalmente configuraciones
 import languaje as lang
 import setting as stt
+import tools 
 
+#Libreria para controlar gráficos, es necesario analisar si se puede enviar a libreria propia 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.patches import Ellipse
 import matplotlib.animation as animation
 from matplotlib.text import OffsetFrom
 from matplotlib.gridspec import GridSpec
-import csv
 
-import json 
+#Librerias para comunicación Serial y su uso 
+import serial
+import serial.tools.list_ports
+import time
 
-
-
-
-
-##Lenguaje
-def i18n(a,b,*f):
-    i18n = lang.i18n(a,b)
-    return i18n
+#Establece nombre en gestor de procesos
+setproctitle.setproctitle('FullAxis')
 
 
-##Variables de forma del gráfico
-Y_ampl = 18
-X_time = 10
-average = 2000
-niveldb = 80
-
-fonticksmini = {'fontsize': 6}
-
-GridTrue = True
+#Establece Idioma seteado
 LANG=0
 
-continuePlotting = False
-
-def cmd(icon):
-    pass
 
 
-def change_state():
-    global continuePlotting
-    print(2)
+def delete_window():
+	q=messagebox.askyesnocancel(message="¿Desea guardar antes de salir?", title="FullAxis")
+	if q==True:
+		messagebox.showinfo(message="Registros Guardados Exitosamente", title="FullAxis")		
+		root.destroy()
+	if q==False:
+		print("no se guardo nada")
+		root.destroy()
 
-    if continuePlotting == True:
-        continuePlotting = False
-    else:
-        continuePlotting = True
-    
- 
-
- 
-
-def averageTick(average):
-    ticksAverage = average/13
-    ticks =[0]
-    i = 0
-    while i < 13:
-        i = i+1
-        suma = ticksAverage * i
-        ticks.append(suma)
-    return ticks
+def destroy(event):
+	pass
 
 
 
+class Lelitxipawe():
+	'''
+	Clase principal de la Ventana
+	'''
+	def __init__(self, master=None): #Se inicia la ventana con sus caracteristicas predeterminadas
+		os.mkdir(".tmp")
+		self.root = master
+		self.root.config(background='white')#Color de fondo
+		self.root.update_idletasks()
+		#self.w, self.h = root.winfo_screenwidth(), root.winfo_screenheight()
+		self.w,self.h = 1280,720
+		self.root.geometry("%dx%d+0+0" % (self.w, self.h))
+		self.root.minsize(self.w, self.h)#Tamaño minimo de la ventana
+		#self.root.maxsize(self.w, self.h)#Tamaño minimo de la ventana
+		self.root.attributes('-zoomed', True)
+#		self.root.overrideredirect(True)
+		self.root.call('wm', 'iconphoto', self.root._w, ImageTk.PhotoImage(Image.open('resources/icon.png')))#Icono de la ventana
+		self.app()
 
-class CreateToolTip(object):
-    '''
-    create a tooltip for a given widget
-    '''
-    def __init__(self, widget, text='widget info'):
-        self.widget = widget
-        self.text = text
-        self.widget.bind("<Enter>", self.enter)
-        self.widget.bind("<Leave>", self.close)
- 
-    def enter(self, event=None):
-        x = y = 0
-        x, y, cx, cy = self.widget.bbox("insert")
-        x += self.widget.winfo_self.rootx() + 25
-        y += self.widget.winfo_self.rooty() + 20
-        # creates a toplevel window
-        self.tw = Toplevel(self.widget)
-        # Leaves only the label and removes the app window
-        self.tw.wm_overrideredirect(True)
-        self.tw.wm_geometry("+%d+%d" % (x, y))
-        label = Label(self.tw, text=self.text, justify='left',
-                       background='white', relief='solid', borderwidth=1,
-                       font=("arial", "10", "normal"))
-        label.pack(ipadx=1)
- 
-    def close(self, event=None):
-        if self.tw:
-            self.tw.destroy()
+	def app(self): #Estructura de la ventana
+		self.txokiñ()
+		self.ñizol()
+		self.wirin()
+		self.wirin_epu()
 
+	def ñizol(self): #Menú principal
+		menu = Menu(self.root)
+		self.root.config(menu=menu)
+		file = Menu(menu, tearoff=0)
+		file.add_command(label="Abrir usuario")
+		file.add_command(label="Importar usuario", command=self.abrir)
+		file.add_command(label="Nuevo usuario", command=self.we_kakon)
+		file.add_command(label="Cerrar usuario")
+		file.add_separator()
+		file.add_command(label="Salir",command=delete_window)
+		file.add_command(label="Salir sin guardar",command=root.destroy)
+		menu.add_cascade(label="Archivo", menu=file)
+		edit = Menu(menu, tearoff=0)
+		edit.add_command(label="Nueva Prueba")
+		edit.add_command(label="Borrar Prueba")
+		edit.add_separator()
+		edit.add_command(label="Abrir prueba suelta")
+		menu.add_cascade(label="Editar", menu=edit)
+		help = Menu(menu, tearoff=0)
+		help.add_command(label="Ayuda")
+		help.add_separator()
+		help.add_command(label="Acerca de nosotros",)
+		menu.add_cascade(label="Ayuda", menu=help)
 
-class windows():
-    def __init__(self, root):
-# Se inicia la ventana
-        self.root = root
-        self.root.config(background='white')
-        self.root.geometry(stt.size_window[0])#Tamaño inicial de la ventana
-        self.root.update_idletasks()
-        self.root.minsize(stt.size_window[1], stt.size_window[2])#Tamaño minimo de la ventana
-        #self.root.maxsize(stt.size_window[1], stt.size_window[2])#mantiene un tamaño fijo 
-        self.root.call('wm', 'iconphoto', self.root._w, ImageTk.PhotoImage(Image.open('resources/icon.ico')))#Icono de la ventana
-        self.root.title("simPEATC") ##Titulo de la ventana
-        self.app()
+	def txokiñ(self):#Marcos y estructura
+		#Configuración de los Frames, proporciones en setting.py variable size_frame
+		size_frame=stt.size_screen(self.w,self.h)
 
-
-    def anim(self):
-        a = []
-        b = []
-
-        with open('curvatest.csv','r') as csvfile:
-            plots = csv.reader(csvfile, delimiter=',')
-            for row in plots:
-                a.append((float(row[0])/10)-4)
-                b.append(float(row[1])/6)
-
-        t = np.linspace(1, 12, 26)
-        out_a= np.asarray(b)
-        out_b= np.asarray(a)
-        x_watts = out_a ** 2
-        target_noise_db = 30
-        prom=0
-        text=r"80 OD "
-        c_red=[1.0,0.5,0.5]
-        c_blue=[0.5,0.5,1.0]
-        color=c_red
-        el = Ellipse((2, -1), 0.5, 0.5)
-        plt.ion()
-        self.ax3.add_patch(el)
-
-        self.Btn_iniciar.configure(text="Detener")
-
-        for i in range(55):
-            target_noise_db = target_noise_db - 1
-            target_noise_watts = 10 ** (target_noise_db / 10)
-            mean_noise = 0
-            noise_volts = np.random.normal(mean_noise, np.sqrt(target_noise_watts), len(x_watts))
-            y_volts = out_a + noise_volts
-            ytext=y_volts[0]
-            xtext=out_b[0]
-            prom=prom+1
-            self.ax3.plot(out_b, y_volts, color=color)
-            self.ax3.grid(True)
-            self.ax3.yaxis.set_major_formatter(plt.NullFormatter()) 
-            self.ax3.grid(GridTrue, linestyle='--')
-            self.ax3.set_xticks(np.arange(X_time+1))
-            self.ax3.set_yticks(np.arange(Y_ampl+1))
-            self.ax3.set_xlim(0,X_time)
-            self.ax3.set_ylim(0,Y_ampl)
-            self.ann = self.ax3.annotate(text,
-                          xy=(xtext,ytext), xycoords='data',
-                          xytext=(8, 0), textcoords='offset points',
-                          size=30, va="center",
-                          bbox=dict(boxstyle="round", fc=(color), ec="none"),
-                          arrowprops=dict(arrowstyle="wedge,tail_width=1.",
-                                          fc=(color), ec="none",
-                                          patchA=None,
-                                          patchB=el,
-                                          relpos=(0.2, 0.5)))
-            self.graphy.draw()
-            self.ax3.clear()
-            plt.pause(0.2)
-            #plt.cla()
+		self.frame_quick = Frame(bd=1,relief="sunken") ##crea la caja superior
+		self.frame_contenido = Frame(bd=1, bg="white",relief="sunken") ##crea la caja derecha
+		self.frame_info = Frame(bd=1,relief="sunken") ##crea la caja inferior
+		self.frame_command = Frame(bd=1,relief="sunken") ##crea la caja izquierda
+		#se ubican los frames en la ventana principal
+		self.frame_quick.place(	relx=size_frame['up'][0], rely=size_frame['up'][1], 
+								relwidth=size_frame['up'][2], relheight=size_frame['up'][3])
+		self.frame_contenido.place(	relx=size_frame['der'][0], rely=size_frame['der'][1], 
+									relwidth=size_frame['der'][2], relheight=size_frame['der'][3])
+		self.frame_command.place(	relx=size_frame['izq'][0], rely=size_frame['izq'][1], 
+									relwidth=size_frame['izq'][2], relheight=size_frame['izq'][3])
+		self.frame_info.place(	relx=size_frame['down'][0], rely=size_frame['down'][1], 
+								relwidth=size_frame['down'][2], relheight=size_frame['down'][3])
 
 
-    def graxx(self):
-        data=[]
-        data=[1,(1,2,3,4,5,6,7,8,9,10),(5,5,5,5,5,5,5,5,5,5)]
-        x=(1,2,3,4,5,6,7,8,9)
-        y=(9,7,6,5,6,4,3,2,1)
-        self.ax3.plot(x,y)
-        self.graphy.draw()
-        self.ax3.clear()
-        
-
-    def graph(self, *L):
-
-        fig = plt.figure(num="TUG", figsize=(3,3))
-        t = np.arange(0, 3, .01)
-        gs1 = GridSpec(9, 8)
-        gs1.update(left=0.05, right=0.95, wspace=0.5, hspace=1, top=0.98, bottom=0.08)
-
-        self.ax1 = plt.subplot(gs1[0:1,0:2])
-        self.ax1.grid(GridTrue)
-        self.ax1.set_xlim(0,1)
-        self.ax1.set_ylim(0,3)
-        self.ax1.set_yticks([1,2])
-        self.ax1.set_xticks([0,1])
-        self.ax1.xaxis.set_major_formatter(plt.NullFormatter()) 
-
-        self.ax1.set_yticklabels(['D','I'],fontdict=fonticksmini,horizontalalignment='left')
-
-        self.ax2 = plt.subplot(gs1[0:1, 3:8])
-        self.ax2.grid(GridTrue)
-        self.ax2.set_xlim(0,average)
-        self.ax2.set_ylim(0,200)
-        tiks_X = averageTick(average)
-        self.ax2.set_yticks([0,40, 150, 200])
-        self.ax2.set_xticks(tiks_X)
-        self.ax2.set_yticklabels(['',40,'',200],fontdict=fonticksmini) 
-        self.ax2.set_xticklabels([0,'','','','','','','','','','','','',average],fontdict=fonticksmini) 
-
-        self.ax3 = plt.subplot(gs1[1:, 0:4])
-        self.ax3.yaxis.set_major_formatter(plt.NullFormatter()) 
-        self.ax3.grid(GridTrue, linestyle='--')
-        self.ax3.set_xticks(np.arange(X_time+1))
-        self.ax3.set_yticks(np.arange(Y_ampl+1))
-        self.ax3.set_xlim(0,X_time)
-        self.ax3.set_ylim(0,Y_ampl)
+		self.frame_data = Frame(self.frame_command, bg="red")
+		self.frame_registros = Frame(self.frame_command, bg="green")
+		self.frame_curva = Frame(self.frame_command, bg="white")
+		self.frame_data.place(relwidth=1, relheight=1/3)
+		self.frame_registros.place(rely =1/3, relwidth=1, relheight=1/3)
+		self.frame_curva.place(rely = 2*(1/3), relwidth=1, relheight=1/3)
 
 
-        self.ax4 = plt.subplot(gs1[1:, 4:8])
-        self.ax4.yaxis.set_major_formatter(plt.NullFormatter()) 
-        self.ax4.grid(GridTrue, linestyle='--')
-        self.ax4.set_xlim(0,X_time)
-        self.ax4.set_ylim(0,Y_ampl)
-        self.ax4.set_yticks(np.arange(Y_ampl+1))
-        self.ax4.set_xticks(np.arange(X_time+1))
+	def wirin(self):#se dibujan los gráficos
+		fig = self.wirikan()
+		self.graphy = FigureCanvasTkAgg(fig, master=self.frame_contenido)
+		self.graphy.get_tk_widget().pack(side="top",fill='both',expand=True)
+
+	def wirin_epu(self):
+		fig = self.wirikan_select()
+		self.graphy2 = FigureCanvasTkAgg(fig, master=self.frame_curva)
+		self.graphy2.get_tk_widget().pack(side="top", fill="both", expand=True)
+
+	def wirikan(self): #Graficos principales
+		fig = plt.figure(figsize=(20,15))
+		gs1 = GridSpec(7, 1)
+		gs1.update(left=0.05, right=0.95, wspace=0.5, hspace=0.3, top=0.98, bottom=0.08)
+
+		ax1 = plt.subplot(gs1[0:2,:])
+		ax1.grid()
+		ax1.set_ylabel('Roll',fontsize=8)
+		ax1.xaxis.set_tick_params(labelsize=7)
+		ax1.yaxis.set_tick_params(labelsize=7)
+
+		ax2 = plt.subplot(gs1[2:4,:])
+		ax2.grid()
+		ax2.set_ylabel('Pitch',fontsize=8)
+		ax2.xaxis.set_tick_params(labelsize=7)
+		ax2.yaxis.set_tick_params(labelsize=7)
+
+		ax3 = plt.subplot(gs1[4:6,:])
+		ax3.grid()
+		ax3.set_ylabel('Yaw',fontsize=8)
+		ax3.xaxis.set_tick_params(labelsize=7)
+		ax3.yaxis.set_tick_params(labelsize=7)
+
+		ax4 = plt.subplot(gs1[6,:])
+		ax4.grid()
+		ax4.set_ylabel('Mark',fontsize=8)
+		ax4.xaxis.set_tick_params(labelsize=7)
+		ax4.yaxis.set_tick_params(labelsize=7)
+
+		return fig
+
+	def wirikan_select(self):
+		fig = plt.figure(figsize=(10,10))
+		gs1 = GridSpec(1, 1)
+		
+		ax1 = plt.subplot(gs1[0:2,:])
+		ax1.grid()
+		plt.xticks(fontsize=6, rotation=90)
+		plt.yticks(fontsize=6, rotation=90)
+		
+		return fig
+
+	def wirikan_2(x_vec,y1_data,line1,identifier='',pause_time=0.01):
+		if line1==[]:
+			plt.ion()
+			#fig = plt.figure(figsize=(13,6))
+			#ax = fig.add_subplot(111)
+			#line1, = ax.plot(x_vec,y1_data)
+			line1, = self.ax3.plot(x_vec,y1_data)
+
+			plt.show()
+			#self.graphy.draw()
+
+		#line1.set_data(x_vec,y1_data)
+
+		plt.pause(pause_time)
+
+		return line1
+
+	def we_kakon(self):
+   
+		#Crear Ventana
+		self.kakon = Toplevel(takefocus=True)
+		self.kakon.focus_force()
+		self.kakon.attributes("-topmost", True)
+		self.kakon.title("Nuevo registro")
+		self.kakon.minsize(400, 200)
+		self.kakon.maxsize(400, 200)
+		self.kakon.bind("<FocusOut>",self.focus_kakon)
+
+		#declarar Variables
+		self.ID = IntVar(value=1)
+		self.Name   = StringVar()
+		self.LastName   = StringVar()
+		self.edad = IntVar()     
+		#trazas para evaluar cambio
+		self.Name.trace('w', self.ver_new_user)
+		self.LastName.trace('w', self.ver_new_user)
+
+		#Cargar Imagen	
+		new_user = Image.open('resources/new_user.png')	
+		new_user = PhotoImage(new_user)  
+	
+		#Declaro Widget y los cargo a a la ventana
+		#Sobre la ventana cargo dos frames, 
+		#frame_data: contiene los datos que se vana a cargar para crear el perfil
+		#frame_button: contiene los botones "crear y cancelar"
+		frame_data = Frame(self.kakon)
+		frame_button = Frame(self.kakon)
+		#declaro las labels dentro del frame_data:
+		label = Label(frame_data, text="ID :").grid(column=0 , row=1, sticky="w")
+		label = Label(frame_data, text="Nombre :").grid(column=0,row=2,sticky="w")
+		label = Label(frame_data, text="Apellidos :").grid(column=0 , row=3,sticky="w")
+		label = Label(frame_data, text="Nacimiento :").grid(column=0 , row=4,sticky="w")
+		#declaro los entry dentro del frame_data:
+		entry_ID = Entry(frame_data, width=10, textvariable=self.ID).grid(column=1, row=1)
+		entry_name = Entry(frame_data, width=10, textvariable=self.Name)
+		entry_name.grid(column=1, row=2)
+		entry_name.focus()
+		entry_lastName = Entry(frame_data, width=10, textvariable=self.LastName).grid(column=1, row=3)
+		entry_edad = Entry(frame_data, width=10, textvariable=self.edad).grid(column=1, row=4)
+		#imagen1 = ttk.Label(frame_button, image=new_user, 
+        #                     anchor="center")
+		#declaro los botones dentro del frame_button:
+		btn_cancelar = Button(frame_button, text="Cancelar",command=self.kakon.destroy)
+		btn_cancelar.grid(column=0, row=0)
+		self.btn_crear = Button(frame_button, text="Crear",state=DISABLED,command=self.new_user)
+		self.btn_crear.grid(column=1, row=0)
+
+		#le paso pack() a los frames
+		#imagen1.pack(side=TOP, fill=BOTH, expand=True)
+		frame_data.pack(side=TOP, fill=BOTH, expand=True, anchor="center")
+		frame_button.pack(side=TOP, fill=BOTH, expand=True, anchor="center")
+
+	def ver_new_user(self, *args):
+		#se cambia la propiedad del boton crear_nuevo
+		#nota: si se usa pack() no funciona button.config()
+		name=self.Name.get()
+		lastname=self.LastName.get()
+		if ((name and lastname)  != ("")):
+			self.btn_crear.config(state=NORMAL)
+		else:
+			self.btn_crear.config(state=DISABLED)
+
+	def new_user(self):
+		#if acction == 1:
+			#Invoco funciones externas:
+		tools.new_user(self.ID.get(), self.Name.get(), self.LastName.get(), self.edad.get()) 
+	#	if acction == 2:
+	#		print("acction2")
+		
+	def focus_kakon(self,event):
+		self.kakon.focus_force()
+
+	def abrir(self):
+		#dd = filedialog()
+		#dd.askopenfile(mode="r", **options)
+		file = filedialog.askopenfilename(parent=self.root, initialdir = "~/",
+										  title = "Seleccione el archivo",
+										  filetypes = [("tar.gz","*.tar.gz")
+										 			  ,("all files","*.*")])
+		return(file)
 
 
-        return fig
-
-    def app(self):
-
-    #Configuración de los Frames, proporciones en setting.py variable stt.size_frame
-        frame_quick = Frame(bd=1,relief="sunken") ##crea la caja superior
-        frame_contenido = Frame(bd=1, bg="white",relief="sunken") ##crea la caja derecha
-        frame_info = Frame(bd=1,relief="sunken") ##crea la caja inferior
-        frame_command = Frame(bd=1,relief="sunken") ##crea la caja izquierda
-
-        frame_quick.place(relx=0, rely=0, relwidth=stt.size_frame['up'][0], relheight=stt.size_frame['up'][1])
-        frame_contenido.place(relx=stt.size_frame['izq'][0],rely=stt.size_frame['up'][1],
-                            relwidth=stt.size_frame['der'][0], relheight=stt.size_frame['der'][1])
-        #frame_command.place(relx=0, rely=stt.size_frame['up'][1], relwidth=stt.size_frame['izq'][0],
-        #                    relheight=stt.size_frame['izq'][1])
-        frame_command.place(relx=0,rely=stt.size_frame['up'][1],relheight=stt.size_frame['izq'][1], width=stt.size_frame['izq'][5])
-        frame_info.place(relx=0, rely=stt.size_frame['down'][3], relwidth=stt.size_frame['down'][0],
-                        relheight=stt.size_frame['down'][1])
-
-    #Se llama al grafico para que se posicione sobre la caja Derecha como canvas
-        fig = self.graph()
-        self.graphy = FigureCanvasTkAgg(fig, master=frame_contenido)
-        self.graphy.get_tk_widget().pack(side="top",fill='both',expand=True)
-
-    #Menú
-        menu = Menu(self.root)
-        self.root.config(menu=menu)
-        file = Menu(menu, tearoff=0)
-        file.add_command(label="Abrir usuario")
-        file.add_command(label="Nuevo usuario")
-        file.add_command(label="Cerrar usuario")
-        file.add_separator()
-        file.add_command(label="Salir")
-        menu.add_cascade(label="Archivo", menu=file)
-        edit = Menu(menu, tearoff=0)
-        edit.add_command(label="Nueva Prueba")
-        edit.add_command(label="Borrar Prueba")
-        edit.add_separator()
-
-        edit.add_command(label="Abrir prueba suelta")
-
-        menu.add_cascade(label="Editar", menu=edit)
-
-        help = Menu(menu, tearoff=0)
-        help.add_command(label="Ayuda")
-        help.add_separator()
-        help.add_command(label="Acerca de nosotros",)
-        menu.add_cascade(label="Ayuda", menu=help)
-
-     #Comandos para actualizar información sobre la pantalla, y obtener la información del ancho y alto   
-        self.root.update()
-        fr_cmd_with = frame_command.winfo_width()
-        fr_cmd_height = frame_command.winfo_height()
-
-    #Tabs en comandos cuadro izquierdo pantalla principal
-        note_command = ttk.Notebook(frame_command, width=stt.size_frame['izq'][5], height=fr_cmd_height)
-        #note_command.grid(row=1, column=0, columnspan=50, rowspan=49, sticky='NESW')
-        note_command.pack(expand=True, fill=BOTH)
-    #Tab 1: registro
-        tab_registro= Frame(note_command)
-        note_command.add(tab_registro, text=lang.i18n('record',LANG,0))
-
-        tab_mark= Frame(note_command)
-        note_command.add(tab_mark, text=lang.i18n('edit',LANG,0))
-        tab_latency= Frame(note_command)
-        note_command.add(tab_latency, text=lang.i18n('latency',LANG,0))
-            
-    #Tab1, frame1: Estimulo
-        frame_estimulo =Frame(tab_registro, relief=GROOVE, borderwidth=2)
-        label_nivel = (lang.i18n('level',LANG,0)+':'+str(niveldb)+' db nHL')
-        Label(frame_estimulo, text=label_nivel).grid(row=1,sticky=W)
-        Label(frame_estimulo, text=lang.i18n('record',LANG,0)+':'+ lang.stim[0]).grid(row=2,sticky=W)#el stimulo debe ser modificable
-        Label(frame_estimulo, text='Mask : Off').grid(row=3,sticky=W)
-        Label(frame_estimulo, text='Estimulo',font=("Courier",10)).grid(row=0)
-        frame_estimulo.place(rely=0.03)
-
-    #Tab1, frame2: Nuevo test
-        frame_new_test=Frame(tab_registro, relief=GROOVE, borderwidth=2)
-        check_array = ['0db', '10db', '20db', '30db',
-                        '40db', '50db', '60db', '70db', '80dB',
-                        '90db', '100db']
-        check_vars = []
-        for i in range(len(check_array)):
-                check_vars.append(StringVar())
-                check_vars[-1].set(0)
-                c = Checkbutton(frame_new_test, text=check_array[i], variable=check_vars[-1], command=lambda i=i: printSelection(i), onvalue=1, offvalue=0)
-                if i < 1:
-                    c.grid(row=i+1,sticky=W)
-                else:
-                    c.grid(row=i,sticky=W)
-        Lado_estimulo = [
-            ("OD", "1"),
-            ("OI", "2"),
-            ("Bilateral", "3")]
-
-        v = StringVar()
-        v.set("1") # initialize
-
-        for text, mode in Lado_estimulo:
-             b = Radiobutton(frame_new_test, text=text,
-                             variable=v, value=mode)
-             b.grid(sticky=W)
-        Label(frame_new_test, text='Prueba',font=("Courier",10)).grid(row=0)
-        frame_new_test.place(rely=0.03, relx=0.65)
-
-
-    #Tab1, frame3: reproductibilidad
-        frame_reproductibilidad=Frame(tab_registro, relief=GROOVE, borderwidth=2)
-        reproductibilidad = ttk.Progressbar(frame_reproductibilidad, 
-                                            orient="horizontal",length=200, mode="determinate")
-        reproductibilidad.grid(row=2, columnspan=3)
-        Label(frame_reproductibilidad, text='0').grid(row=1, column=0, sticky=W)
-        Label(frame_reproductibilidad, text='50').grid(row=1, column=1, sticky=W+E)
-        Label(frame_reproductibilidad, text='100').grid(row=1, column=2, sticky=E)
-        Label(frame_reproductibilidad, text='% de reproductibilidad ',
-                font=("Courier",10)).grid(row=0, columnspan=3)
-        frame_reproductibilidad.place(rely=0.5, relx=0.07)
-
-
-    #Tab1, frame4: promediaciones
-        frame_promediaciones=Frame(tab_registro, relie=GROOVE, borderwidth=2)
-        Label(frame_promediaciones, text='Promediaciones',
-                font=("Courier",10)).grid(row=0)
-        prom_estim=0
-        rechazos=0
-        Label(frame_promediaciones,text=('Promediaciones: '+str(prom_estim))).grid(row=1, sticky=W)
-        Label(frame_promediaciones,text=('Rechazos: '+str(rechazos))).grid(row=2,sticky=W)
-        frame_promediaciones.place(rely=0.3, relx=0)
-
-    #Tab1, frame 5: Botones de control
-        frame_iniciar=Frame(tab_registro, relie=GROOVE, borderwidth=0)
-
-
-        self.Btn_iniciar = Button(frame_iniciar, state=NORMAL,text="Iniciar", height=2, width=22, command=self.anim)
-        self.Btn_iniciar.grid(row=1)
-
-        self.Btn_pause=Button(frame_iniciar, state=DISABLED,text="Pause", height=1, width=22).grid(row=2)
-        self.Btn_next=Button(frame_iniciar, state=DISABLED,text="Siguiente estimulo", height=1, width=22).grid(row=3)
-
-        frame_iniciar.place(rely=0.65, relx=0.07)
-
-    #Quick Bar
-        #Button(frame_quick, text='Ayuda').pack(anchor=W)
-        width = 50
-        height = 50
-        icons = ('new', 'save', 'saveas', 'print', 'potential', 'config', 'help')
-        names = ('Nuevo', 'Guardar', 'Guardar como...','Imprimir', 'Potenciales', 'Configurar', 'Ayuda')
-        for i, icon in enumerate(icons):
-            tool_bar_icon = PhotoImage(file='resources/icons/{}.png'.format(icon))
-            #cmd = eval(icon)
-            small_logo = tool_bar_icon.subsample(4, 4)
-            tool_bar = Button(frame_quick, bd=0, image=small_logo, )
-            tool_bar.image = small_logo
-            button1_ttp = CreateToolTip(tool_bar, names[i])
-            tool_bar.pack(side='left')
-        test = StringVar()
-        select_test = ttk.Combobox(frame_quick, textvariable=test,state="readonly")
-        select_test['values']=['PEAT, Tono Click','PEAT, tono Burst', 'PEAT tono Chirp']
-        select_test.current(0)
-        select_test.pack(side='left')
-
-    def change_name(self):
-        self.Btn_iniciar.config(text="hhh")
-
-
-    def printSelection(i):
-            print(check_vars[i].get())
-
-
-    def plotter():
-
-            ax3.cla()
-            ax3.grid()     
-            L1 = ax3.plot([1,2,3,4,5,6,7,8,9,10],[5,5,5,5,5,5,5,5,5,5])
-
-            graph.draw()
-            time.sleep(1)
- 
-    def gui_handler():
-        change_state()
-        threading.Thread(target=OD_plotter).start()
-
- 
- 
 if __name__ == '__main__':
+	path = os.getcwd()
+	root = Tk()
+	root.protocol("WM_DELETE_WINDOW", delete_window)
+	root.bind("<Destroy>", destroy)
 
-    root = Tk()
-    my_gui = windows(root)
-    root.mainloop()
+	my_gui = Lelitxipawe(master=root)
+	my_gui.root.wm_title("FullAxis V.4")
+	root.mainloop()
+	os.rmdir(".tmp")
+
+
+#------------------------------------------------------------
+###NOTAS:
+#I2c al perder electricidad se pierden las direcciones de los otrso dispsitivos 
+#IDEAS:
+#Encriptación de los documentos con contraseña del usuario
