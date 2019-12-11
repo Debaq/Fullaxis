@@ -26,7 +26,7 @@ def size_screen(w,h):
 	'''
 
 	size_frame = {'up':[0,0,1,.025], 'down':[0,0,1,.025],
-	             'izq':[0,0,.19,0,200],'der':[0,0,0,0]}
+	             'izq':[0,0,.20,0,200],'der':[0,0,0,0]}
 
 	size_center = 1-(size_frame['up'][3]+size_frame['down'][3])
 	size_frame['izq'][3]=size_center

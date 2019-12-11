@@ -13,7 +13,7 @@ def new_user(path,ID,name,lastname,edad):
 	profile = {	'ID'		:	ID,
 				'FC'		: 	FC,
 				'nombre'	:	name,
-				'lastname'	:	lastname,
+				'apellidos'	:	lastname,
 				'edad'		:	edad,
 				'test'		:	[]
 			  }
@@ -22,11 +22,18 @@ def new_user(path,ID,name,lastname,edad):
 	with open(path_profile, 'w') as json_file:
 				json.dump(profile, json_file)
 
-	tar = tarfile.open(path+"/"+'tarfile_add.tar', mode='w')
+	tar = tarfile.open(path+"/"+'temp.fxs', mode='w')
 	tar.add(path_profile)
 	tar.close()
-	remove(path_profile)
+	#remove(path_profile)
 
 def save_all():
 	pass
+
+
+def read_profile(path):
+	path_profile = path+"/"+'PROFILE.info'
+	with open(path_profile) as json_file:
+		data = json.load(json_file)
+		return data
 	

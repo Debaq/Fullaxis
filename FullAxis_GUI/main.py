@@ -96,11 +96,38 @@ class Lelitxipawe():
 		self.root.attributes('-zoomed', True)
 #		self.root.overrideredirect(True)
 		self.root.call('wm', 'iconphoto', self.root._w, ImageTk.PhotoImage(Image.open('resources/icon.png')))#Icono de la ventana
+		#declarar Variables
+		self.che()
 		self.app()
+
+	def che(self, ini=True):
+		if ini:
+			self.ID = IntVar(value=1)
+			self.Name   = StringVar("")
+			self.LastName   = StringVar("")
+			self.edad = IntVar(value=99)
+			self.ID_read = IntVar()
+			self.NameLast_read = StringVar()
+			self.edad_read = IntVar()
+		else:
+			#try:
+			self.ID.set(value=1)
+			self.Name.set("")
+			self.LastName.set("")
+			self.edad.set(value=99)
+			read = tools.read_profile(path)
+			NameLast = read['nombre']+" "+read['apellidos']
+			self.ID_read.set(read['ID'])
+			self.NameLast_read.set(NameLast)
+			self.edad_read.set(read['edad'])
+		#	except FileNotFoundError:
+		#		messagebox.showinfo(message="Error al Crear el perfil", title="FullAxis")
 
 	def app(self): #Estructura de la ventana
 		self.txokiñ()
 		self.ñizol()
+		self.retron()
+		self.üitun()
 		self.wirin()
 		self.wirin_epu()
 
@@ -109,9 +136,12 @@ class Lelitxipawe():
 		self.root.config(menu=menu)
 		file = Menu(menu, tearoff=0)
 		file.add_command(label="Abrir usuario")
-		file.add_command(label="Importar usuario", command=self.abrir)
 		file.add_command(label="Nuevo usuario", command=self.we_kakon)
+		file.add_command(label="Importar usuario", command=self.abrir)
+		file.add_command(label="Exportar usuario", command=self.abrir)
 		file.add_command(label="Cerrar usuario")
+		file.add_separator()
+		file.add_command(label="Imprimir...")
 		file.add_separator()
 		file.add_command(label="Salir",command=lambda:delete_window(True))
 		file.add_command(label="Salir sin guardar",command=lambda:delete_window(False))
@@ -119,6 +149,8 @@ class Lelitxipawe():
 		edit = Menu(menu, tearoff=0)
 		edit.add_command(label="Nueva Prueba")
 		edit.add_command(label="Borrar Prueba")
+		edit.add_separator()
+		edit.add_command(label="Exportar resultados a csv")
 		edit.add_separator()
 		edit.add_command(label="Abrir prueba suelta")
 		menu.add_cascade(label="Editar", menu=edit)
@@ -135,25 +167,58 @@ class Lelitxipawe():
 		self.frame_quick = Frame(bd=1,relief="sunken") ##crea la caja superior
 		self.frame_contenido = Frame(bd=1, bg="white",relief="sunken") ##crea la caja derecha
 		self.frame_info = Frame(bd=1,relief="sunken") ##crea la caja inferior
-		self.frame_command = Frame(bd=1,relief="sunken") ##crea la caja izquierda
+		frame_command = Frame(bd=1,relief="sunken") ##crea la caja izquierda
 		#se ubican los frames en la ventana principal
 		self.frame_quick.place(	relx=size_frame['up'][0], rely=size_frame['up'][1], 
 								relwidth=size_frame['up'][2], relheight=size_frame['up'][3])
 		self.frame_contenido.place(	relx=size_frame['der'][0], rely=size_frame['der'][1], 
 									relwidth=size_frame['der'][2], relheight=size_frame['der'][3])
-		self.frame_command.place(	relx=size_frame['izq'][0], rely=size_frame['izq'][1], 
+		frame_command.place(	relx=size_frame['izq'][0], rely=size_frame['izq'][1], 
 									relwidth=size_frame['izq'][2], relheight=size_frame['izq'][3])
 		self.frame_info.place(	relx=size_frame['down'][0], rely=size_frame['down'][1], 
 								relwidth=size_frame['down'][2], relheight=size_frame['down'][3])
 
+		frame_paned_up = Frame(frame_command)
+		paned_data = PanedWindow(frame_paned_up, orient=VERTICAL)
+		self.frame_data = Frame(paned_data)
+		self.frame_registros = Frame(paned_data)
+		self.frame_data.pack(side = TOP)
+		self.frame_registros.pack(side = TOP)
+		paned_data.add(self.frame_data,minsize=60)
+		paned_data.add(self.frame_registros, minsize=30)
+		paned_data.pack(fill = BOTH, expand = True) 
+		paned_data.configure(sashrelief = RAISED)
+		#paned_data.configure(self.frame_data, height=.2)
+		frame_paned_up.place(relwidth=1, relheight=0.5)
+		
+		frame_paned_down = Frame(frame_command)
+		paned_result = PanedWindow(frame_paned_down, orient=VERTICAL)
+		self.frame_other = Frame(paned_result, bg="lightblue")
+		self.frame_curva = Frame(paned_result, bg="white")
+		self.frame_other.pack(side=TOP)
+		self.frame_curva.pack(side=TOP)
+		paned_result.add(self.frame_other)
+		paned_result.add(self.frame_curva)
+		paned_result.pack(fill=BOTH, expand=True)
+		paned_result.configure(sashrelief=RAISED)
+		frame_paned_down.place(rely=0.5, relwidth=1, relheight=0.5)
+		#self.frame_other.place(rely =1/2, relwidth=1, relheight=1/6)
+		#self.frame_curva.place(rely = 2/3, relwidth=1, relheight=1/3)
 
-		self.frame_data = Frame(self.frame_command, bg="red")
-		self.frame_registros = Frame(self.frame_command, bg="green")
-		self.frame_curva = Frame(self.frame_command, bg="white")
-		self.frame_data.place(relwidth=1, relheight=1/3)
-		self.frame_registros.place(rely =1/3, relwidth=1, relheight=1/3)
-		self.frame_curva.place(rely = 2*(1/3), relwidth=1, relheight=1/3)
+	def üitun(self):
+		frame = LabelFrame(self.frame_data,  text="Datos:", padx=2, pady=2)
+		labels =["ID","Nombre","Edad","IMC"]
+		for i in enumerate(labels):
+			label = Label(frame, text=i[1]).grid(column=0 , row=i[0], sticky="w", padx=5)
+		for i in range(4):
+			label = Label(frame, text=":").grid(column=1 , row=i, sticky="w", padx=5)
 
+		datos = [self.ID_read,self.NameLast_read, self.edad_read, "20"]
+		for i in enumerate(datos):
+			label = Label(frame, textvariable=i[1]).grid(column=2 , row=i[0], sticky="w", padx=3)
+
+		button = Button(frame, text="Modificar").grid(column=1,row=6, columnspan=3, sticky=W)
+		frame.pack(fill=BOTH, expand=1,padx=2, pady=2)
 
 	def wirin(self):#se dibujan los gráficos
 		fig = self.wirikan()
@@ -235,18 +300,14 @@ class Lelitxipawe():
 		self.kakon.maxsize(400, 200)
 		self.kakon.bind("<FocusOut>",self.focus_kakon)
 
-		#declarar Variables
-		self.ID = IntVar(value=1)
-		self.Name   = StringVar()
-		self.LastName   = StringVar()
-		self.edad = IntVar()     
+
 		#trazas para evaluar cambio
 		self.Name.trace('w', self.ver_new_user)
 		self.LastName.trace('w', self.ver_new_user)
 
 		#Cargar Imagen	
-		new_user = Image.open('resources/new_user.png')	
-		new_user = PhotoImage(new_user)  
+		#new_user = Image.open('resources/new_user.png')	
+		#new_user = PhotoImage(new_user)  
 	
 		#Declaro Widget y los cargo a a la ventana
 		#Sobre la ventana cargo dos frames, 
@@ -255,20 +316,20 @@ class Lelitxipawe():
 		frame_data = Frame(self.kakon)
 		frame_button = Frame(self.kakon)
 		#declaro las labels dentro del frame_data:
-		label = Label(frame_data, text="ID :").grid(column=0 , row=1, sticky="w")
-		label = Label(frame_data, text="Nombre :").grid(column=0,row=2,sticky="w")
-		label = Label(frame_data, text="Apellidos :").grid(column=0 , row=3,sticky="w")
-		label = Label(frame_data, text="Nacimiento :").grid(column=0 , row=4,sticky="w")
+
+		labels =["ID","Nombre","Apellidos","Edad"]
+		for i in enumerate(labels):
+			label = Label(frame_data, text=i[1]).grid(column=0 , row=i[0], sticky="w", padx=5)
+		for i in range(4):
+			label = Label(frame_data, text=":").grid(column=1 , row=i, sticky="w", padx=5)
+		
 		#declaro los entry dentro del frame_data:
-		entry_ID = Entry(frame_data, width=10, textvariable=self.ID).grid(column=1, row=1)
+		entry_ID = Entry(frame_data, width=10, textvariable=self.ID).grid(column=2, row=0)
 		entry_name = Entry(frame_data, width=10, textvariable=self.Name)
-		entry_name.grid(column=1, row=2)
+		entry_name.grid(column=2, row=1)
 		entry_name.focus()
-		entry_lastName = Entry(frame_data, width=10, textvariable=self.LastName).grid(column=1, row=3)
-		entry_edad = Entry(frame_data, width=10, textvariable=self.edad).grid(column=1, row=4)
-		#imagen1 = ttk.Label(frame_button, image=new_user, 
-        #                     anchor="center")
-		#declaro los botones dentro del frame_button:
+		entry_lastName = Entry(frame_data, width=10, textvariable=self.LastName).grid(column=2, row=2)
+		entry_edad = Entry(frame_data, width=10, textvariable=self.edad).grid(column=2, row=3)
 		btn_cancelar = Button(frame_button, text="Cancelar",command=self.kakon.destroy)
 		btn_cancelar.grid(column=0, row=0)
 		self.btn_crear = Button(frame_button, text="Crear",state=DISABLED,command=self.new_user)
@@ -284,17 +345,21 @@ class Lelitxipawe():
 		#nota: si se usa pack() no funciona button.config()
 		name=self.Name.get()
 		lastname=self.LastName.get()
-		if ((name and lastname)  != ("")):
-			self.btn_crear.config(state=NORMAL)
-		else:
-			self.btn_crear.config(state=DISABLED)
+		try:
+			if ((name and lastname)  != ("")):
+				self.btn_crear.config(state=NORMAL)
+			else:
+				self.btn_crear.config(state=DISABLED)
+		except:
+			pass
 
 	def new_user(self):
 		#Invoco funciones externas:
 		try:
 			tools.new_user(path,self.ID.get(),self.Name.get(),self.LastName.get(),self.edad.get()) 
 			self.kakon.destroy()
-			messagebox.showinfo(message="Creado Correctamente", title="FullAxis")		
+			self.che(False)		
+			messagebox.showinfo(message="Creado Correctamente", title="FullAxis")
 		except:
 			messagebox.showinfo(message="Error al Crear el perfil", title="FullAxis")
 
@@ -304,10 +369,15 @@ class Lelitxipawe():
 	def abrir(self):
 		file = filedialog.askopenfilename(parent=self.root, initialdir = "~/",
 										  title = "Seleccione el archivo",
-										  filetypes = [("tar.gz","*.tar.gz")
+										  filetypes = [("Datos FullAxis","*.fxs")
 										 			  ,("all files","*.*")])
 		return(file)
 
+	def retron(self):
+		frame=LabelFrame(self.frame_registros, text="Historial", padx=5, pady=5)
+		self.treeview = ttk.Treeview(frame)
+		self.treeview.pack(fill=BOTH, expand=True)
+		frame.pack(fill=BOTH, expand=True, padx=5, pady=5)
 
 if __name__ == '__main__':
 	path_actual = os.getcwd()
@@ -324,8 +394,8 @@ if __name__ == '__main__':
 	my_gui = Lelitxipawe(master=root)
 	my_gui.root.wm_title("FullAxis V.4")
 	root.mainloop()
-	shutil.rmtree(path)
-	raise SystemExit
+	#shutil.rmtree(path)
+	#raise SystemExit
 
 
 
@@ -334,3 +404,4 @@ if __name__ == '__main__':
 #I2c al perder electricidad se pierden las direcciones de los otrso dispsitivos 
 #IDEAS:
 #Encriptación de los documentos con contraseña del usuario
+#Se pueden almacenar las variables que contienen funciones en una lista y esta lista se puede iterar con un for para modificarle algo?
