@@ -79,8 +79,19 @@ def delete_window(save=True):
 		raise SystemExit
 		root.destroy()
 
+class Checkbar(Frame):
+   def __init__(self, parent=None, picks=[], side=BOTTOM, anchor=W, state=NORMAL):
+      Frame.__init__Frame(self, parent)
+      self.vars = []
+      for pick in picks:
+         var = IntVar()
+         chk = Checkbutton(self, text=pick, variable=var, state=state)
+         chk.pack(side=side, anchor=anchor, expand=YES)
+         self.vars.append(var)
+   def state(self):
+      return map((lambda var: var.get()), self.vars)
 
-class Lelitxipawe():
+class Lelitxipawe:
 	'''
 	Clase principal de la Ventana
 	'''
@@ -94,13 +105,13 @@ class Lelitxipawe():
 		self.root.minsize(self.w, self.h)#Tamaño minimo de la ventana
 		#self.root.maxsize(self.w, self.h)#Tamaño minimo de la ventana
 		self.root.attributes('-zoomed', True)
-#		self.root.overrideredirect(True)
+		#self.root.overrideredirect(True)
 		self.root.call('wm', 'iconphoto', self.root._w, ImageTk.PhotoImage(Image.open('resources/icon.png')))#Icono de la ventana
 		#declarar Variables
 		self.che()
 		self.app()
 
-	def che(self, ini=True):
+	def che(self, ini=True):#Variables del individuo
 		if ini:
 			self.ID = IntVar(value=1)
 			self.Name   = StringVar("")
@@ -147,7 +158,7 @@ class Lelitxipawe():
 		file.add_command(label="Salir sin guardar",command=lambda:delete_window(False))
 		menu.add_cascade(label="Archivo", menu=file)
 		edit = Menu(menu, tearoff=0)
-		edit.add_command(label="Nueva Prueba")
+		edit.add_command(label="Nueva Prueba", command=self.llitulün)
 		edit.add_command(label="Borrar Prueba")
 		edit.add_separator()
 		edit.add_command(label="Exportar resultados a csv")
@@ -205,7 +216,7 @@ class Lelitxipawe():
 		#self.frame_other.place(rely =1/2, relwidth=1, relheight=1/6)
 		#self.frame_curva.place(rely = 2/3, relwidth=1, relheight=1/3)
 
-	def üitun(self):
+	def üitun(self): #Datos del sujeto seleccionado
 		frame = LabelFrame(self.frame_data,  text="Datos:", padx=2, pady=2)
 		labels =["ID","Nombre","Edad","IMC"]
 		for i in enumerate(labels):
@@ -220,12 +231,12 @@ class Lelitxipawe():
 		button = Button(frame, text="Modificar").grid(column=1,row=6, columnspan=3, sticky=W)
 		frame.pack(fill=BOTH, expand=1,padx=2, pady=2)
 
-	def wirin(self):#se dibujan los gráficos
+	def wirin(self):#se dibujan los gráficos, pantalla principal
 		fig = self.wirikan()
 		self.graphy = FigureCanvasTkAgg(fig, master=self.frame_contenido)
 		self.graphy.get_tk_widget().pack(side="top",fill='both',expand=True)
 
-	def wirin_epu(self):
+	def wirin_epu(self):#Se dibujan los gráficos, zoom seleccionado
 		fig = self.wirikan_select()
 		self.graphy2 = FigureCanvasTkAgg(fig, master=self.frame_curva)
 		self.graphy2.get_tk_widget().pack(side="top", fill="both", expand=True)
@@ -261,7 +272,7 @@ class Lelitxipawe():
 
 		return fig
 
-	def wirikan_select(self):
+	def wirikan_select(self):#Graficos segundarios
 		fig = plt.figure(figsize=(10,10))
 		gs1 = GridSpec(1, 1)
 		
@@ -272,7 +283,7 @@ class Lelitxipawe():
 		
 		return fig
 
-	def wirikan_2(x_vec,y1_data,line1,identifier='',pause_time=0.01):
+	def wirikan_2(x_vec,y1_data,line1,identifier='',pause_time=0.01):#Algo que borrar si no se encuentra uso
 		if line1==[]:
 			plt.ion()
 			#fig = plt.figure(figsize=(13,6))
@@ -289,7 +300,7 @@ class Lelitxipawe():
 
 		return line1
 
-	def we_kakon(self):
+	def we_kakon(self):#Ventana para ingresar nuevo sujeto
    
 		#Crear Ventana
 		self.kakon = Toplevel(takefocus=True)
@@ -298,7 +309,7 @@ class Lelitxipawe():
 		self.kakon.title("Nuevo registro")
 		self.kakon.minsize(400, 200)
 		self.kakon.maxsize(400, 200)
-		self.kakon.bind("<FocusOut>",self.focus_kakon)
+		#self.kakon.bind("<FocusOut>",self.focus_kakon)
 
 
 		#trazas para evaluar cambio
@@ -340,7 +351,7 @@ class Lelitxipawe():
 		frame_data.pack(side=TOP, fill=BOTH, expand=True, anchor="center")
 		frame_button.pack(side=TOP, fill=BOTH, expand=True, anchor="center")
 
-	def ver_new_user(self, *args):
+	def ver_new_user(self, *args):#función para activar o desactivar botón
 		#se cambia la propiedad del boton crear_nuevo
 		#nota: si se usa pack() no funciona button.config()
 		name=self.Name.get()
@@ -353,7 +364,7 @@ class Lelitxipawe():
 		except:
 			pass
 
-	def new_user(self):
+	def new_user(self):#Función para crear nuevo usuario
 		#Invoco funciones externas:
 		try:
 			tools.new_user(path,self.ID.get(),self.Name.get(),self.LastName.get(),self.edad.get()) 
@@ -363,21 +374,87 @@ class Lelitxipawe():
 		except:
 			messagebox.showinfo(message="Error al Crear el perfil", title="FullAxis")
 
-	def focus_kakon(self,event):
-		self.kakon.focus_force()
+	#def focus_kakon(self,event):
+	#	self.kakon.focus_force()
 
-	def abrir(self):
+	def abrir(self):#Función para abrir sujetos guardados
 		file = filedialog.askopenfilename(parent=self.root, initialdir = "~/",
 										  title = "Seleccione el archivo",
 										  filetypes = [("Datos FullAxis","*.fxs")
 										 			  ,("all files","*.*")])
 		return(file)
 
-	def retron(self):
+	def retron(self): #árbol de pruebas
 		frame=LabelFrame(self.frame_registros, text="Historial", padx=5, pady=5)
 		self.treeview = ttk.Treeview(frame)
 		self.treeview.pack(fill=BOTH, expand=True)
 		frame.pack(fill=BOTH, expand=True, padx=5, pady=5)
+		video = self.treeview.insert("",END, text="Video", open=False)
+		acc = self.treeview.insert("",END, text="IMU", open=True)
+		estb = self.treeview.insert("",END, text="Estabilómetro",open=False)
+
+
+		self.pruebas_voculo = ["Espontáneo", "Calórica", "VHIT", "MPP"]
+		self.pruebas_acc  = ["Marchas", "dTUG", "Unipodal","Romberg", "Fukuda"]
+		self.pruebas_estb = ["SOT", "Max. desplazamiento", "RV"]
+
+		self.esponaneo = self.treeview.insert(video,END, text=self.pruebas_voculo[0])
+		self.calorica = self.treeview.insert(video,END, text=self.pruebas_voculo[1])
+		self.VHIT = self.treeview.insert(video,END, text=self.pruebas_voculo[2])
+		self.MPP = self.treeview.insert(video,END, text=self.pruebas_voculo[3])
+
+		self.Marchas = self.treeview.insert(acc,END, text=self.pruebas_acc[0])
+		self.dTUG = self.treeview.insert(acc,END, text=self.pruebas_acc[1])
+		self.Unipodal = self.treeview.insert(acc,END, text=self.pruebas_acc[2])
+		self.Romberg = self.treeview.insert(acc,END, text=self.pruebas_acc[3])
+		self.Fukuda = self.treeview.insert(acc,END, text=self.pruebas_acc[4])
+
+		self.SOT = self.treeview.insert(estb,END, text=self.pruebas_estb[0])
+		self.despl = self.treeview.insert(estb,END, text=self.pruebas_estb[1])
+		self.RV = self.treeview.insert(estb,END, text=self.pruebas_estb[2])
+		
+		self.treeview.tag_bind(self.Marchas, "<<TreeviewSelect>>",
+								self.item_selected)
+
+	def llitulün(self):#Ventana de crear bateria de pruebas
+		#Crear Ventana
+		self.llitulün = Toplevel(takefocus=True)
+		self.llitulün.focus_force()
+		self.llitulün.attributes("-topmost", True)
+		self.llitulün.title("Nueva Prueba")
+		self.llitulün.minsize(400, 200)
+		self.llitulün.maxsize(400, 200)
+
+		frame_data = Frame(self.llitulün)
+		frame_data_IMU = LabelFrame(frame_data, text="IMU", padx=5, pady=5)
+		frame_data_postu = LabelFrame(frame_data, text="Estabilometría", padx=5, pady=5)
+		frame_data_oculo = LabelFrame(frame_data, text="Video-oculometría", padx=5, pady=5)
+		frame_button = Frame(self.llitulün, padx=10, pady=5)
+		label = Label(self.llitulün, text="Seleccione batería de pruebas a realizar").pack()
+		
+		frame_data.pack()
+		frame_button.pack(fill=BOTH)
+
+		
+		btn_cancelar = Button(frame_button, text="Cancelar",command=self.llitulün.destroy)
+		btn_cancelar.pack(side=RIGHT)
+		self.btn_crear_pruebas = Button(frame_button, text="Crear",state=DISABLED)
+		self.btn_crear_pruebas.pack(side=RIGHT)
+
+		check_IMU = Checkbar(frame_data_IMU, self.pruebas_acc)
+		check_postu = Checkbar(frame_data_postu, self.pruebas_estb, state=DISABLED)
+		check_oculo = Checkbar(frame_data_oculo, self.pruebas_voculo, state=DISABLED)
+		check_oculo.pack()
+		check_postu.pack()
+		check_IMU.pack()
+		frame_data_oculo.pack(side=LEFT, fill=Y)
+		frame_data_IMU.pack(side=LEFT, fill=Y)
+		frame_data_postu.pack(side=LEFT, fill=Y)
+
+
+	def item_selected(self, event):
+		"""Item seleccionado."""
+		print("Seleccionado.")
 
 if __name__ == '__main__':
 	path_actual = os.getcwd()
