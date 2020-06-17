@@ -26,11 +26,13 @@ El codigo SQL utilizado para crear esta estructura es:
 CREATE TABLE `Fullaxis`.`Users` ( `ID_user` INT NOT NULL AUTO_INCREMENT , `Name` VARCHAR(64) NOT NULL , 
                                   `Password` VARCHAR(128) NOT NULL , `Proyect` VARCHAR(64) NOT NULL , 
                                   `Enable` VARCHAR(6) NOT NULL , `DatelastAccess` VARCHAR(128) NOT NULL , 
-                                   PRIMARY KEY (`ID_user`)) ENGINE = InnoDB;
+                                   `key_bucket` INT NOT , PRIMARY KEY (`ID_user`)) ENGINE = InnoDB;
 
 CREATE TABLE `Fullaxis`.`B2_key` ( `ID_key` INT NOT NULL AUTO_INCREMENT , `ID_key_user` INT NOT NULL , 
                                    `KeyName` VARCHAR(128) NOT NULL , `KeyPassword` VARCHAR(128) NOT NULL , 
-                                   `Enable` VARCHAR(6) NOT NULL , PRIMARY KEY (`ID_key`)) ENGINE = InnoDB;
+                                   `Enable` VARCHAR(6) NOT NULL , `Bucket` VARCHAR(64) NOT NULL ,
+                                   PRIMARY KEY (`ID_key`)) ENGINE = InnoDB;
+
 
 */
 

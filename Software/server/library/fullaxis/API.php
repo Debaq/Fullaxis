@@ -8,10 +8,10 @@ include 'conn.php';
 $user = $_POST["user"];
 $pass = $_POST["password"];
 
-$request_user = mysqli_query($conn, "SELECT ID_user, Password FROM Users WHERE Name='$user'");
+$request_user = mysqli_query($conn, "SELECT key_bucket,  Password FROM Users WHERE Name='$user'");
 $row_rUser = mysqli_fetch_assoc($request_user);
 $hash = $row_rUser['Password'];
-$key_user = $row_rUser['ID_user'];
+$key_bucket = $row_rUser['key_bucket'];
 
 /* 
 
@@ -22,10 +22,11 @@ El HASH de la password aun no se encuentra implementado
  */
 
 if($hash == $pass){
-    $request_key = mysqli_query($conn, "SELECT KeyName, KeyPassword FROM B2_key WHERE ID_key_user='$key_user'");
+    $request_key = mysqli_query($conn, "SELECT KeyName, KeyPassword, Bucket FROM B2_key WHERE ID_key='$key_bucket'");
     $row_rKey= mysqli_fetch_assoc($request_key);
     $key=$row_rKey['KeyPassword'];
     $userkey=$row_rKey['KeyName'];
-    echo $userkey."/".$key;
+    $bucket = $row_rKey['Bucket'];
+    echo $userkey.",".$key.",".$bucket;
 
 }else{echo $user."/".$pass;}
