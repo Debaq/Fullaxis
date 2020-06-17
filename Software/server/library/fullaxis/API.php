@@ -13,6 +13,14 @@ $row_rUser = mysqli_fetch_assoc($request_user);
 $hash = $row_rUser['Password'];
 $key_user = $row_rUser['ID_user'];
 
+/* 
+
+***ALERTA***
+El HASH de la password aun no se encuentra implementado
+***ALERTA***
+
+ */
+
 if($hash == $pass){
     $request_key = mysqli_query($conn, "SELECT KeyName, KeyPassword FROM B2_key WHERE ID_key_user='$key_user'");
     $row_rKey= mysqli_fetch_assoc($request_key);
