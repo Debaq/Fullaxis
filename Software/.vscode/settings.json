@@ -1,7 +1,0 @@
-{
-  "files.exclude": {
-    ".history": true,
-    ".vscode": true,
-    "__pycache__": true
-  }
-}
