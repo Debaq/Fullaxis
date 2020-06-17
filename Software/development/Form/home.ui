@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>HomeWidget</class>
  <widget class="QWidget" name="HomeWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>661</width>
+    <height>410</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -168,7 +176,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="../resource.qrc"/>
  </resources>
  <connections/>
 </ui>
