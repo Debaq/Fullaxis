@@ -43,7 +43,7 @@ class UIFunctions(MainWindow):
             
 
     
-    def labelMenuLeftInfo(self, text):
+    def Error(self, text):
         self.ui.labelMenuLeftInfo.setText(text)
 
     def labelUserName(self, text):

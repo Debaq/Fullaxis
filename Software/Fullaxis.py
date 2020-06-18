@@ -65,27 +65,41 @@ class MainWindow(QMainWindow):
         if self.ui.page_home.layout() == None:
             self.widgetlogin = Ui_login()
             self.widgetlogin.setupUi(self.ui.page_home)
-            self.widgetlogin.btn_login.clicked.connect(self.clickMethod)
+            self.widgetlogin.btn_login.clicked.connect(self.loginMethod)
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_home)
         
     
     
-    def clickMethod(self):
-        from lib import API_conector as API
+    def loginMethod(self):
+            
         Name =self.widgetlogin.input_user.text()
         Passw = self.widgetlogin.input_pass.text()
-        self.data_conection = API_conector.request_key(Name, Passw)
-        if self.data_conection[0] != 'E:063':
+        if Name !='' and Passw != '':
+            pased = (1,1,0)
+        else:
+            pased = (0,0,0)
+            UIFunctions.Error(self, 'E:061')
+
+        if pased == (1,1,0):
+            from lib import API_conector as API
+            self.data_conection = API_conector.request_key(Name, Passw)
+            if self.data_conection[0] == 'E:062':
+                UIFunctions.Error(self,'E:062')
+                
+            else:
+                UIFunctions.Error(self,'')
+                UIFunctions.labelUserName(self, Name)
+                pased=(1,1,1) 
+               
+        if pased == (1,1,1):
             app_key_id = self.data_conection[0]
             app_key = self.data_conection[1]
             bucket_name = self.data_conection[2]
-            self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
-            UIFunctions.labelUserName(self, Name)
-            UIFunctions.labelMenuLeftInfo(self,'')
-        else:
-            UIFunctions.labelMenuLeftInfo(self,self.data_conection[0])
-        
+            try:
+                self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
+            except:
+                UIFunctions.Error(self, 'E:063')
         
 
 
@@ -94,7 +108,7 @@ class MainWindow(QMainWindow):
 
 
 #################################################################
-#                      SE INICA EL PROGRAMA                     #
+#                      SE INICIA EL PROGRAMA                     #
 #################################################################
 if __name__ == "__main__":
     sttg_workspace = basic.read_setting('workspace.json')
