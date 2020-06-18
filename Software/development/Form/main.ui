@@ -195,6 +195,16 @@
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
+                <item>
+                 <widget class="QLabel" name="lbl_user_title">
+                  <property name="styleSheet">
+                   <string notr="true">color:white</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
              </item>
@@ -549,12 +559,15 @@ QPushButton:pressed {
               <widget class="QLabel" name="labelMenuLeftInfo">
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
+                 <pointsize>6</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                  <stylestrategy>PreferAntialias</stylestrategy>
                  <kerning>true</kerning>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white</string>
                </property>
                <property name="text">
                 <string/>
@@ -608,12 +621,6 @@ QPushButton:pressed {
              </property>
              <item>
               <widget class="QFrame" name="FrameOption_L5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -771,7 +778,22 @@ border-right	: 1px solid gray;</string>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="FrameCenter_L5"/>
+              <widget class="QFrame" name="FrameCenter_L5">
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QStackedWidget" name="stackedWidget">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <widget class="QWidget" name="page_home"/>
+                  <widget class="QWidget" name="page_6"/>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -822,7 +844,7 @@ border-right	: 1px solid gray;</string>
   </widget>
  </widget>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../resource/resource.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -30,6 +30,17 @@ Lógica de funcionamiento:
 |  ▼ contraseña       ◘  del server de    ▲ |
 |  ▼ .                ◘  almacenaje       ▲ |
 ===================MYSQL=======================
+
+
+    ejemplo:
+        import API_conector
+        Nombre = 'name'
+        Password = 'pass123'
+        data_conection = API_conector.request_key(Nombre, Password)
+        app_key_id = data_conection[0]
+        app_key = data_conection[1]
+        bucket_name = data_conection[2]
+        conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
 """
 
 import requests
@@ -64,6 +75,7 @@ class b2_conect():
     - listar los archivos existentes
     - descargar los archivos
     - cargar nuevos archivos
+    
     """
     def __init__(self,app_key_id, app_key, app_bucket):
         """conección
@@ -102,7 +114,3 @@ class b2_conect():
             file_name=b2_file_name,
             file_infos=file_info
         )
-        
-        
-
-    

@@ -7,9 +7,9 @@
 #                                                               #
 #################################################################
 
+## ==> LIBRERIAS BÁSICAS
 import os
 import platform
-## ==> LIBRERIAS BÁSICAS
 import sys
 
 ## ==> LIBRERIAS PYSIDE2
@@ -25,6 +25,11 @@ from PySide2.QtWidgets import QApplication
 
 from lib.ui_functions import *
 from lib.uiForm import *
+from lib import basic_functions as basic
+from lib.uiForm.ui_login import Ui_login
+
+from lib import API_conector
+
 
 ## ==> LIBRERIAS PLUGINS
 # AUN NO HAY NADA, TAREA : BUSCAR LA FORMA DE QUE SE CARGEN
@@ -43,14 +48,44 @@ class MainWindow(QMainWindow):
         
     def btn_basic(self):
         self.ui.btn_ContractExplorer.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
-        self.ui.btn_MenuHome.clicked.connect(lambda: UIFunctions.Open_home(self))
-        self.ui.btn_MenuUser.clicked.connect(lambda: UIFunctions.Open_user(self))
+        self.ui.btn_MenuHome.clicked.connect(self.Open_user)
+        self.ui.btn_MenuUser.clicked.connect(self.Open_user)
         self.ui.btn_MenuInfo.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
         self.ui.btn_MenuPlugins.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
         self.ui.btn_MenuSetting.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
 
 
 
+
+    def Open_user(self):
+        width = self.ui.FrameOption_L5.width()
+        if width == 200:
+            UIFunctions.toggleFrameOption_L5(self,20, True)
+       
+        if self.ui.page_home.layout() == None:
+            self.widgetlogin = Ui_login()
+            self.widgetlogin.setupUi(self.ui.page_home)
+            self.widgetlogin.btn_login.clicked.connect(self.clickMethod)
+        else:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_home)
+        
+    
+    
+    def clickMethod(self):
+        from lib import API_conector as API
+        Name =self.widgetlogin.input_user.text()
+        Passw = self.widgetlogin.input_pass.text()
+        self.data_conection = API_conector.request_key(Name, Passw)
+        if self.data_conection[0] != 'E:063':
+            app_key_id = self.data_conection[0]
+            app_key = self.data_conection[1]
+            bucket_name = self.data_conection[2]
+            self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
+            UIFunctions.labelUserName(self, Name)
+            UIFunctions.labelMenuLeftInfo(self,'')
+        else:
+            UIFunctions.labelMenuLeftInfo(self,self.data_conection[0])
+        
         
 
 
@@ -62,6 +97,10 @@ class MainWindow(QMainWindow):
 #                      SE INICA EL PROGRAMA                     #
 #################################################################
 if __name__ == "__main__":
+    sttg_workspace = basic.read_setting('workspace.json')
+    path_workspace = sttg_workspace['Path']
+    bol_oline = sttg_workspace['workspace_online']
+ 
     app = QApplication(sys.argv)
     window = MainWindow()
     sys.exit(app.exec_()) 

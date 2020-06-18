@@ -29,4 +29,4 @@ if($hash == $pass){
     $bucket = $row_rKey['Bucket'];
     echo $userkey.",".$key.",".$bucket;
 
-}else{echo $user."/".$pass;}
+}else{echo "E:063";}

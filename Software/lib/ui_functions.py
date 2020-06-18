@@ -2,11 +2,17 @@
 from Fullaxis import *
 from lib.uiForm.ui_home import Ui_HomeWidget
 from lib.uiForm.ui_other import Ui_OtherWidget
+
+from lib import basic_functions as basic
+
 from PySide2 import QtCore, QtGui, QtUiTools, QtWidgets
 
 
 class UIFunctions(MainWindow):
     
+    def __init__(self):
+        self.Printer()
+      
     def toggleFrameOption_L5(self, WidthContract, enable):
         if enable:
             # GET WIDTH
@@ -35,23 +41,12 @@ class UIFunctions(MainWindow):
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()
             
-            
-        
-    def Open_home(self):
-        #self.widgetHome = Ui_HomeWidget()
-        #wd = QtGui.QWidget(r)
-        #t = self.widgetHome.setupUi(self.ui.FrameCenter_L5)
-        #self.wid = QFrame()
-        #r = self.widgetHome.setupUi(self.wid)
-        #self.ui.layoutFrameCenter_L5.setLayout(r)              
-        path = QtWidgets.QFileDialog.getOpenFileUrl(self, filter="Fullaxis (*.*)")
-        print(path.to)
-        
-        
-        
-    def Open_user(self):
-        widgetHome = Ui_OtherWidget()
-        widgetHome.setupUi(self.ui.FrameCenter_L5)
+
     
     def labelMenuLeftInfo(self, text):
         self.ui.labelMenuLeftInfo.setText(text)
+
+    def labelUserName(self, text):
+        self.ui.lbl_user_title.setText(text)
+
+
