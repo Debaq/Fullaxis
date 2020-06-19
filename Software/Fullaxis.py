@@ -23,11 +23,18 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PySide2.QtWidgets import *
 from PySide2.QtWidgets import QApplication
 
+## ==> FUNCIONES
 from lib.ui_functions import *
-from lib.uiForm import *
 from lib import basic_functions as basic
-from lib.uiForm.ui_login import Ui_login
 
+## ==> LIBRERIAS DEL GUI
+from lib.uiForm import *
+
+## ==> ESTILOS
+
+from lib.styles.widgets import Styles as WStyles
+
+## ==> APIS
 from lib import API_conector
 
 
@@ -38,43 +45,72 @@ from lib import API_conector
 #                      CLASE PRINCIPAL                          #
 #################################################################
 
+
+
+
+class WidgetHomePage(QWidget):
+    def __init__(self, *args, **kwargs):
+        QWidget.__init__(self, *args, **kwargs)
+        self.UI_HomePage = ui_home.Ui_HomeWidget()
+        self.UI_HomePage.setupUi(self)
+        
+class WidgetLoginPage(QWidget):
+    def __init__(self, *args, **kwargs):
+        QWidget.__init__(self, *args, **kwargs)
+        self.UI_LoginPage = ui_login.Ui_login()
+        self.UI_LoginPage.setupUi(self)
+
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = ui_main.Ui_FullAxis()
         self.ui.setupUi(self)
-        self.show()
         self.btn_basic()
+        self.home_page = WidgetHomePage()
+        self.homePage()
+        self.btnLoginMetod()
+        self.show()        
         
     def btn_basic(self):
         self.ui.btn_ContractExplorer.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
-        self.ui.btn_MenuHome.clicked.connect(self.Open_user)
-        self.ui.btn_MenuUser.clicked.connect(self.Open_user)
+        self.ui.btn_MenuHome.clicked.connect(self.homePage)
+        
+
+        #self.ui.btn_MenuUser.clicked.connect(self.Open_user)
         self.ui.btn_MenuInfo.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
         self.ui.btn_MenuPlugins.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
         self.ui.btn_MenuSetting.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
 
 
+    def btnLoginMetod(self):
+        self.btnLogin = QPushButton()
+        self.btnLogin.setObjectName("btn_login")
+        self.btnLogin.setText("Ingresar")
+        self.btnLogin.setStyleSheet(WStyles.style_bt_text)
+        self.btnLogin.clicked.connect(self.loginPage)
+        self.home_page.UI_HomePage.layoutFrame_login.addWidget(self.btnLogin)
+        
+    def loginPage(self):
+        self.resetCenterLayout()
+        self.login_page = WidgetLoginPage()
+        self.ui.layoutFrameCenter_L5.addWidget(self.login_page)
+        self.login_page.UI_LoginPage.btn_requestlogin.clicked.connect(self.loginMethod)
 
 
-    def Open_user(self):
+    def homePage(self):
+        self.resetCenterLayout()
+        self.ui.layoutFrameCenter_L5.addWidget(self.home_page)
         width = self.ui.FrameOption_L5.width()
         if width == 200:
             UIFunctions.toggleFrameOption_L5(self,20, True)
-       
-        if self.ui.page_home.layout() == None:
-            self.widgetlogin = Ui_login()
-            self.widgetlogin.setupUi(self.ui.page_home)
-            self.widgetlogin.btn_login.clicked.connect(self.loginMethod)
-        else:
-            self.ui.stackedWidget.setCurrentWidget(self.ui.page_home)
+    
         
-    
-    
-    def loginMethod(self):
             
-        Name =self.widgetlogin.input_user.text()
-        Passw = self.widgetlogin.input_pass.text()
+    def loginMethod(self):            
+        Name =self.login_page.UI_LoginPage.input_user.text()
+        Passw = self.login_page.UI_LoginPage.input_pass.text()
         if Name !='' and Passw != '':
             pased = (1,1,0)
         else:
@@ -88,20 +124,29 @@ class MainWindow(QMainWindow):
                 UIFunctions.Error(self,'E:062')
                 
             else:
-                UIFunctions.Error(self,'')
+                UIFunctions.Error(self,'CLEAR')
                 UIFunctions.labelUserName(self, Name)
                 pased=(1,1,1) 
-               
+            
         if pased == (1,1,1):
             app_key_id = self.data_conection[0]
             app_key = self.data_conection[1]
             bucket_name = self.data_conection[2]
             try:
                 self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
+                self.resetCenterLayout()
+                self.ui.layoutFrameCenter_L5.addWidget(self.home_page)
             except:
                 UIFunctions.Error(self, 'E:063')
         
-
+    def resetCenterLayout(self):
+        layout = self.ui.layoutFrameCenter_L5
+        for i in reversed(range(layout.count())): 
+            widgetToRemove = layout.itemAt(i).widget()
+            # remove it from the layout list
+            layout.removeWidget(widgetToRemove)
+            # remove it from the gui
+            widgetToRemove.setParent(None)
 
 
 
@@ -117,4 +162,6 @@ if __name__ == "__main__":
  
     app = QApplication(sys.argv)
     window = MainWindow()
+    WidgetLoginPage()
+
     sys.exit(app.exec_()) 

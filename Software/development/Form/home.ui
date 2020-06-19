@@ -6,36 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
-    <height>410</height>
+    <width>717</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>HomeWidget</string>
   </property>
-  <layout class="QVBoxLayout" name="layoutHomeWidget" stretch="0,0">
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(44, 49, 60);</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>20</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>20</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>20</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>20</number>
    </property>
    <item>
-    <widget class="QFrame" name="HW_Header">
+    <widget class="QFrame" name="Head_Home">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
        <height>100</height>
       </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
@@ -54,11 +63,14 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QFrame" name="HW_HeaderLeft">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(237, 212, 0);</string>
+       <widget class="QFrame" name="Frame_homeHeader">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
         </property>
-        <layout class="QHBoxLayout" name="layoutHW_HeaderLeft">
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
           <number>0</number>
          </property>
@@ -74,30 +86,160 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item>
+          <widget class="QFrame" name="FramelblTitle1">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="lbl_logogrey">
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>60</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>60</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../resource/resource.qrc">:/icons svg/icons/png/logo_gray.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="FramelblTitle2">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="lbl_FullAxis">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background: transparent;
+color:rgb(204,204,204);</string>
+              </property>
+              <property name="text">
+               <string>Full Axis</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_description">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background: transparent;
+color:rgb(204,204,204);</string>
+              </property>
+              <property name="text">
+               <string>Sistema de evaluación de la marcha </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="HW_HeaderRigth">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(252, 233, 79);</string>
+       <widget class="QFrame" name="FrameLogin">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
         </property>
-        <layout class="QHBoxLayout" name="layoutHW_HeaderRigth">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="btn_Login">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	Text-align:center;
+	background: transparent;
+	color:rgb(54,114,240);
+	border: none;
+}
+QPushButton:hover {
+	color:rgb(54,156,240);
+}
+QPushButton:pressed {	
+	color:rgb(35,187,255);
+
+}</string>
+           </property>
+           <property name="text">
+            <string>↪ Iniciar Sesión</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -105,8 +247,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="HW_Body">
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+    <widget class="QFrame" name="Frame_centerHome">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -123,51 +271,9 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QFrame" name="HW_BodyLeft">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(92, 53, 102);</string>
-        </property>
-        <layout class="QVBoxLayout" name="layoutHW_BodyLeft">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="HW_BodyRigth">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(233, 185, 110);</string>
-        </property>
-        <layout class="QVBoxLayout" name="layoutHW_BodyRigth">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-        </layout>
+       <widget class="QStackedWidget" name="Stacked_centerHome">
+        <widget class="QWidget" name="page_info"/>
+        <widget class="QWidget" name="page_login"/>
        </widget>
       </item>
      </layout>
@@ -176,7 +282,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../resource/resource.qrc"/>
  </resources>
  <connections/>
 </ui>

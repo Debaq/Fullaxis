@@ -44,7 +44,17 @@ class UIFunctions(MainWindow):
 
     
     def Error(self, text):
-        self.ui.labelMenuLeftInfo.setText(text)
+        Error_type = text.split(':')
+        
+        if Error_type[0] == 'CLEAR':
+            Error_simbol = ''
+            text = ''
+        if Error_type[0] == 'E':
+            Error_simbol = '<span style=" font-size:10pt;">Ⓧ </span>'
+        if Error_type[0] == 'A':
+            Error_simbol = '<span style=" font-size:10pt;">‼ </span>'
+            
+        self.ui.labelMenuLeftInfo.setText(Error_simbol+text)
 
     def labelUserName(self, text):
         self.ui.lbl_user_title.setText(text)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'loginCMxjHz.ui'
+## Form generated from reading UI file 'loginqQhOpi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.0
 ##
@@ -50,10 +50,10 @@ class Ui_login(object):
 
         self.verticalLayout.addWidget(self.input_pass)
 
-        self.btn_login = QPushButton(login)
-        self.btn_login.setObjectName(u"btn_login")
+        self.btn_requestlogin = QPushButton(login)
+        self.btn_requestlogin.setObjectName(u"btn_requestlogin")
 
-        self.verticalLayout.addWidget(self.btn_login)
+        self.verticalLayout.addWidget(self.btn_requestlogin)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -80,7 +80,7 @@ class Ui_login(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         QWidget.setTabOrder(self.input_user, self.input_pass)
-        QWidget.setTabOrder(self.input_pass, self.btn_login)
+        QWidget.setTabOrder(self.input_pass, self.btn_requestlogin)
 
         self.retranslateUi(login)
 
@@ -94,7 +94,7 @@ class Ui_login(object):
         self.input_user.setText("")
         self.input_user.setPlaceholderText(QCoreApplication.translate("login", u"Identificaci\u00f3n", None))
         self.input_pass.setPlaceholderText(QCoreApplication.translate("login", u"Contrase\u00f1a", None))
-        self.btn_login.setText(QCoreApplication.translate("login", u"Ingresar", None))
+        self.btn_requestlogin.setText(QCoreApplication.translate("login", u"Ingresar", None))
         self.pushButton.setText(QCoreApplication.translate("login", u"Cambiar configuraci\u00f3n", None))
     # retranslateUi
 
