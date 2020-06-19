@@ -93,14 +93,14 @@ class MainWindow(QMainWindow):
         self.home_page.UI_HomePage.layoutFrame_login.addWidget(self.btnLogin)
         
     def loginPage(self):
-        self.resetCenterLayout()
+        UIFunctions.resetLayout(self,self.ui.layoutFrameCenter_L5)
         self.login_page = WidgetLoginPage()
         self.ui.layoutFrameCenter_L5.addWidget(self.login_page)
         self.login_page.UI_LoginPage.btn_requestlogin.clicked.connect(self.loginMethod)
 
 
     def homePage(self):
-        self.resetCenterLayout()
+        UIFunctions.resetLayout(self,self.ui.layoutFrameCenter_L5)
         self.ui.layoutFrameCenter_L5.addWidget(self.home_page)
         width = self.ui.FrameOption_L5.width()
         if width == 200:
@@ -134,19 +134,17 @@ class MainWindow(QMainWindow):
             bucket_name = self.data_conection[2]
             try:
                 self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
-                self.resetCenterLayout()
+                UIFunctions.resetLayout(self,self.ui.layoutFrameCenter_L5)
+                UIFunctions.resetLayout(self,self.home_page.UI_HomePage.layoutFrame_login)
+
                 self.ui.layoutFrameCenter_L5.addWidget(self.home_page)
+                temp_log = open("temp/login.lock","w+")
+                temp_log.close()
+                
             except:
                 UIFunctions.Error(self, 'E:063')
         
-    def resetCenterLayout(self):
-        layout = self.ui.layoutFrameCenter_L5
-        for i in reversed(range(layout.count())): 
-            widgetToRemove = layout.itemAt(i).widget()
-            # remove it from the layout list
-            layout.removeWidget(widgetToRemove)
-            # remove it from the gui
-            widgetToRemove.setParent(None)
+
 
 
 

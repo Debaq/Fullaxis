@@ -60,3 +60,12 @@ class UIFunctions(MainWindow):
         self.ui.lbl_user_title.setText(text)
 
 
+
+
+    def resetLayout(self, layout):
+        for i in reversed(range(layout.count())): 
+            widgetToRemove = layout.itemAt(i).widget()
+            # remove it from the layout list
+            layout.removeWidget(widgetToRemove)
+            # remove it from the gui
+            widgetToRemove.setParent(None)            
