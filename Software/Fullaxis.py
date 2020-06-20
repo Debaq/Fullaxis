@@ -11,6 +11,9 @@
 import os
 import platform
 import sys
+import os.path
+from os import path
+
 
 ## ==> LIBRERIAS PYSIDE2
 from PySide2 import QtCore, QtGui, QtUiTools, QtWidgets
@@ -70,7 +73,8 @@ class MainWindow(QMainWindow):
         self.btn_basic()
         self.home_page = WidgetHomePage()
         self.homePage()
-        self.btnLoginMetod()
+        #self.btnLoginMetod()
+        self.verifyLogin()
         self.show()        
         
     def btn_basic(self):
@@ -84,6 +88,16 @@ class MainWindow(QMainWindow):
         self.ui.btn_MenuSetting.clicked.connect(lambda: UIFunctions.toggleFrameOption_L5(self,20, True))
 
 
+    def verifyLogin(self):
+        if path.exists("temp/login.lock"):
+            self.lbl_login_home = QLabel("Hola Mundo")
+            self.home_page.UI_HomePage.layoutFrame_login.addWidget(self.lbl_login_home)
+
+        else:
+            self.btnLoginMetod()
+        
+        
+    
     def btnLoginMetod(self):
         self.btnLogin = QPushButton()
         self.btnLogin.setObjectName("btn_login")

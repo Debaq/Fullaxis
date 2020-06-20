@@ -70,7 +70,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_login">
+    <widget class="QPushButton" name="btn_requestlogin">
      <property name="text">
       <string>Ingresar</string>
      </property>
@@ -112,7 +112,7 @@ QPushButton:pressed {
  <tabstops>
   <tabstop>input_user</tabstop>
   <tabstop>input_pass</tabstop>
-  <tabstop>btn_login</tabstop>
+  <tabstop>btn_requestlogin</tabstop>
  </tabstops>
  <resources>
   <include location="../resource/resource.qrc"/>
