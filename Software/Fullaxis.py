@@ -2,7 +2,8 @@
 #################################################################
 #                                                               #
 #                  NOMBRE PROYECTO : FULLAXIS                   #
-#                       VER. 20.6 - GUI                         #
+#                   VER. 20.6.1 - GUI PYQT5                     #
+#                    NOMBRE VER. : AzoGuer                      #
 #               CREADOR : NICOLÁS QUEZADA QUEZADA               #
 #                                                               #
 #################################################################
@@ -64,9 +65,10 @@ from PyQt5.QtWidgets import QStyleFactory
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QMenu
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QIcon
 
 ## ==> FUNCIONES
-from lib.ui_functions import UIFunctions
+from lib.ui_functions import UIFunctions as UIFunc
 
 ## ==> LIBRERIAS DEL GUI
 from lib.uiForm.main_ui import Ui_FullAxis
@@ -88,10 +90,8 @@ from lib import API_conector
 
     
 #################################################################
-#                      CLASE PRINCIPAL                          #
+#                      CLASES WIDGETS                           #
 #################################################################
-
-
 
 
 class WidgetHomePage(QWidget):
@@ -122,9 +122,12 @@ class WidgetLoginPage(QDialog):
     
     def closeEvent(self, event):
         if os.path.isfile(PATH.LOGINLOCK):
-            datos = UIFunctions.loginLockRead(self)
+            datos = UIFunc.loginLockRead(self)
             window.verifyLogin(datos['name'])
 
+#################################################################
+#                      CLASE PRINCIPAL                          #
+#################################################################
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -132,6 +135,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_FullAxis()
         self.ui.setupUi(self)
         self.btn_basic()
+        self.setWindowIcon(QIcon(PATH.LOGO))        
         self.home_page = WidgetHomePage()
         self.homePage()
         self.verifyLogin(None)
@@ -150,27 +154,27 @@ class MainWindow(QMainWindow):
     
     def verifyLogin(self, Name):
         if path.exists(PATH.LOGINLOCK):
-            UIFunctions.resetLayout(self, self.ui.Login_Layout)
+            UIFunc.resetLayout(self, self.ui.Login_Layout)
             user = QMenu()
             user.addAction("Salir", self.logout)
-            btn_logout= UIFunctions.ButtonText(self, Name)
+            btn_logout= UIFunc.ButtonText(self, Name)
             btn_logout.setMenu(user)
             self.ui.Login_Layout.addWidget(btn_logout)
             self.lateralMenu()
             self.homePage()
 
         else:
-            UIFunctions.resetLayout(self, self.ui.Login_Layout)
+            UIFunc.resetLayout(self, self.ui.Login_Layout)
             user = QMenu()
             user.addAction("Cuenta Online", self.btnloginMethod)
-            btn_logout= UIFunctions.ButtonFlat(self, "Ingresar a la cuenta")
+            btn_logout= UIFunc.ButtonFlat(self, "Ingresar a la cuenta")
             btn_logout.setMenu(user)
             self.ui.Login_Layout.addWidget(btn_logout)
 
 
     def logout(self):
-        UIFunctions.logout(self)
-        UIFunctions.resetLayout(self, self.ui.Login_Layout)
+        UIFunc.logout(self)
+        UIFunc.resetLayout(self, self.ui.Login_Layout)
         self.verifyLogin(None)
             
             
@@ -186,24 +190,21 @@ class MainWindow(QMainWindow):
        
        
     def homePage(self):
-        self.ui.Center_Layout.addWidget(self.home_page)
+        self.ui.Center_layout.addWidget(self.home_page)
 
 
     def lateralMenu(self):
         #=> CARGA WIDGET
         self.LateralMenu = WidgetLateralMenu()
         #=>SE CREAN LOS BOTONES
-        btn_home = UIFunctions.ButtonMenu(self, "Inicio", "home")
-        btn_home.clicked.connect(lambda:UIFunctions.printer(self,"home"))
-        self.LateralMenu.UI_LateralMenu.layerBack_frame.addWidget(btn_home)
-        #btn_transform = UIFunctions.ButtonMenu(self, "Transformar \n Archivos", "wrap-text")
-        #btn_transform.clicked.connect(lambda:UIFunctions.printer(self,"transformar archivos"))
-        #self.LateralMenu.UI_LateralMenu.layerBack_frame.addWidget(btn_transform)
+        btn_home = UIFunc.createBtnMenuLat(self,"btn_home", "Inicio", "home")
+        btn_transform = UIFunc.createBtnMenuLat(self,"btn_transform", "Transf. Archivos", "wrap-text")
+        btn_preview = UIFunc.createBtnMenuLat(self, "btn_folder", "Archivos", "folder")
         #=>ESPACIADOR QUE MANTIENE LOS BOTONES ARRIBA
-        spacer = UIFunctions.spacer(self,"V")
+        spacer = UIFunc.spacer(self,"V")
         self.LateralMenu.UI_LateralMenu.layerBack_frame.addItem(spacer)
         #=>SE AGREGA EL MENULATERAL A LA VENTANA
-        self.ui.Center_Layout.addWidget(self.LateralMenu)
+        self.ui.Lateral_layout.addWidget(self.LateralMenu)
            
            
     def loginMethod(self, Name, Passw):            
@@ -211,37 +212,59 @@ class MainWindow(QMainWindow):
             pased = (1,1,0)
         else:
             pased = (0,0,0)
-            UIFunctions.Error(self, 'E:061')
+            UIFunc.Error(self, 'E:061')
 
         if pased == (1,1,0):
             try:
                 from lib import API_conector as API
                 self.data_conection = API_conector.request_key(Name, Passw)
                 if self.data_conection[0] == 'E:062':
-                    UIFunctions.Error(self,'E:062')
+                    UIFunc.Error(self,'E:062')
                     
                 else:
-                    UIFunctions.Error(self,'CLEAR')
+                    UIFunc.Error(self,'CLEAR')
                     pased=(1,1,1)
             except: 
-                 UIFunctions.Error(self,'A:005')
+                 UIFunc.Error(self,'A:005')
         if pased == (1,1,1):
             app_key_id = self.data_conection[0]
             app_key = self.data_conection[1]
             bucket_name = self.data_conection[2]
             try:
                 self.conection_b2 = API_conector.b2_conect(app_key_id, app_key, bucket_name)
-                UIFunctions.resetLayout(self,self.ui.Center_Layout)
-                UIFunctions.loginLockNew(self, Name, Passw)
+                UIFunc.resetLayout(self,self.ui.Center_layout)
+                UIFunc.loginLockNew(self, Name, Passw)
                 self.login.close()
                 
             except:
-                UIFunctions.Error(self, 'E:063')
+                UIFunc.Error(self, 'E:063')
+
+    def Button(self):
+        btnWidget = self.sender()
+
+        if btnWidget.objectName() == "btn_home":
+            UIFunc.resetLayout(self, self.ui.Center_layout)
+            self.homePage()
+            UIFunc.resetStyle(self, "btn_home")
+            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+            
+        if btnWidget.objectName() == "btn_transform":
+            UIFunc.resetLayout(self, self.ui.Center_layout)
+            UIFunc.printer("usted esta en transform")
+            UIFunc.resetStyle(self, "btn_transform")
+            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+
+        if btnWidget.objectName() == "btn_folder":
+            UIFunc.resetLayout(self, self.ui.Center_layout)
+            UIFunc.printer("usted esta en la luna")
+            UIFunc.resetStyle(self, "btn_folder")
+            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+
 
 
     def closeEvent(self, event):
         if os.path.isfile(PATH.LOGINLOCK):
-            UIFunctions.logout(self)
+            UIFunc.logout(self)
         
 
 #################################################################

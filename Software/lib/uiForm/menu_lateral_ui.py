@@ -24,6 +24,7 @@ class Ui_Form(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.back_frame = QtWidgets.QFrame(Form)
+        self.back_frame.setStyleSheet("")
         self.back_frame.setObjectName("back_frame")
         self.layerBack_frame = QtWidgets.QVBoxLayout(self.back_frame)
         self.layerBack_frame.setContentsMargins(0, 0, 0, 0)

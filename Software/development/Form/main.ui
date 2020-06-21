@@ -159,8 +159,8 @@
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="Frame_center">
-      <layout class="QHBoxLayout" name="Center_Layout">
+     <widget class="QFrame" name="Frame_center_root">
+      <layout class="QHBoxLayout" name="Center_Layout_root">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -176,6 +176,54 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item>
+        <widget class="QFrame" name="Fame_lateral">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QVBoxLayout" name="Lateral_layout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="Frame_center">
+         <layout class="QHBoxLayout" name="Center_layout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -198,7 +246,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="font">

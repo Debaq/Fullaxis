@@ -8,6 +8,7 @@ from lib.styles.widgets import Styles as WStyles
 from lib.styles.Frames import Styles as FStyles
 from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QPushButton, QMenu, QSizePolicy, QSpacerItem
 from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import Qt
 
 
 class UIFunctions():
@@ -76,14 +77,20 @@ class UIFunctions():
         button.setSizePolicy(sizePolicy3)
         return button
 
-    def ButtonMenu(self, text, ico=None):
-        button = QPushButton(text)
+    def createBtnMenuLat(self, objName, text, ico=None):
+        text_replace = text.replace(" ", "\n")
+        button = QPushButton(text_replace)
+        button.setObjectName(objName)
+        button.setLayoutDirection(Qt.RightToLeft)
         button.setStyleSheet(WStyles.btn_lateral)
         icon = QIcon()
         icon_path = (":/icons_white/icons/png/16x16/cil-"+ico+".png")
         icon.addPixmap(QPixmap(icon_path), QIcon.Normal, QIcon.Off)
         button.setIcon(icon)
         button.setMinimumSize(0,60)
+        button.setFlat(True)
+        button.clicked.connect(self.Button)
+        self.LateralMenu.UI_LateralMenu.layerBack_frame.addWidget(button)
         return button
     
     
@@ -96,5 +103,22 @@ class UIFunctions():
             spacerItem = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
         return spacerItem
     
-    def printer(self, text):
+    def printer(text):
         print(text)
+              
+    def selectMenu(getStyle):
+        select = getStyle + (WStyles.btn_lateralActive)
+        return select
+    
+    ## ==> DESELECT
+    def deselectMenu(getStyle):
+        print("estoy aca")
+        deselect = getStyle.replace(WStyles.btn_lateralActive, "")
+        return deselect
+    
+    def resetStyle(self, widget):
+        for w in self.LateralMenu.findChildren(QPushButton):
+            if w.objectName() != widget:
+                w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
+
+ 

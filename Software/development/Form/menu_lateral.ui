@@ -49,6 +49,9 @@
    </property>
    <item>
     <widget class="QFrame" name="back_frame">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <layout class="QVBoxLayout" name="layerBack_frame">
       <property name="spacing">
        <number>0</number>

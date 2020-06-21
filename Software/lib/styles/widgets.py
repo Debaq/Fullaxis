@@ -32,10 +32,18 @@ class Styles():
     
     btn_lateral = ("""
                 QPushButton {
-                    Text-align:center;
+                    text-align:left;
+					padding: 0 6px;
                     border: none;
                     color:rgb(238, 238, 236);
                     background-color: transparent;
+                }
+                QPushButton[Active=true] {
+                    border: none;
+                    border-left: 28px solid rgb(27, 29, 35);
+                    border-right: 5px solid rgb(44, 49, 60);
+                    background-color: rgb(244, 235, 235, 20);
+                    text-align: left;
                 }
                 QPushButton:hover {
                     background-color: rgb(244, 235, 235, 20);
@@ -43,5 +51,14 @@ class Styles():
                 QPushButton:pressed {
                     text-decoration: underline;
                     background-color: rgb(244, 235, 235, 20);
+                    border: none;
+
                 }
                 """)
+    
+    btn_lateralActive = ("""
+                    QPushButton { 
+                                background-color: rgb(244, 235, 235, 20); 
+                                text-decoration: underline;
+                        }
+                         """)
