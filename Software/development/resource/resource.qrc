@@ -2,6 +2,7 @@
   <qresource prefix="icons svg">
     <file>icons/png/logo.png</file>
     <file>icons/png/TMPM.png</file>
+    <file>icons/png/logo_wName.png</file>
     <file>icons/png/logo_gray.png</file>
     <file>icons/svg/fullaxis.svg</file>
     <file>icons/svg/folder.svg</file>
