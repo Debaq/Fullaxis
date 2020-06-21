@@ -71,9 +71,43 @@ class Ui_login(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.btn_requestlogin = QtWidgets.QPushButton(self.center_login)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_requestlogin.sizePolicy().hasHeightForWidth())
+        self.btn_requestlogin.setSizePolicy(sizePolicy)
+        self.btn_requestlogin.setMinimumSize(QtCore.QSize(0, 30))
+        self.btn_requestlogin.setStyleSheet("QPushButton {\n"
+" Text-align:center;\n"
+" border: none;\n"
+" color:rgb(238, 238, 236);\n"
+"background-color: rgb(55, 144, 152);\n"
+"}\n"
+" QPushButton:hover {\n"
+" background-color: rgb(0, 98, 106);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" text-decoration: underline;}")
         self.btn_requestlogin.setObjectName("btn_requestlogin")
         self.horizontalLayout.addWidget(self.btn_requestlogin)
         self.btn_cancel = QtWidgets.QPushButton(self.center_login)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_cancel.sizePolicy().hasHeightForWidth())
+        self.btn_cancel.setSizePolicy(sizePolicy)
+        self.btn_cancel.setMinimumSize(QtCore.QSize(0, 30))
+        self.btn_cancel.setStyleSheet("QPushButton {\n"
+" Text-align:center;\n"
+" border: none;\n"
+" color:rgb(238, 238, 236);\n"
+"background-color: rgb(204, 0, 0);\n"
+"}\n"
+" QPushButton:hover {\n"
+" background-color: rgb(164, 0, 0);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" text-decoration: underline;}")
         self.btn_cancel.setObjectName("btn_cancel")
         self.horizontalLayout.addWidget(self.btn_cancel)
         self.verticalLayout_2.addLayout(self.horizontalLayout)

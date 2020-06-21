@@ -22,6 +22,8 @@ class Ui_FullAxis(object):
         self.horizontalFrame = QtWidgets.QFrame(self.centralwidget)
         self.horizontalFrame.setMinimumSize(QtCore.QSize(0, 50))
         self.horizontalFrame.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.horizontalFrame.setStyleSheet("border-bottom: 3px rgb(136, 138, 133); \n"
+"")
         self.horizontalFrame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.horizontalFrame.setObjectName("horizontalFrame")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalFrame)
@@ -72,6 +74,7 @@ class Ui_FullAxis(object):
         self.Frame_center = QtWidgets.QFrame(self.centralwidget)
         self.Frame_center.setObjectName("Frame_center")
         self.Center_Layout = QtWidgets.QHBoxLayout(self.Frame_center)
+        self.Center_Layout.setContentsMargins(0, 0, 0, 0)
         self.Center_Layout.setSpacing(0)
         self.Center_Layout.setObjectName("Center_Layout")
         self.verticalLayout.addWidget(self.Frame_center)

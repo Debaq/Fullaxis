@@ -24,3 +24,8 @@ class Styles():
     """ 
         
     )
+    Frame_lateral = (
+    """
+        background-color: rgb(92, 53, 102);
+    """
+    )

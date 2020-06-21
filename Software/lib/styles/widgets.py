@@ -29,3 +29,19 @@ class Styles():
                     text-decoration: underline;
                 }
                 """)
+    
+    btn_lateral = ("""
+                QPushButton {
+                    Text-align:center;
+                    border: none;
+                    color:rgb(238, 238, 236);
+                    background-color: transparent;
+                }
+                QPushButton:hover {
+                    background-color: rgb(244, 235, 235, 20);
+                }
+                QPushButton:pressed {
+                    text-decoration: underline;
+                    background-color: rgb(244, 235, 235, 20);
+                }
+                """)
