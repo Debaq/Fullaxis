@@ -1,7 +1,7 @@
 import sys
 import os
 import csv
-from PySide2.QtWidgets import QTableWidget, QApplication, QMainWindow, QTableWidgetItem, QFileDialog
+from PyQt5.QtWidgets import QTableWidget, QApplication, QMainWindow, QTableWidgetItem, QFileDialog
 
 
 class MyTable(QTableWidget):

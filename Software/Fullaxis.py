@@ -36,6 +36,9 @@ if MODE_DEVELOPMENT:
         updateUI.updateUI(0)
     elif parameter == '--update-uic':
         updateUI.updateUI(1)
+        sys.exit()
+    elif parameter == '--update-uic-open':
+        updateUI.updateUI(1)
     elif parameter == '--update-rc':
         updateUI.updateUI(2)
     else:
@@ -63,19 +66,23 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QStyleFactory
 
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QMenu
+from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QMenu, QFileDialog, QTableView
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 
+import pyqtgraph as pg
+import lib.old_exchange as old_csv
+
 ## ==> FUNCIONES
 from lib.ui_functions import UIFunctions as UIFunc
+from lib.ui_functions import TableModel
 
 ## ==> LIBRERIAS DEL GUI
 from lib.uiForm.main_ui import Ui_FullAxis
 from lib.uiForm.home_ui import Ui_HomeWidget
 from lib.uiForm.login_ui import Ui_login
-from lib.uiForm.menu_lateral_ui import Ui_Form
-
+from lib.uiForm.menu_lateral_ui import Ui_Lateral_menu
+from lib.uiForm.transform_ui import Ui_Form
 
 ## ==> ESTILOS
 from lib.styles.widgets import Styles as WStyles
@@ -93,6 +100,60 @@ from lib import API_conector
 #                      CLASES WIDGETS                           #
 #################################################################
 
+class Widgettransform(QWidget):
+    def __init__(self, *args, **kwargs):
+        QWidget.__init__(self, *args, **kwargs)
+        self.UI_TransformPage = Ui_Form()
+        self.UI_TransformPage.setupUi(self)
+        self.pw = pg.PlotWidget(name='Plot1') 
+        self.pw.setMenuEnabled(False)
+        self.pw2 = pg.PlotWidget(name='Plot2')
+        self.pw2.setObjectName("grafico2")
+        self.pw2.setMenuEnabled(False)
+        self.pw3 = pg.PlotWidget(name='Plot3')  
+        self.pw3.setMenuEnabled(False)
+        self.pw4 = pg.PlotWidget(name='Plot4')
+        self.pw4.setMenuEnabled(False)
+        self.UI_TransformPage.v1.addWidget(self.pw)
+        self.UI_TransformPage.v1.addWidget(self.pw2)
+        self.UI_TransformPage.v2.addWidget(self.pw3)
+        self.UI_TransformPage.v2.addWidget(self.pw4)
+        self.UI_TransformPage.btn_open.clicked.connect(self.openfile)
+        self.table = QTableView()
+
+    def openfile(self):
+        path = QFileDialog.getOpenFileName(self, None, 'Open CSV',  'CSV(*.csv)')
+        data_raw = old_csv.dataFrame()
+        data_raw.r_csv(path[0])
+        data2d = data_raw.array2d()
+        
+        self.model = TableModel(data2d)
+        self.table.setModel(self.model)
+        self.UI_TransformPage.Table_layout.addWidget(self.table)
+        
+        
+        
+        
+        data1 = data_raw.onlyColumn("A")
+        data2 = data_raw.onlyColumn("B")
+        data3 = data_raw.onlyColumn("C")
+        data4 = data_raw.onlyColumn("D")
+        self.pw.setTitle("A")
+        self.pw2.setTitle("B")
+        self.pw3.setTitle("C")
+        self.pw4.setTitle("D")
+
+        p1 = self.pw.plot(data1, pen="c")
+        p2 = self.pw2.plot(data2, pen="g")
+        p3 = self.pw3.plot(data3, pen="r")
+        p4 = self.pw4.plot(data4, pen="y")
+
+        
+
+    def table_cvs(self):
+        pass
+        
+
 
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
@@ -100,11 +161,10 @@ class WidgetHomePage(QWidget):
         self.UI_HomePage = Ui_HomeWidget()
         self.UI_HomePage.setupUi(self)
 
-
 class WidgetLateralMenu(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
-        self.UI_LateralMenu = Ui_Form()
+        self.UI_LateralMenu = Ui_Lateral_menu()
         self.UI_LateralMenu.setupUi(self)
         self.UI_LateralMenu.back_frame.setStyleSheet(FStyles.Frame_lateral)
 
@@ -192,6 +252,9 @@ class MainWindow(QMainWindow):
     def homePage(self):
         self.ui.Center_layout.addWidget(self.home_page)
 
+    def transformPage(self):
+        transformPage = Widgettransform()
+        self.ui.Center_layout.addWidget(transformPage)
 
     def lateralMenu(self):
         #=> CARGA WIDGET
@@ -250,6 +313,7 @@ class MainWindow(QMainWindow):
             
         if btnWidget.objectName() == "btn_transform":
             UIFunc.resetLayout(self, self.ui.Center_layout)
+            self.transformPage()
             UIFunc.printer("usted esta en transform")
             UIFunc.resetStyle(self, "btn_transform")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
