@@ -6,7 +6,7 @@ import os
 ## ==> ESTILOS
 from lib.styles.widgets import Styles as WStyles
 from lib.styles.Frames import Styles as FStyles
-from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QPushButton, QMenu, QSizePolicy, QSpacerItem
+from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QPushButton, QMenu, QSizePolicy, QSpacerItem, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, QAbstractTableModel
 
@@ -77,7 +77,7 @@ class UIFunctions():
         button.setSizePolicy(sizePolicy3)
         return button
 
-    def createBtnMenuLat(self, objName, text, ico=None):
+    def createBtnMenuLat(self, objName, text, ico=None, tooltip=None):
         text_replace = text.replace(" ", "\n")
         button = QPushButton(text_replace)
         button.setObjectName(objName)
@@ -86,16 +86,15 @@ class UIFunctions():
         icon = QIcon()
         icon_path = (":/icons_white/icons/png/16x16/cil-"+ico+".png")
         icon.addPixmap(QPixmap(icon_path), QIcon.Normal, QIcon.Off)
+        if tooltip != None:
+            button.setToolTip(tooltip)
         button.setIcon(icon)
         button.setMinimumSize(0,60)
         button.setFlat(True)
         button.clicked.connect(self.Button)
         self.LateralMenu.UI_LateralMenu.layerBack_frame.addWidget(button)
         return button
-    
-    
-    
-    
+               
     def spacer(self, direction = "H"):
         if direction == "V":
             spacerItem = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -120,6 +119,11 @@ class UIFunctions():
         for w in self.LateralMenu.findChildren(QPushButton):
             if w.objectName() != widget:
                 w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
+
+    def openFile(self):
+        path = QFileDialog.getOpenFileName(self, None, 'Open CSV',  'CSV(*.csv)')
+        print(path)
+
 
  
  

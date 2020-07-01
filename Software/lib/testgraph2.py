@@ -1,61 +1,71 @@
-# -*- coding: utf-8 -*-
-
-from PyQt5 import QtGui, QtCore
-import numpy as np
-import pyqtgraph as pg
-import old_exchange as old_csv
-
-#QtGui.QApplication.setGraphicsSystem('raster')
-app = QtGui.QApplication([])
-mw = QtGui.QMainWindow()
-mw.setWindowTitle('pyqtgraph example: PlotWidget')
-mw.resize(800,800)
-
-cw = QtGui.QWidget()
-mw.setCentralWidget(cw)
-
-root = QtGui.QHBoxLayout(cw)
-v1 = QtGui.QVBoxLayout()
-v2 = QtGui.QVBoxLayout()
-root.addLayout(v1)
-root.addLayout(v2)
-#cw.setLayout(root)
-
-pw = pg.PlotWidget(name='Plot1')  ## giving the plots names allows us to link their axes together
-pw.setMenuEnabled(False)
-pw2 = pg.PlotWidget(name='Plot2')
-pw2.setMenuEnabled(False)
-
-pw3 = pg.PlotWidget(name='Plot3')  ## giving the plots names allows us to link their axes together
-pw3.setMenuEnabled(False)
-pw4 = pg.PlotWidget(name='Plot4')
-pw4.setMenuEnabled(False)
-
-v1.addWidget(pw)
-v1.addWidget(pw2)
-v2.addWidget(pw3)
-v2.addWidget(pw4)
-
-mw.show()
-
-## Create an empty plot curve to be filled later, set its pen
-
-data_raw = old_csv.dataFrame()
-data_raw.r_csv("test.csv")
-
-
-data1 = data_raw.onlyColumn("A")
-data2 = data_raw.onlyColumn("B")
-data3 = data_raw.onlyColumn("C")
-data4 = data_raw.onlyColumn("D")
-p1 = pw.plot(data1, pen="r")
-p2 = pw2.plot(data2, pen="g")
-p3 = pw3.plot(data3, pen="r")
-p4 = pw4.plot(data4, pen="g")
-
-
-## Start Qt event loop unless running in interactive mode or using pyside.
-if __name__ == '__main__':
-    import sys
-    if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+	
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu
+import sys
+ 
+ 
+class Window(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.title = "PyQt5 Context Menu"
+        self.top = 200
+        self.left = 500
+        self.width = 400
+        self.height = 300
+        self.InitWindow()
+ 
+ 
+    def InitWindow(self):
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.show()
+ 
+    def contextMenuEvent(self, event):
+        contextMenu = QMenu(self)
+        newAct = contextMenu.addAction("New")
+        openAct = contextMenu.addAction("Open")
+        quitAct = contextMenu.addAction("Quit")
+        action = contextMenu.exec_(self.mapToGlobal(event.pos()))
+        if action == quitAct:
+            self.close()
+ 
+ 
+App = QApplication(sys.argv)
+window = Window()
+sys.exit(App.exec())

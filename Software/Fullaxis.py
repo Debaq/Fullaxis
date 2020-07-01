@@ -66,7 +66,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QStyleFactory
 
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QMenu, QFileDialog, QTableView
+from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QMenu, QTableView
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 
@@ -100,58 +100,6 @@ from lib import API_conector
 #                      CLASES WIDGETS                           #
 #################################################################
 
-class Widgettransform(QWidget):
-    def __init__(self, *args, **kwargs):
-        QWidget.__init__(self, *args, **kwargs)
-        self.UI_TransformPage = Ui_Form()
-        self.UI_TransformPage.setupUi(self)
-        self.pw = pg.PlotWidget(name='Plot1') 
-        self.pw.setMenuEnabled(False)
-        self.pw2 = pg.PlotWidget(name='Plot2')
-        self.pw2.setObjectName("grafico2")
-        self.pw2.setMenuEnabled(False)
-        self.pw3 = pg.PlotWidget(name='Plot3')  
-        self.pw3.setMenuEnabled(False)
-        self.pw4 = pg.PlotWidget(name='Plot4')
-        self.pw4.setMenuEnabled(False)
-        self.UI_TransformPage.v1.addWidget(self.pw)
-        self.UI_TransformPage.v1.addWidget(self.pw2)
-        self.UI_TransformPage.v2.addWidget(self.pw3)
-        self.UI_TransformPage.v2.addWidget(self.pw4)
-        self.UI_TransformPage.btn_open.clicked.connect(self.openfile)
-        self.table = QTableView()
-
-    def openfile(self):
-        path = QFileDialog.getOpenFileName(self, None, 'Open CSV',  'CSV(*.csv)')
-        data_raw = old_csv.dataFrame()
-        data_raw.r_csv(path[0])
-        data2d = data_raw.array2d()
-        
-        self.model = TableModel(data2d)
-        self.table.setModel(self.model)
-        self.UI_TransformPage.Table_layout.addWidget(self.table)
-        
-        
-        
-        
-        data1 = data_raw.onlyColumn("A")
-        data2 = data_raw.onlyColumn("B")
-        data3 = data_raw.onlyColumn("C")
-        data4 = data_raw.onlyColumn("D")
-        self.pw.setTitle("A")
-        self.pw2.setTitle("B")
-        self.pw3.setTitle("C")
-        self.pw4.setTitle("D")
-
-        p1 = self.pw.plot(data1, pen="c")
-        p2 = self.pw2.plot(data2, pen="g")
-        p3 = self.pw3.plot(data3, pen="r")
-        p4 = self.pw4.plot(data4, pen="y")
-
-        
-
-    def table_cvs(self):
-        pass
         
 
 
@@ -248,22 +196,21 @@ class MainWindow(QMainWindow):
         Passw = self.login.UI_LoginPage.input_pass
         self.login.UI_LoginPage.btn_requestlogin.clicked.connect(lambda: self.loginMethod(Name.text(), Passw.text()))
         self.login.show()
-       
-       
+              
     def homePage(self):
         self.ui.Center_layout.addWidget(self.home_page)
 
-    def transformPage(self):
-        transformPage = Widgettransform()
-        self.ui.Center_layout.addWidget(transformPage)
+    #def transformPage(self):
+     #   transformPage = Widgettransform()
+      #  self.ui.Center_layout.addWidget(transformPage)
 
     def lateralMenu(self):
         #=> CARGA WIDGET
         self.LateralMenu = WidgetLateralMenu()
         #=>SE CREAN LOS BOTONES
-        btn_home = UIFunc.createBtnMenuLat(self,"btn_home", "", "home")
-        btn_transform = UIFunc.createBtnMenuLat(self,"btn_transform", "", "wrap-text")
-        btn_preview = UIFunc.createBtnMenuLat(self, "btn_folder", "", "folder")
+        btn_home = UIFunc.createBtnMenuLat(self,"btn_home", "", "home", "Inicio")
+        btn_open = UIFunc.createBtnMenuLat(self,"btn_open", "", "folder", "Abrir")
+        btn_graph = UIFunc.createBtnMenuLat(self, "btn_graph", "", "chart-line", "Medir")
         #=>ESPACIADOR QUE MANTIENE LOS BOTONES ARRIBA
         spacer = UIFunc.spacer(self,"V")
         self.LateralMenu.UI_LateralMenu.layerBack_frame.addItem(spacer)
@@ -312,9 +259,9 @@ class MainWindow(QMainWindow):
             UIFunc.resetStyle(self, "btn_home")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
             
-        if btnWidget.objectName() == "btn_transform":
+        if btnWidget.objectName() == "btn_open":
             UIFunc.resetLayout(self, self.ui.Center_layout)
-            self.transformPage()
+            UIFunc.openFile(self)
             UIFunc.printer("usted esta en transform")
             UIFunc.resetStyle(self, "btn_transform")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
