@@ -32,7 +32,7 @@ class Styles():
     
     btn_lateral = ("""
                 QPushButton {
-                    text-align:left;
+                    text-align:center;
 					padding: 0 6px;
                     border: none;
                     color:rgb(238, 238, 236);
@@ -43,7 +43,7 @@ class Styles():
                     border-left: 28px solid rgb(27, 29, 35);
                     border-right: 5px solid rgb(44, 49, 60);
                     background-color: rgb(244, 235, 235, 20);
-                    text-align: left;
+                    text-align: center;
                 }
                 QPushButton:hover {
                     background-color: rgb(244, 235, 235, 20);

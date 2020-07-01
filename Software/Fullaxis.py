@@ -200,6 +200,7 @@ class MainWindow(QMainWindow):
         self.homePage()
         self.verifyLogin(None)
         self.styleMethod()
+        self.ui.menubar.hide()        
         self.show()        
             
     
@@ -260,9 +261,9 @@ class MainWindow(QMainWindow):
         #=> CARGA WIDGET
         self.LateralMenu = WidgetLateralMenu()
         #=>SE CREAN LOS BOTONES
-        btn_home = UIFunc.createBtnMenuLat(self,"btn_home", "Inicio", "home")
-        btn_transform = UIFunc.createBtnMenuLat(self,"btn_transform", "Transf. Archivos", "wrap-text")
-        btn_preview = UIFunc.createBtnMenuLat(self, "btn_folder", "Archivos", "folder")
+        btn_home = UIFunc.createBtnMenuLat(self,"btn_home", "", "home")
+        btn_transform = UIFunc.createBtnMenuLat(self,"btn_transform", "", "wrap-text")
+        btn_preview = UIFunc.createBtnMenuLat(self, "btn_folder", "", "folder")
         #=>ESPACIADOR QUE MANTIENE LOS BOTONES ARRIBA
         spacer = UIFunc.spacer(self,"V")
         self.LateralMenu.UI_LateralMenu.layerBack_frame.addItem(spacer)
