@@ -2,7 +2,7 @@
 #################################################################
 #                                                               #
 #                  NOMBRE PROYECTO : FULLAXIS                   #
-#                   VER. 20.6.1 - GUI PYQT5                     #
+#                   VER. 20.7.3 - GUI PYQT5                     #
 #                    NOMBRE VER. : AzoGuer                      #
 #               CREADOR : NICOLÁS QUEZADA QUEZADA               #
 #                                                               #
