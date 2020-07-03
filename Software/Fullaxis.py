@@ -34,7 +34,7 @@ if MODE_DEVELOPMENT:
     elif parameter == '--update-uic':
         updateUI.updateUI(1)
         sys.exit()
-    elif parameter == '--update-uic-open':
+    elif parameter == '--update-uic-run':
         updateUI.updateUI(1)
     elif parameter == '--update-rc':
         updateUI.updateUI(2)
@@ -211,16 +211,26 @@ class WidgetGraph(QWidget):
             self.v2Line.setPos(pos)
         if Q == 4:
             pos = self.h1Line.value()
-            self.h2Line.setPos(pos)
-            self.h3Line.setPos(pos)
+            #self.h2Line.setPos(pos)
+            #self.h3Line.setPos(pos)
+            self.UI_vertical.ampPoint_1.setText("""
+            <span style='font-size: 10pt'>— :%0.2f°</span>"""
+            % (pos))
         if Q == 5:
             pos = self.h2Line.value()
-            self.h1Line.setPos(pos)
-            self.h3Line.setPos(pos)
+            #self.h1Line.setPos(pos)
+            #self.h3Line.setPos(pos)
+            self.UI_vertical.ampPoint_2.setText("""
+            <span style='font-size: 10pt'>— :%0.2f°</span>"""
+            % (pos))
         if Q == 6:
             pos = self.h3Line.value()
-            self.h1Line.setPos(pos)
-            self.h2Line.setPos(pos)
+            #self.h1Line.setPos(pos)
+            #self.h2Line.setPos(pos)
+            self.UI_vertical.ampPoint_3.setText("""
+            <span style='font-size: 10pt'>— :%0.2f°</span>"""
+            % (pos))
+
 
 
     def update(self):
@@ -232,10 +242,10 @@ class WidgetGraph(QWidget):
         minX_reg2, maxX_reg2 = self.region2.getRegion()
         minX_reg3, maxX_reg3 = self.region3.getRegion()
 
-        Amp1 = self.closest(self.time, self.data1, maxX_reg1, minX_reg1)
-        Amp2 = self.closest(self.time, self.data2, maxX_reg2, minX_reg2)
-        Amp3 = self.closest(self.time, self.data3, maxX_reg3, minX_reg3)
-
+        ampRange_1 = self.closest(self.time, self.data1, maxX_reg1, minX_reg1)
+        ampRange_2 = self.closest(self.time, self.data2, maxX_reg2, minX_reg2)
+        ampRange_3 = self.closest(self.time, self.data3, maxX_reg3, minX_reg3)
+                
         tdelta_reg1 = maxX_reg1-minX_reg1
         tdelta_reg2 = maxX_reg2-minX_reg2
         tdelta_reg3 = maxX_reg3-minX_reg3
@@ -245,20 +255,18 @@ class WidgetGraph(QWidget):
             <span style='font-size: 10pt'>%0.2f,
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg1, minX_reg1,maxX_reg1))
-            
-            self.UI_vertical.lbl_grados_1.setText("""
-            <span style='font-size: 10pt'>%0.2f°</span>"""
-            % (Amp1))
+            self.UI_vertical.ampRange_1.setText("""
+            <span style='font-size: 10pt'>|-| :  %0.2f°</span>"""
+            % (ampRange_1))
 
         if minX_reg2 > 0 and maxX_reg2 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_2.setText("""
             <span style='font-size: 10pt'>%0.2f,
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg2, minX_reg2,maxX_reg2))
-
-            self.UI_vertical.lbl_grados_2.setText("""
-            <span style='font-size: 10pt'>%0.2f°</span>"""
-            % (Amp2))
+            self.UI_vertical.ampRange_2.setText("""
+            <span style='font-size: 10pt'>|-| :%0.2f°</span>"""
+            % (ampRange_2))
 
 
 
@@ -267,10 +275,9 @@ class WidgetGraph(QWidget):
             <span style='font-size: 10pt'>%0.2f,
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg3, minX_reg3,maxX_reg3))
-    
-            self.UI_vertical.lbl_grados_3.setText("""
-            <span style='font-size: 10pt'>%0.2f°</span>"""
-            % (Amp3))
+            self.UI_vertical.ampRange_3.setText("""
+            <span style='font-size: 10pt'>|-| :%0.2f°</span>"""
+            % (ampRange_3))
 
 
 
