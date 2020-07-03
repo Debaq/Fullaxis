@@ -60,6 +60,7 @@ else:
 
 
 import pyqtgraph as pg
+import numpy as np
 # ==> LIBRERIAS PYQT
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon
@@ -102,29 +103,28 @@ File = None
 class WidgetGraph(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
+        print(File)
+
         self.UI_vertical = Ui_widget()
         self.UI_vertical.setupUi(self)
         data_raw = old_exchange.dataFrame() 
         if File[1] == "JSON(*.json)":
             data_raw.read(File[0], "json")
-            print(data_raw.header())
             self.data1 = data_raw.onlyColumn("roll")
             self.data2 = data_raw.onlyColumn("pitch")
             self.data3 = data_raw.onlyColumn("yaw")
             self.timeMilli = data_raw.onlyColumn("time")
             self.time()
             self.graph()
+
         if File[1] == "CSV(*.csv)":
             data_raw.read(File[0], "csv")
-            print(data_raw.header())
             self.data1 = data_raw.onlyColumn("A")
             self.data2 = data_raw.onlyColumn("B")
             self.data3 = data_raw.onlyColumn("C")
             self.timeMilli = data_raw.onlyColumn("D")
             self.time()
             self.graph()
-
-
 
     def time(self):
         self.time = []
@@ -136,18 +136,17 @@ class WidgetGraph(QWidget):
         self.region1 = pg.LinearRegionItem()
         self.region2 = pg.LinearRegionItem()
         self.region3 = pg.LinearRegionItem()
-        self.region1.setZValue(10)
-        self.region2.setZValue(10)
-        self.region3.setZValue(10)            
+        self.region1.setZValue(9)
+        self.region2.setZValue(9)
+        self.region3.setZValue(9)            
                     
-
         pw1 = pg.PlotWidget(name='Plot1') 
         pw2 = pg.PlotWidget(name='Plot2')
         pw3 = pg.PlotWidget(name='Plot3')  
 
-        pw1.addItem(self.region1, ignoreBounds=True)
-        pw2.addItem(self.region2, ignoreBounds=True)
-        pw3.addItem(self.region3, ignoreBounds=True)
+        pw1.addItem(self.region1, ignoreBounds=False)
+        pw2.addItem(self.region2, ignoreBounds=False)
+        pw3.addItem(self.region3, ignoreBounds=False)
 
         self.UI_vertical.layout_graph_1.addWidget(pw1)
         self.UI_vertical.layout_graph_2.addWidget(pw2)
@@ -164,15 +163,24 @@ class WidgetGraph(QWidget):
         self.v3Line = pg.InfiniteLine(angle=90, movable=True)
         self.h3Line = pg.InfiniteLine(angle=0, movable=True)
 
+        self.v1Line.setZValue(10)
+        self.v2Line.setZValue(10)
+        self.v3Line.setZValue(10)
+        self.h1Line.setZValue(10)
+        self.h2Line.setZValue(10)
+        self.h3Line.setZValue(10)
+
         pw1.addItem(self.v1Line, ignoreBounds=True)
         pw1.addItem(self.h1Line, ignoreBounds=True)
         pw2.addItem(self.v2Line, ignoreBounds=True)
         pw2.addItem(self.h2Line, ignoreBounds=True)
         pw3.addItem(self.v3Line, ignoreBounds=True)
         pw3.addItem(self.h3Line, ignoreBounds=True)
+
         self.region1.sigRegionChanged.connect(self.update)
         self.region2.sigRegionChanged.connect(self.update)
         self.region3.sigRegionChanged.connect(self.update)
+
         self.v1Line.sigDragged.connect(lambda:self.move_drag(1))
         self.v2Line.sigDragged.connect(lambda:self.move_drag(2))
         self.v3Line.sigDragged.connect(lambda:self.move_drag(3))
@@ -182,6 +190,13 @@ class WidgetGraph(QWidget):
 
 
     def move_drag(self, Q):
+        self.v1Line.setZValue(10)
+        self.v2Line.setZValue(10)
+        self.v3Line.setZValue(10)
+        self.h1Line.setZValue(10)
+        self.h2Line.setZValue(10)
+        self.h3Line.setZValue(10)
+
         if Q == 1:
             pos = self.v1Line.value()
             self.v2Line.setPos(pos)
@@ -209,15 +224,21 @@ class WidgetGraph(QWidget):
 
 
     def update(self):
-        self.region1.setZValue(10)
-        self.region2.setZValue(10)
-        self.region3.setZValue(10)
+
+        self.region1.setZValue(9)
+        self.region2.setZValue(9)
+        self.region3.setZValue(9)
         minX_reg1, maxX_reg1 = self.region1.getRegion()
         minX_reg2, maxX_reg2 = self.region2.getRegion()
         minX_reg3, maxX_reg3 = self.region3.getRegion()
+
+        Amp1 = self.closest(self.time, self.data1, maxX_reg1, minX_reg1)
+        Amp2 = self.closest(self.time, self.data2, maxX_reg2, minX_reg2)
+        Amp3 = self.closest(self.time, self.data3, maxX_reg3, minX_reg3)
+
         tdelta_reg1 = maxX_reg1-minX_reg1
         tdelta_reg2 = maxX_reg2-minX_reg2
-        tdelta_reg3 = maxX_reg2-minX_reg3
+        tdelta_reg3 = maxX_reg3-minX_reg3
 
         if minX_reg1 > 0 and maxX_reg1 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_1.setText("""
@@ -225,6 +246,9 @@ class WidgetGraph(QWidget):
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg1, minX_reg1,maxX_reg1))
             
+            self.UI_vertical.lbl_grados_1.setText("""
+            <span style='font-size: 10pt'>%0.2f°</span>"""
+            % (Amp1))
 
         if minX_reg2 > 0 and maxX_reg2 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_2.setText("""
@@ -232,11 +256,39 @@ class WidgetGraph(QWidget):
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg2, minX_reg2,maxX_reg2))
 
+            self.UI_vertical.lbl_grados_2.setText("""
+            <span style='font-size: 10pt'>%0.2f°</span>"""
+            % (Amp2))
+
+
+
         if minX_reg3 > 0 and maxX_reg3 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_3.setText("""
             <span style='font-size: 10pt'>%0.2f,
             <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
             % (tdelta_reg3, minX_reg3,maxX_reg3))
+    
+            self.UI_vertical.lbl_grados_3.setText("""
+            <span style='font-size: 10pt'>%0.2f°</span>"""
+            % (Amp3))
+
+
+
+    def closest(self, lstin, lstout, maxX, minX): 
+
+        array = np.asarray(lstin)
+        index_0 = (np.abs(array - minX)).argmin()
+        index_1 = (np.abs(array - maxX)).argmin()
+
+        #closed_0 = lstin[minX(range(len(lstin)), key = lambda i: abs(lstin[i]-minX))]
+        #closed_1 = lstin[maxX(range(len(lstin)), key = lambda i: abs(lstin[i]-maxX))]
+        #index_0 = self.time.index(closed_0)
+        #index_1 = self.time.index(closed_1)
+        data_0 = lstout[index_0]
+        data_1 = lstout[index_1]
+        Amp = abs(data_1-data_0)
+        return Amp
+
  
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
@@ -335,6 +387,11 @@ class MainWindow(QMainWindow):
     def homePage(self):
         self.ui.Center_layout.addWidget(self.home_page)
 
+    def graphPage(self):
+        UIFunc.resetLayout(self, self.ui.Center_layout)
+        self.ui.Center_layout.addWidget(WidgetGraph())
+
+
     # def transformPage(self):
     #   transformPage = Widgettransform()
       #  self.ui.Center_layout.addWidget(transformPage)
@@ -401,9 +458,10 @@ class MainWindow(QMainWindow):
 
         if btnWidget.objectName() == "btn_open":
             UIFunc.resetLayout(self, self.ui.Center_layout)
+            UIFunc.resetStyle(self, "btn_graph")
             path = UIFunc.openFile(self)
             File = path
-            UIFunc.resetStyle(self, "btn_open")
+            self.graphPage()
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
 
