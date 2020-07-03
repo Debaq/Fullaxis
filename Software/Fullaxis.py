@@ -133,21 +133,21 @@ class WidgetGraph(QWidget):
             self.time.append((x-calibrateTime)/1000)
 
     def graph(self):
-        region1 = pg.LinearRegionItem()
-        region1.setZValue(10)
-        region2 = pg.LinearRegionItem()
-        region2.setZValue(10)
-        region3 = pg.LinearRegionItem()
-        region3.setZValue(10)            
+        self.region1 = pg.LinearRegionItem()
+        self.region2 = pg.LinearRegionItem()
+        self.region3 = pg.LinearRegionItem()
+        self.region1.setZValue(10)
+        self.region2.setZValue(10)
+        self.region3.setZValue(10)            
                     
 
         pw1 = pg.PlotWidget(name='Plot1') 
         pw2 = pg.PlotWidget(name='Plot2')
         pw3 = pg.PlotWidget(name='Plot3')  
 
-        pw1.addItem(region1, ignoreBounds=True)
-        pw2.addItem(region2, ignoreBounds=True)
-        pw3.addItem(region3, ignoreBounds=True)
+        pw1.addItem(self.region1, ignoreBounds=True)
+        pw2.addItem(self.region2, ignoreBounds=True)
+        pw3.addItem(self.region3, ignoreBounds=True)
 
         self.UI_vertical.layout_graph_1.addWidget(pw1)
         self.UI_vertical.layout_graph_2.addWidget(pw2)
@@ -157,8 +157,86 @@ class WidgetGraph(QWidget):
         p2 = pw2.plot(self.time, self.data2, pen="g")
         p3 = pw3.plot(self.time, self.data3, pen="r")
 
+        self.v1Line = pg.InfiniteLine(angle=90, movable=True)
+        self.h1Line = pg.InfiniteLine(angle=0, movable=True)
+        self.v2Line = pg.InfiniteLine(angle=90, movable=True)
+        self.h2Line = pg.InfiniteLine(angle=0, movable=True)
+        self.v3Line = pg.InfiniteLine(angle=90, movable=True)
+        self.h3Line = pg.InfiniteLine(angle=0, movable=True)
+
+        pw1.addItem(self.v1Line, ignoreBounds=True)
+        pw1.addItem(self.h1Line, ignoreBounds=True)
+        pw2.addItem(self.v2Line, ignoreBounds=True)
+        pw2.addItem(self.h2Line, ignoreBounds=True)
+        pw3.addItem(self.v3Line, ignoreBounds=True)
+        pw3.addItem(self.h3Line, ignoreBounds=True)
+        self.region1.sigRegionChanged.connect(self.update)
+        self.region2.sigRegionChanged.connect(self.update)
+        self.region3.sigRegionChanged.connect(self.update)
+        self.v1Line.sigDragged.connect(lambda:self.move_drag(1))
+        self.v2Line.sigDragged.connect(lambda:self.move_drag(2))
+        self.v3Line.sigDragged.connect(lambda:self.move_drag(3))
+        self.h1Line.sigDragged.connect(lambda:self.move_drag(4))
+        self.h2Line.sigDragged.connect(lambda:self.move_drag(5))
+        self.h3Line.sigDragged.connect(lambda:self.move_drag(6))
 
 
+    def move_drag(self, Q):
+        if Q == 1:
+            pos = self.v1Line.value()
+            self.v2Line.setPos(pos)
+            self.v3Line.setPos(pos)
+        if Q == 2:
+            pos = self.v2Line.value()
+            self.v1Line.setPos(pos)
+            self.v3Line.setPos(pos)
+        if Q == 3:
+            pos = self.v3Line.value()
+            self.v1Line.setPos(pos)
+            self.v2Line.setPos(pos)
+        if Q == 4:
+            pos = self.h1Line.value()
+            self.h2Line.setPos(pos)
+            self.h3Line.setPos(pos)
+        if Q == 5:
+            pos = self.h2Line.value()
+            self.h1Line.setPos(pos)
+            self.h3Line.setPos(pos)
+        if Q == 6:
+            pos = self.h3Line.value()
+            self.h1Line.setPos(pos)
+            self.h2Line.setPos(pos)
+
+
+    def update(self):
+        self.region1.setZValue(10)
+        self.region2.setZValue(10)
+        self.region3.setZValue(10)
+        minX_reg1, maxX_reg1 = self.region1.getRegion()
+        minX_reg2, maxX_reg2 = self.region2.getRegion()
+        minX_reg3, maxX_reg3 = self.region3.getRegion()
+        tdelta_reg1 = maxX_reg1-minX_reg1
+        tdelta_reg2 = maxX_reg2-minX_reg2
+        tdelta_reg3 = maxX_reg2-minX_reg3
+
+        if minX_reg1 > 0 and maxX_reg1 < self.time[-1]:
+            self.UI_vertical.lbl_tiempo_1.setText("""
+            <span style='font-size: 10pt'>%0.2f,
+            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
+            % (tdelta_reg1, minX_reg1,maxX_reg1))
+            
+
+        if minX_reg2 > 0 and maxX_reg2 < self.time[-1]:
+            self.UI_vertical.lbl_tiempo_2.setText("""
+            <span style='font-size: 10pt'>%0.2f,
+            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
+            % (tdelta_reg2, minX_reg2,maxX_reg2))
+
+        if minX_reg3 > 0 and maxX_reg3 < self.time[-1]:
+            self.UI_vertical.lbl_tiempo_3.setText("""
+            <span style='font-size: 10pt'>%0.2f,
+            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
+            % (tdelta_reg3, minX_reg3,maxX_reg3))
  
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
@@ -328,12 +406,13 @@ class MainWindow(QMainWindow):
             UIFunc.resetStyle(self, "btn_open")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
+
         if btnWidget.objectName() == "btn_graph":
-            UIFunc.resetLayout(self, self.ui.Center_layout)
-            self.ui.Center_layout.addWidget(WidgetGraph())
-            UIFunc.printer("usted esta en la luna")
-            UIFunc.resetStyle(self, "btn_graph")
-            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+            if File:
+                UIFunc.resetLayout(self, self.ui.Center_layout)
+                self.ui.Center_layout.addWidget(WidgetGraph())
+                UIFunc.resetStyle(self, "btn_graph")
+                btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
     def closeEvent(self, event):
         if os.path.isfile(PATH.LOGINLOCK):

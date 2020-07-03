@@ -101,8 +101,8 @@ region.setRegion([0, time[-1]])
 #cross hair
 v1Line = pg.InfiniteLine(angle=90, movable=True)
 h1Line = pg.InfiniteLine(angle=0, movable=True)
-v2Line = pg.InfiniteLine(angle=90, movable=False)
-h2Line = pg.InfiniteLine(angle=0, movable=False)
+v2Line = pg.InfiniteLine(angle=90, movable=True)
+h2Line = pg.InfiniteLine(angle=0, movable=True)
 v3Line = pg.InfiniteLine(angle=90, movable=True)
 h3Line = pg.InfiniteLine(angle=0, movable=True)
 
