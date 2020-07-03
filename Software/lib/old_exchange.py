@@ -1,29 +1,35 @@
 import pandas as pd
-
+from pandas.io.json import json_normalize  
+import json  
 
 ABC = ['A','B','C','D','E','F','G','H','I','J','K','L']
 
 class dataFrame():
     
-    def r_csv(self, file):
-        self.csv = pd.read_csv(file, header=None)
-        numheaders = len(self.csv.columns)
-        self.newHeader=[]
-        x = 0
-        while x < numheaders:
-            self.newHeader.append(ABC[x])
-            x+=1
+    def read(self, file, mime):
+        if mime == 'csv':
+            self.data = pd.read_csv(file, header=None)
+            numheaders = len(self.data.columns)
+            self.newHeader=[]
+            x = 0
+            while x < numheaders:
+                self.newHeader.append(ABC[x])
+                x+=1
 
-        self.csv.columns = self.newHeader
+            self.data.columns = self.newHeader
 
-        #return self.csv
+        if mime == 'json':
+            self.data = pd.read_json(file, orient='index')
+            self.data = self.data.T
+            
+
 
     def onlyColumn(self, column):
-        column = self.csv[column].tolist()
+        column = self.data[column].tolist()
         return column
     
     def header(self):
-        return self.csv
+        return self.data
     
     def column(self):
         return self.newHeader
@@ -32,7 +38,7 @@ class dataFrame():
         return len(self.newHeader)
     
     def array2d(self):
-        return self.csv.values.tolist()
+        return self.data.values.tolist()
         
         
         

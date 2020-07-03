@@ -1,14 +1,18 @@
-from lib import basic_functions as basic
-from datetime import datetime
 import json
-from lib import PATH_NAME as PATH
 import os
+from datetime import datetime
+
+from PyQt5.QtCore import QAbstractTableModel, Qt, QSize
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import (QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel,
+                             QMenu, QPushButton, QSizePolicy, QSpacerItem,
+                             QVBoxLayout, QWidget)
+
+from lib import PATH_NAME as PATH
+from lib import basic_functions as basic
+from lib.styles.Frames import Styles as FStyles
 ## ==> ESTILOS
 from lib.styles.widgets import Styles as WStyles
-from lib.styles.Frames import Styles as FStyles
-from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QPushButton, QMenu, QSizePolicy, QSpacerItem, QFileDialog
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt, QAbstractTableModel
 
 
 class UIFunctions():
@@ -111,7 +115,6 @@ class UIFunctions():
     
     ## ==> DESELECT
     def deselectMenu(getStyle):
-        print("estoy aca")
         deselect = getStyle.replace(WStyles.btn_lateralActive, "")
         return deselect
     
@@ -121,11 +124,11 @@ class UIFunctions():
                 w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
 
     def openFile(self):
-        path = QFileDialog.getOpenFileName(self, None, 'Open CSV',  'CSV(*.csv)')
-        print(path)
+        path = QFileDialog.getOpenFileName(None, 'Abrir Archivo de Datos', os.getenv("HOME") ,("CSV(*.csv);;JSON(*.json)"))
+        return(path)
 
+    
 
- 
  
 class TableModel(QAbstractTableModel):
     def __init__(self, data):

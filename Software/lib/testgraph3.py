@@ -1,31 +1,52 @@
 import numpy as np
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
 from pyqtgraph.Point import Point
+from pyqtgraph.Qt import QtCore, QtGui
+
 import old_exchange as old_csv
 
-
+print(dir(pg.GraphicsLayoutWidget))
 #generate layout
 app = QtGui.QApplication([])
 win = pg.GraphicsLayoutWidget(show=True)
 win.setWindowTitle('pyqtgraph example: crosshair')
+
 label = pg.LabelItem(justify='right')
+label2 = pg.LabelItem(justify='right')
 win.addItem(label)
+win.addItem(label2)
 
-
+#roi = pg.MultiRectROI([0,5],[5,10])
+#roi.addScaleHandle([0.5, 1], [0.5, 0.5])
+#roi.addScaleHandle([0, 0.5], [0.5, 0.5])
 
 p1 = win.addPlot(row=1, col=0)
 p2 = win.addPlot(row=2, col=0)
 p3 = win.addPlot(row=3, col=0)
+#p1.addItem(roi)
 
 
-region = pg.LinearRegionItem()
-region.setZValue(10)
+region1 = pg.LinearRegionItem()
+region1.setZValue(10)
+region2 = pg.LinearRegionItem()
+region2.setZValue(10)
+
+
+region1 = pg.LinearRegionItem()
+region1.setZValue(10)
+region2 = pg.LinearRegionItem()
+region2.setZValue(10)
+
+region3 = pg.LinearRegionItem()
+region3.setZValue(10)
+
+
 # Add the LinearRegionItem to the ViewBox, but tell the ViewBox to exclude this 
 # item when doing auto-range calculations.
 #p2.addItem(region, ignoreBounds=True)
-
-p3.addItem(region, ignoreBounds=True)
+p1.addItem(region1, ignoreBounds=True)
+p2.addItem(region2, ignoreBounds=True)
+p3.addItem(region3, ignoreBounds=True)
 
 #pg.dbg()
 p1.setAutoVisible(y=True)
@@ -47,19 +68,28 @@ for x in timeMilli:
     time.append((x-calibrateTime)/1000)
 
 
-p1.plot(time, data1, pen="r")
+p1.plot(time, data1, pen="r", )
 p2.plot(time, data2, pen="g")
 p3.plot(time, data3, pen="w")
 
+
 def update():
-    region.setZValue(10)
-    minX, maxX = region.getRegion()
-    print("min: ", minX, " max: ", maxX)
+    region1.setZValue(10)
+    minX, maxX = region1.getRegion()
+    tdelta = maxX-minX
+    
 
-    p1.setXRange(minX, maxX, padding=0)    
+    if minX > 0 and maxX < time[-1]:
+        label2.setText("""
+        <span style='font-size: 12pt'>t=%0.2f,
+        <span style='font-size: 8pt'>(%0.1f,%0.1f)</span>"""
+         % (tdelta, minX,maxX))
 
-region.sigRegionChanged.connect(update)
+    #p1.setXRange(minX, maxX, padding=0)    
 
+region1.sigRegionChanged.connect(update)
+
+""""
 def updateRegion(window, viewRange):
     rgn = viewRange[0]
     region.setRegion(rgn)
@@ -67,7 +97,7 @@ def updateRegion(window, viewRange):
 p1.sigRangeChanged.connect(updateRegion)
 
 region.setRegion([0, time[-1]])
-
+"""
 #cross hair
 v1Line = pg.InfiniteLine(angle=90, movable=True)
 h1Line = pg.InfiniteLine(angle=0, movable=True)
@@ -91,7 +121,7 @@ def mouseMoved(evt):
         mousePoint = vb.mapSceneToView(pos)
         index = int(mousePoint.x())
         if index > 0 and index < len(data1):
-            label.setText("<span style='font-size: 12pt'>x=%0.1f,   <span style='color: red'>y1=%0.1f</span>,   <span style='color: green'>y2=%0.1f</span>" % (mousePoint.x(), data1[index], data2[index]))
+            label.setText("<span style='font-size: 12pt'>x=%0.1f,   <span style='color: red'>y1=%0.1f</span>" % (mousePoint.x(), data1[index]))
         v1Line.setPos(mousePoint.x())
         h1Line.setPos(mousePoint.y())
         #v2Line.setPos(mousePoint.x())
