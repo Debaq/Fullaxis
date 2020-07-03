@@ -108,19 +108,31 @@ class WidgetGraph(QWidget):
         if File[1] == "JSON(*.json)":
             data_raw.read(File[0], "json")
             print(data_raw.header())
+            self.data1 = data_raw.onlyColumn("roll")
+            self.data2 = data_raw.onlyColumn("pitch")
+            self.data3 = data_raw.onlyColumn("yaw")
+            self.timeMilli = data_raw.onlyColumn("time")
+            self.time()
+            self.graph()
         if File[1] == "CSV(*.csv)":
             data_raw.read(File[0], "csv")
             print(data_raw.header())
-            data1 = data_raw.onlyColumn("A")
-            data2 = data_raw.onlyColumn("B")
-            data3 = data_raw.onlyColumn("C")
-            timeMilli = data_raw.onlyColumn("D")
+            self.data1 = data_raw.onlyColumn("A")
+            self.data2 = data_raw.onlyColumn("B")
+            self.data3 = data_raw.onlyColumn("C")
+            self.timeMilli = data_raw.onlyColumn("D")
+            self.time()
+            self.graph()
 
-        time = []
-        calibrateTime = timeMilli[0]
-        for x in timeMilli:
-            time.append((x-calibrateTime)/1000)
 
+
+    def time(self):
+        self.time = []
+        calibrateTime = self.timeMilli[0]
+        for x in self.timeMilli:
+            self.time.append((x-calibrateTime)/1000)
+
+    def graph(self):
         region1 = pg.LinearRegionItem()
         region1.setZValue(10)
         region2 = pg.LinearRegionItem()
@@ -132,15 +144,18 @@ class WidgetGraph(QWidget):
         pw1 = pg.PlotWidget(name='Plot1') 
         pw2 = pg.PlotWidget(name='Plot2')
         pw3 = pg.PlotWidget(name='Plot3')  
+
         pw1.addItem(region1, ignoreBounds=True)
         pw2.addItem(region2, ignoreBounds=True)
         pw3.addItem(region3, ignoreBounds=True)
+
         self.UI_vertical.layout_graph_1.addWidget(pw1)
         self.UI_vertical.layout_graph_2.addWidget(pw2)
         self.UI_vertical.layout_graph_3.addWidget(pw3)
-        p1 = pw1.plot(time, data1, pen="c")
-        p2 = pw2.plot(time, data2, pen="g")
-        p3 = pw3.plot(time, data3, pen="r")
+
+        p1 = pw1.plot(self.time, self.data1, pen="c")
+        p2 = pw2.plot(self.time, self.data2, pen="g")
+        p3 = pw3.plot(self.time, self.data3, pen="r")
 
 
 
