@@ -326,7 +326,6 @@ class WidgetGraph(QWidget):
         self.UI_vertical.tableWidget.insertRow(rowPosition)
         for x in range(len(data)):
             self.UI_vertical.tableWidget.setItem(rowPosition , x, QTableWidgetItem(data[x]))
-        
 
     def copyLine(self):
 
@@ -356,15 +355,14 @@ class WidgetGraph(QWidget):
             self.UI_vertical.tableWidget.setSelectionBehavior(QTableView.SelectRows)
             self.UI_vertical.tableWidget.setSelectionMode(QTableView.SingleSelection)
             string= ""
-            for x in range(rowPosition+1):
-                if x != 0:
-                    self.UI_vertical.tableWidget.selectRow(x)
-                    selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
-                    out = []
-                    for x in range(len(selectedIndexes)):
-                        data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
-                        out.append(data)
-                    string = string + str(out) + '\n'
+            for x in range(rowPosition):
+                self.UI_vertical.tableWidget.selectRow(x)
+                selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
+                out = []
+                for x in range(len(selectedIndexes)):
+                    data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
+                    out.append(data)
+                string = string + str(out) + '\n'
 
             stringData = string.replace('[','')
             stringData = stringData.replace(']','')
@@ -372,8 +370,6 @@ class WidgetGraph(QWidget):
             stringData = stringData.replace('\n,','\n')
 
             self.clip.setText(stringData)
-
-
 
 
 class WidgetHomePage(QWidget):
