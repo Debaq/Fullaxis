@@ -64,7 +64,7 @@ import pyqtgraph as pg
 import numpy as np
 # ==> LIBRERIAS PYQT
 from PyQt5 import QtCore
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QTableWidgetItem
 from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
                              QStyleFactory, QTableView, QVBoxLayout, QWidget, 
                              QVBoxLayout, QHBoxLayout)
@@ -100,32 +100,34 @@ from lib.uiForm.graph_ui import Ui_widget
 #################################################################
 
 File = None
-
 class WidgetGraph(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
         self.UI_vertical = Ui_widget()
         self.UI_vertical.setupUi(self)
-        data_raw = old_exchange.dataFrame() 
-        if File[1] == "JSON(*.json)":
-            data_raw.read(File[0], "json")
-            self.data1 = data_raw.onlyColumn("roll")
-            self.data2 = data_raw.onlyColumn("pitch")
-            self.data3 = data_raw.onlyColumn("yaw")
-            self.timeMilli = data_raw.onlyColumn("time")
-            self.time()
-            self.graph()
+        self.UI_vertical.btn_insert.clicked.connect(self.addRowTable)
+        self.UI_vertical.btn_copyThis.clicked.connect(self.copyLine)
+        self.clip = QApplication.clipboard()
 
-        if File[1] == "CSV(*.csv)":
-            data_raw.read(File[0], "csv")
-            self.data1 = data_raw.onlyColumn("A")
+        if File:
+            data_raw = old_exchange.dataFrame() 
+            if File[1] == "JSON(*.json)":
+                data_raw.read(File[0], "json")
+                self.data1 = data_raw.onlyColumn("roll")
+                self.data2 = data_raw.onlyColumn("pitch")
+                self.data3 = data_raw.onlyColumn("yaw")
+                self.timeMilli = data_raw.onlyColumn("time")
+
+            if File[1] == "CSV(*.csv)":
+                data_raw.read(File[0], "csv")
+                self.data1 = data_raw.onlyColumn("A")
+                self.data2 = data_raw.onlyColumn("B")
+                self.data3 = data_raw.onlyColumn("C")
+                self.timeMilli = data_raw.onlyColumn("D")
+
             self.data1=self.normalize(self.data1)
-            self.data2 = data_raw.onlyColumn("B")
             self.data2=self.normalize(self.data2)
-            self.data3 = data_raw.onlyColumn("C")
             self.data3=self.normalize(self.data3)
-            
-            self.timeMilli = data_raw.onlyColumn("D")
             self.time()
             self.graph()
 
@@ -151,10 +153,6 @@ class WidgetGraph(QWidget):
         sec = min(data)/div
         posVertical = sec*(div-1)
         return posVertical
-
-
-
-
 
     def graph(self):
         self.region1 = pg.LinearRegionItem()
@@ -245,25 +243,17 @@ class WidgetGraph(QWidget):
             pos = self.h1Line.value()
             #self.h2Line.setPos(pos)
             #self.h3Line.setPos(pos)
-            self.UI_vertical.ampPoint_1.setText("""
-            <span style='font-size: 10pt'>— :%0.2f°</span>"""
-            % (pos))
+            self.UI_vertical.ampPoint_1.setText("%0.2f" % (pos))
         if Q == 5:
             pos = self.h2Line.value()
             #self.h1Line.setPos(pos)
             #self.h3Line.setPos(pos)
-            self.UI_vertical.ampPoint_2.setText("""
-            <span style='font-size: 10pt'>— :%0.2f°</span>"""
-            % (pos))
+            self.UI_vertical.ampPoint_2.setText("%0.2f" % (pos))
         if Q == 6:
             pos = self.h3Line.value()
             #self.h1Line.setPos(pos)
             #self.h2Line.setPos(pos)
-            self.UI_vertical.ampPoint_3.setText("""
-            <span style='font-size: 10pt'>— :%0.2f°</span>"""
-            % (pos))
-
-
+            self.UI_vertical.ampPoint_3.setText("%0.2f" % (pos))
 
     def update(self):
 
@@ -283,52 +273,70 @@ class WidgetGraph(QWidget):
         tdelta_reg3 = maxX_reg3-minX_reg3
 
         if minX_reg1 > 0 and maxX_reg1 < self.time[-1]:
-            self.UI_vertical.lbl_tiempo_1.setText("""
-            <span style='font-size: 10pt'>%0.2f,
-            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
-            % (tdelta_reg1, minX_reg1,maxX_reg1))
-            self.UI_vertical.ampRange_1.setText("""
-            <span style='font-size: 10pt'>|-| :  %0.2f°</span>"""
-            % (ampRange_1))
+            self.UI_vertical.lbl_tiempo_1.setText("%0.2f"% (tdelta_reg1))
+            self.UI_vertical.lbl_minRoll.setText("%0.2f"% (minX_reg1))
+            self.UI_vertical.lbl_maxRoll.setText("%0.2f"% (maxX_reg1))
+            self.UI_vertical.ampRange_1.setText("%0.2f"% (ampRange_1))
 
         if minX_reg2 > 0 and maxX_reg2 < self.time[-1]:
-            self.UI_vertical.lbl_tiempo_2.setText("""
-            <span style='font-size: 10pt'>%0.2f,
-            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
-            % (tdelta_reg2, minX_reg2,maxX_reg2))
-            self.UI_vertical.ampRange_2.setText("""
-            <span style='font-size: 10pt'>|-| :%0.2f°</span>"""
-            % (ampRange_2))
+            self.UI_vertical.lbl_tiempo_2.setText("%0.2f"% (tdelta_reg1))
+            self.UI_vertical.lbl_minPitch.setText("%0.2f"% (minX_reg2))
+            self.UI_vertical.lbl_maxPitch.setText("%0.2f"% (maxX_reg2))
+            self.UI_vertical.ampRange_2.setText("%0.2f"% (ampRange_2))
 
 
 
         if minX_reg3 > 0 and maxX_reg3 < self.time[-1]:
-            self.UI_vertical.lbl_tiempo_3.setText("""
-            <span style='font-size: 10pt'>%0.2f,
-            <span style='font-size:7pt'>(%0.1f,%0.1f)</span>"""
-            % (tdelta_reg3, minX_reg3,maxX_reg3))
-            self.UI_vertical.ampRange_3.setText("""
-            <span style='font-size: 10pt'>|-| :%0.2f°</span>"""
-            % (ampRange_3))
-
+            self.UI_vertical.lbl_tiempo_3.setText("%0.2f"% (tdelta_reg3))
+            self.UI_vertical.lbl_minYaw.setText("%0.2f"% (minX_reg3))
+            self.UI_vertical.lbl_maxYaw.setText("%0.2f"% (maxX_reg3))
+            self.UI_vertical.ampRange_3.setText("%0.2f"% (ampRange_3))
 
 
     def closest(self, lstin, lstout, maxX, minX): 
-
         array = np.asarray(lstin)
         index_0 = (np.abs(array - minX)).argmin()
         index_1 = (np.abs(array - maxX)).argmin()
-
-        #closed_0 = lstin[minX(range(len(lstin)), key = lambda i: abs(lstin[i]-minX))]
-        #closed_1 = lstin[maxX(range(len(lstin)), key = lambda i: abs(lstin[i]-maxX))]
-        #index_0 = self.time.index(closed_0)
-        #index_1 = self.time.index(closed_1)
         data_0 = lstout[index_0]
         data_1 = lstout[index_1]
         Amp = abs(data_1-data_0)
         return Amp
 
- 
+    def addRowTable(self):
+        data = [self.UI_vertical.ampPoint_1.text(),
+                self.UI_vertical.ampRange_1.text(),
+                self.UI_vertical.lbl_tiempo_1.text(),
+                self.UI_vertical.lbl_minRoll.text(),
+                self.UI_vertical.lbl_maxRoll.text(),
+                self.UI_vertical.ampPoint_2.text(),
+                self.UI_vertical.ampRange_2.text(),
+                self.UI_vertical.lbl_tiempo_2.text(),
+                self.UI_vertical.lbl_minPitch.text(),
+                self.UI_vertical.lbl_maxPitch.text(),
+                self.UI_vertical.ampPoint_3.text(),
+                self.UI_vertical.ampRange_3.text(),
+                self.UI_vertical.lbl_tiempo_3.text(),
+                self.UI_vertical.lbl_minYaw.text(),
+                self.UI_vertical.lbl_maxYaw.text()]
+
+        rowPosition = self.UI_vertical.tableWidget.rowCount()
+        self.UI_vertical.tableWidget.insertRow(rowPosition)
+        for x in range(len(data)):
+            self.UI_vertical.tableWidget.setItem(rowPosition , x, QTableWidgetItem(data[x]))
+        
+
+
+    def copyLine(self):
+            #selected = self.UI_vertical.tableWidget.selectedRanges()
+            selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
+            out = []
+            for x in range(len(selectedIndexes)):
+                data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
+                out.append(data)
+            stringData = str(out).replace('[','')
+            stringData = stringData.replace(']','')
+            stringData = stringData.replace('\'','')
+            self.clip.setText(stringData)
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
@@ -406,7 +414,12 @@ class MainWindow(QMainWindow):
             #self.ui.Login_Layout.addWidget(btn_logout)
             self.lateralMenu()
 
-
+    def openMethod(self):
+        global File
+        path = UIFunc.openFile(self)
+        File = path
+        self.graphPage()
+        
     def logout(self):
         UIFunc.logout(self)
         UIFunc.resetLayout(self, self.ui.Login_Layout)
@@ -428,12 +441,17 @@ class MainWindow(QMainWindow):
 
     def graphPage(self):
         UIFunc.resetLayout(self, self.ui.Center_layout)
-        self.ui.Center_layout.addWidget(WidgetGraph())
+        self.graph_page = WidgetGraph()
+        self.graph_page.UI_vertical.btn_open.clicked.connect(self.openMethod)
+        #rowPosition = self.table.rowCount()
+        try:
+            self.graph_page.UI_vertical.label_File.setText(File[0])
+        except:
+            self.graph_page.UI_vertical.label_File.setText("...")
+
+        self.ui.Center_layout.addWidget(self.graph_page)
 
 
-    # def transformPage(self):
-    #   transformPage = Widgettransform()
-      #  self.ui.Center_layout.addWidget(transformPage)
 
     def lateralMenu(self):
         # => CARGA WIDGET
@@ -441,8 +459,6 @@ class MainWindow(QMainWindow):
         # =>SE CREAN LOS BOTONES
         btn_home = UIFunc.createBtnMenuLat(
             self, "btn_home", "", "home", "Inicio")
-        btn_open = UIFunc.createBtnMenuLat(
-            self, "btn_open", "", "folder", "Abrir")
         btn_graph = UIFunc.createBtnMenuLat(
             self, "btn_graph", "", "chart-line", "Medir")
         # =>ESPACIADOR QUE MANTIENE LOS BOTONES ARRIBA
@@ -485,8 +501,6 @@ class MainWindow(QMainWindow):
                 UIFunc.Error(self, 'E:063')
 
     def Button(self):
-        global File
-
         btnWidget = self.sender()
 
         if btnWidget.objectName() == "btn_home":
@@ -495,21 +509,10 @@ class MainWindow(QMainWindow):
             UIFunc.resetStyle(self, "btn_home")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
-        if btnWidget.objectName() == "btn_open":
-            UIFunc.resetLayout(self, self.ui.Center_layout)
-            UIFunc.resetStyle(self, "btn_graph")
-            path = UIFunc.openFile(self)
-            File = path
-            self.graphPage()
-            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
-
-
         if btnWidget.objectName() == "btn_graph":
-            if File:
-                UIFunc.resetLayout(self, self.ui.Center_layout)
-                self.ui.Center_layout.addWidget(WidgetGraph())
-                UIFunc.resetStyle(self, "btn_graph")
-                btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+            self.graphPage()
+            UIFunc.resetStyle(self, "btn_graph")
+            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
     def closeEvent(self, event):
         if os.path.isfile(PATH.LOGINLOCK):

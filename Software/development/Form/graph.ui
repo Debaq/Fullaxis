@@ -6,32 +6,144 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>728</width>
-    <height>577</height>
+    <width>776</width>
+    <height>855</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">                QPushButton {
+                    Text-align:center;
+                    border: none;
+                    color:rgb(238, 238, 236);
+                    background-color: rgb(55, 144, 152);
+                }
+                QPushButton:hover {
+                    background-color: rgb(0, 98, 106);
+                }
+                QPushButton:pressed {
+                    text-decoration: underline;
+                }
+QLabel{
+color: rgb(238, 238, 236);
+}
+QFrame{
+color: rgb(238, 238, 236);
+}</string>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="topMargin">
       <number>0</number>
      </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
      <item>
-      <layout class="QHBoxLayout" name="contenedor">
-       <property name="leftMargin">
-        <number>0</number>
+      <widget class="QFrame" name="openFrame">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>30</height>
+        </size>
        </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>4</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="btn_open">
+          <property name="minimumSize">
+           <size>
+            <width>84</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>84</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string>Abrir</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_File">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="frame_1">
        <item>
-        <layout class="QVBoxLayout" name="layout_graph_1"/>
+        <widget class="QFrame" name="frame_graph_1">
+         <layout class="QVBoxLayout" name="layout_graph_1"/>
+        </widget>
        </item>
        <item>
         <widget class="QFrame" name="frameinfo_1">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>100</width>
            <height>100</height>
           </size>
          </property>
@@ -43,12 +155,12 @@
          </property>
          <layout class="QVBoxLayout" name="layoutInfo_1">
           <property name="leftMargin">
-           <number>1</number>
+           <number>4</number>
           </property>
           <item>
            <widget class="QLabel" name="amp_g1">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Amplitud (°):</string>
@@ -56,29 +168,63 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="ampPoint_1">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>— : 0°</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>— : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampPoint_1">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLabel" name="ampRange_1">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>|-| : 0°</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampRange_1">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="tiempo_1">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Tiempo (s):</string>
@@ -87,13 +233,110 @@
           </item>
           <item>
            <widget class="QLabel" name="lbl_tiempo_1">
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>--</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>(</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_minRoll">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>,</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_maxRoll">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -101,15 +344,23 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="frame_2">
        <item>
-        <layout class="QVBoxLayout" name="layout_graph_2"/>
+        <widget class="QFrame" name="frame_graph_2">
+         <layout class="QVBoxLayout" name="layout_graph_2"/>
+        </widget>
        </item>
        <item>
         <widget class="QFrame" name="verticalFrame_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>100</width>
            <height>100</height>
           </size>
          </property>
@@ -123,7 +374,7 @@
           <item>
            <widget class="QLabel" name="amp_g2">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Amplitud (°):</string>
@@ -131,29 +382,69 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="ampPoint_2">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string>— : 0°</string>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>— : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampPoint_2">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLabel" name="ampRange_2">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="leftMargin">
+             <number>0</number>
             </property>
-            <property name="text">
-             <string>|-| : 0°</string>
-            </property>
-           </widget>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampRange_2">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="tiempo_2">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Tiempo (s):</string>
@@ -163,12 +454,101 @@
           <item>
            <widget class="QLabel" name="lbl_tiempo_2">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>--</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>(</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_minPitch">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_15">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>,</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_maxPitch">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -176,15 +556,23 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="frame_3">
        <item>
-        <layout class="QVBoxLayout" name="layout_graph_3"/>
+        <widget class="QFrame" name="frame_graph_3">
+         <layout class="QVBoxLayout" name="layout_graph_3"/>
+        </widget>
        </item>
        <item>
         <widget class="QFrame" name="verticalFrame_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>100</width>
            <height>100</height>
           </size>
          </property>
@@ -198,7 +586,7 @@
           <item>
            <widget class="QLabel" name="amp_g3">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Amplitud (°):</string>
@@ -206,29 +594,63 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="ampPoint_3">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>— : 0°</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_5">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>— : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampPoint_3">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLabel" name="ampRange_3">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>|-| : 0°</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="ampRange_3">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>--</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QLabel" name="tiempo_3">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>Tiempo (s):</string>
@@ -238,17 +660,358 @@
           <item>
            <widget class="QLabel" name="lbl_tiempo_3">
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>--</string>
             </property>
            </widget>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>|-| : </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_19">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>(</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_minYaw">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>,</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_maxYaw">
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_17">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>6</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QFrame" name="copyFrame">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>6</pointsize>
+        </font>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="verticalFrame">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="btn_insert">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Agregar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_copyThis">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Copiar Actual</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_copyAll">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Copiar todo</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_clear">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string>Limpiar</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="verticalFrame_2">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QTableWidget" name="tableWidget">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>false</bool>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>20</number>
+             </attribute>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>100</number>
+             </attribute>
+             <attribute name="verticalHeaderMinimumSectionSize">
+              <number>10</number>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>12</number>
+             </attribute>
+             <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderStretchLastSection">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>Aroll (punto)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Aroll (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tRoll-delta (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tRoll (segm A)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tRoll (segm B)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>APitch (punto)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>APitchl (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tPitch-delta (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tPitch (segm A)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tPitch (segm B)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>AYaw (punto)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>AYaw (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tYaw-delta (segm)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tYaw (segm A)</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>tYaw (segm B)</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </item>
