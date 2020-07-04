@@ -108,6 +108,7 @@ class WidgetGraph(QWidget):
         self.UI_vertical.btn_insert.clicked.connect(self.addRowTable)
         self.UI_vertical.btn_copyThis.clicked.connect(self.copyLine)
         self.UI_vertical.btn_clear.clicked.connect(self.clearTable)
+        self.UI_vertical.btn_copyAll.clicked.connect(self.copyAll)
 
         self.clip = QApplication.clipboard()
 
@@ -327,7 +328,6 @@ class WidgetGraph(QWidget):
             self.UI_vertical.tableWidget.setItem(rowPosition , x, QTableWidgetItem(data[x]))
         
 
-
     def copyLine(self):
 
             selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
@@ -353,17 +353,28 @@ class WidgetGraph(QWidget):
 
     def copyAll(self):
             rowPosition = self.UI_vertical.tableWidget.rowCount()
+            self.UI_vertical.tableWidget.setSelectionBehavior(QTableView.SelectRows)
+            self.UI_vertical.tableWidget.setSelectionMode(QTableView.SingleSelection)
+            string= ""
+            for x in range(rowPosition+1):
+                if x != 0:
+                    self.UI_vertical.tableWidget.selectRow(x)
+                    selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
+                    out = []
+                    for x in range(len(selectedIndexes)):
+                        data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
+                        out.append(data)
+                    string = string + str(out) + '\n'
 
-            #selected = self.UI_vertical.tableWidget.selectedRanges()
-            selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
-            out = []
-            for x in range(len(selectedIndexes)):
-                data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
-                out.append(data)
-            stringData = str(out).replace('[','')
+            stringData = string.replace('[','')
             stringData = stringData.replace(']','')
             stringData = stringData.replace('\'','')
+            stringData = stringData.replace('\n,','\n')
+
             self.clip.setText(stringData)
+
+
+
 
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
