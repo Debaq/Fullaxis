@@ -107,6 +107,8 @@ class WidgetGraph(QWidget):
         self.UI_vertical.setupUi(self)
         self.UI_vertical.btn_insert.clicked.connect(self.addRowTable)
         self.UI_vertical.btn_copyThis.clicked.connect(self.copyLine)
+        self.UI_vertical.btn_clear.clicked.connect(self.clearTable)
+
         self.clip = QApplication.clipboard()
 
         if File:
@@ -327,6 +329,31 @@ class WidgetGraph(QWidget):
 
 
     def copyLine(self):
+
+            selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
+            out = []
+            
+            for x in range(len(selectedIndexes)):
+                data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
+                out.append(data)
+            
+            stringData = str(out).replace('[','')
+            stringData = stringData.replace(']','')
+            stringData = stringData.replace('\'','')
+            
+            self.clip.setText(stringData)
+
+    def clearTable(self):
+        rowTotal = self.UI_vertical.tableWidget.rowCount()
+        for x in range(rowTotal):
+            self.UI_vertical.tableWidget.removeRow(x)
+        rowTotal = self.UI_vertical.tableWidget.rowCount()
+        if rowTotal > 0:
+            self.clearTable()
+
+    def copyAll(self):
+            rowPosition = self.UI_vertical.tableWidget.rowCount()
+
             #selected = self.UI_vertical.tableWidget.selectedRanges()
             selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
             out = []
@@ -337,6 +364,7 @@ class WidgetGraph(QWidget):
             stringData = stringData.replace(']','')
             stringData = stringData.replace('\'','')
             self.clip.setText(stringData)
+
 class WidgetHomePage(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
