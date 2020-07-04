@@ -393,7 +393,7 @@ class MainWindow(QMainWindow):
             user.addAction("Salir", self.logout)
             btn_logout = UIFunc.ButtonText(self, Name)
             btn_logout.setMenu(user)
-            self.ui.Login_Layout.addWidget(btn_logout)
+            #self.ui.Login_Layout.addWidget(btn_logout)
             self.lateralMenu()
             self.homePage()
 
@@ -403,7 +403,7 @@ class MainWindow(QMainWindow):
             user.addAction("Cuenta Online", self.btnloginMethod)
             btn_logout = UIFunc.ButtonFlat(self, "Ingresar a la cuenta")
             btn_logout.setMenu(user)
-            self.ui.Login_Layout.addWidget(btn_logout)
+            #self.ui.Login_Layout.addWidget(btn_logout)
             self.lateralMenu()
 
 
