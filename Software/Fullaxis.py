@@ -48,9 +48,10 @@ if MODE_DEVELOPMENT:
                python Fullaxis.py <opción>
         
         Opciones:
-        --update-all   :   actualiza los archivos .ui y .rc
-        --update-uic   :   actualiza los archivos .ui en devolpment/Form
-        --update-rc    :   actualiza los archivos .rc en devolpment/resource
+        --update-all        :   actualiza los archivos .ui y .rc
+        --update-uic        :   actualiza los archivos .ui en devolpment/Form
+        --update-rc         :   actualiza los archivos .rc en devolpment/resource
+        --update-uic-run    :   actualiza los archivos .ui en devolpment/Form y corre el programa
         """)
 
         sys.exit()
@@ -103,8 +104,6 @@ File = None
 class WidgetGraph(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
-        print(File)
-
         self.UI_vertical = Ui_widget()
         self.UI_vertical.setupUi(self)
         data_raw = old_exchange.dataFrame() 
@@ -120,17 +119,42 @@ class WidgetGraph(QWidget):
         if File[1] == "CSV(*.csv)":
             data_raw.read(File[0], "csv")
             self.data1 = data_raw.onlyColumn("A")
+            self.data1=self.normalize(self.data1)
             self.data2 = data_raw.onlyColumn("B")
+            self.data2=self.normalize(self.data2)
             self.data3 = data_raw.onlyColumn("C")
+            self.data3=self.normalize(self.data3)
+            
             self.timeMilli = data_raw.onlyColumn("D")
             self.time()
             self.graph()
+
+    def normalize(self, data):
+        prom = np.mean([max(data),min(data)])
+        out = []
+        for x in data:
+            inY = x
+            if prom < 0:
+                inY = inY+prom
+            else:
+                inY = inY-prom
+            out.append(inY)
+        return out
 
     def time(self):
         self.time = []
         calibrateTime = self.timeMilli[0]
         for x in self.timeMilli:
             self.time.append((x-calibrateTime)/1000)
+    
+    def verticalPos(self, data, div):
+        sec = min(data)/div
+        posVertical = sec*(div-1)
+        return posVertical
+
+
+
+
 
     def graph(self):
         self.region1 = pg.LinearRegionItem()
@@ -139,6 +163,9 @@ class WidgetGraph(QWidget):
         self.region1.setZValue(9)
         self.region2.setZValue(9)
         self.region3.setZValue(9)            
+        self. region1.setRegion([(max(self.time)-1),max(self.time)])
+        self. region2.setRegion([(max(self.time)-1),max(self.time)])
+        self. region3.setRegion([(max(self.time)-1),max(self.time)])
                     
         pw1 = pg.PlotWidget(name='Plot1') 
         pw2 = pg.PlotWidget(name='Plot2')
@@ -156,12 +183,17 @@ class WidgetGraph(QWidget):
         p2 = pw2.plot(self.time, self.data2, pen="g")
         p3 = pw3.plot(self.time, self.data3, pen="r")
 
+
+        div = 4
+        posh1Line = self.verticalPos(self.data1, div)
+        posh2Line = self.verticalPos(self.data2, div)
+        posh3Line = self.verticalPos(self.data3, div)
         self.v1Line = pg.InfiniteLine(angle=90, movable=True)
-        self.h1Line = pg.InfiniteLine(angle=0, movable=True)
+        self.h1Line = pg.InfiniteLine(pos=posh1Line, angle=0, movable=True)
         self.v2Line = pg.InfiniteLine(angle=90, movable=True)
-        self.h2Line = pg.InfiniteLine(angle=0, movable=True)
+        self.h2Line = pg.InfiniteLine(pos=posh2Line,angle=0, movable=True)
         self.v3Line = pg.InfiniteLine(angle=90, movable=True)
-        self.h3Line = pg.InfiniteLine(angle=0, movable=True)
+        self.h3Line = pg.InfiniteLine(pos=posh3Line, angle=0, movable=True)
 
         self.v1Line.setZValue(10)
         self.v2Line.setZValue(10)
