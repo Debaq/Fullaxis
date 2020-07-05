@@ -147,6 +147,7 @@ class MainWindow(QWidget):
             if os.path.isfile(os.path.join(FOLDER, files)) and files.endswith('.json'):
                 FILE.append(files)
 
+        FILE = sorted(FILE)
         self.listMethod()          
 
     def readData(self, files):
