@@ -14,7 +14,7 @@ import sys
 from os import path, remove
 import platform
 sistema = platform.system()
-print("Estamos en {}".format(sistema))
+#print("Estamos en {}".format(sistema))
 
 
 # ==> SE ACTUALIZAN UI Y RC SI SE ENCUENTRA EN MODO DESARROLLO
@@ -127,30 +127,82 @@ class MainWindow(QWidget):
         except:
             pass
         FILE = []
-        FOLDER = []
+        FOLDER = ""
         path = QFileDialog.getExistingDirectory(self, 'Select directory')
         FOLDER = path
         self.readFolder()
 
     def openMethodFile(self, nameFile):
-        print(FOLDER)
         File = FOLDER+"/"+nameFile
-        Filew = FOLDER+"\\"+nameFile
-        print(File)
-        print(Filew)
+        self.readData(File)
 
-
-    
+            
     def readFolder(self):
         global FILE
         folderOS = os.listdir(FOLDER)
         for files in folderOS:
             if os.path.isfile(os.path.join(FOLDER, files)) and files.endswith('.csv'):
+                #print(files)
                 FILE.append(files)
             if os.path.isfile(os.path.join(FOLDER, files)) and files.endswith('.json'):
                 FILE.append(files)
-            
+
         self.listMethod()          
+
+    def readData(self, files):
+        data_raw = old_exchange.dataFrame() 
+        if files.endswith('.csv'):
+            data_raw.read(files, "csv")
+            self.data1 = data_raw.onlyColumn("A")
+            self.data2 = data_raw.onlyColumn("B")
+            self.data3 = data_raw.onlyColumn("C")
+            self.timeMilli = data_raw.onlyColumn("D")
+
+        if files.endswith('.json'):
+            data_raw.read(files, "json")
+            self.data1 = data_raw.onlyColumn("roll")
+            self.data2 = data_raw.onlyColumn("pitch")
+            self.data3 = data_raw.onlyColumn("yaw")
+            self.timeMilli = data_raw.onlyColumn("time")
+
+        self.data1=self.normalize(self.data1)
+        self.data2=self.normalize(self.data2)
+        self.data3=self.normalize(self.data3)
+        self.timeMethod()
+        self.graph()
+
+    def timeMethod(self):
+        self.time = []
+        calibrateTime = self.timeMilli[0]
+        for x in self.timeMilli:
+            self.time.append((x-calibrateTime)/1000)
+
+    def normalize(self, data):
+        prom = np.mean([max(data),min(data)])
+        out = []
+        for x in data:
+            inY = x
+            if prom < 0:
+                inY = inY+prom
+            else:
+                inY = inY-prom
+            out.append(inY)
+        return out
+
+    def graph(self):
+        UIFunc.resetLayout(self, self.ui.Layout_graph)
+                  
+        pw1 = pg.PlotWidget(name='Plot1') 
+        pw2 = pg.PlotWidget(name='Plot2')
+        pw3 = pg.PlotWidget(name='Plot3')  
+
+        self.ui.Layout_graph.addWidget(pw1)
+        self.ui.Layout_graph.addWidget(pw2)
+        self.ui.Layout_graph.addWidget(pw3)
+
+        p1 = pw1.plot(self.time, self.data1, pen="c")
+        p2 = pw2.plot(self.time, self.data2, pen="g")
+        p3 = pw3.plot(self.time, self.data3, pen="r")
 
 
 if __name__ == "__main__":
