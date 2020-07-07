@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>855</height>
+    <width>779</width>
+    <height>655</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,6 +101,10 @@ color: rgb(238, 238, 236);
           </property>
           <property name="text">
            <string>Abrir</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource/resource.qrc">
+            <normaloff>:/icons_white/icons/png/16x16/cil-folder-open.png</normaloff>:/icons_white/icons/png/16x16/cil-folder-open.png</iconset>
           </property>
          </widget>
         </item>
@@ -239,6 +243,12 @@ QPushButton:checked{
       <layout class="QHBoxLayout" name="frame_1">
        <item>
         <widget class="QFrame" name="frame_graph_1">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>150</height>
+          </size>
+         </property>
          <layout class="QVBoxLayout" name="layout_graph_1"/>
         </widget>
        </item>
@@ -263,8 +273,20 @@ QPushButton:checked{
           </size>
          </property>
          <layout class="QVBoxLayout" name="layoutInfo_1">
-          <property name="leftMargin">
+          <property name="spacing">
            <number>4</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
           </property>
           <item>
            <widget class="QComboBox" name="comboBox">
@@ -476,11 +498,17 @@ QPushButton:checked{
       <layout class="QHBoxLayout" name="frame_2">
        <item>
         <widget class="QFrame" name="frame_graph_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>150</height>
+          </size>
+         </property>
          <layout class="QVBoxLayout" name="layout_graph_2"/>
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="verticalFrame_2">
+        <widget class="QFrame" name="frameinfo_2">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -499,7 +527,22 @@ QPushButton:checked{
            <height>16777215</height>
           </size>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <layout class="QVBoxLayout" name="layoutInfo_2">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QComboBox" name="comboBox_2">
             <property name="minimumSize">
@@ -708,11 +751,17 @@ QPushButton:checked{
       <layout class="QHBoxLayout" name="frame_3">
        <item>
         <widget class="QFrame" name="frame_graph_3">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>150</height>
+          </size>
+         </property>
          <layout class="QVBoxLayout" name="layout_graph_3"/>
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="verticalFrame_4">
+        <widget class="QFrame" name="frameinfo_3">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -731,7 +780,22 @@ QPushButton:checked{
            <height>16777215</height>
           </size>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QVBoxLayout" name="layoutInfo_3">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QComboBox" name="comboBox_3">
             <property name="minimumSize">
@@ -754,6 +818,18 @@ QPushButton:checked{
           </item>
           <item>
            <widget class="QLabel" name="amp_g3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -818,6 +894,12 @@ QPushButton:checked{
           </item>
           <item>
            <widget class="QLabel" name="tiempo_3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>18</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
