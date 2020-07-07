@@ -17,7 +17,7 @@ class Ui_widget(object):
         widget.resize(776, 855)
         widget.setStyleSheet("                QPushButton {\n"
 "                    Text-align:center;\n"
-"                    border: none;\n"
+"\n"
 "                    color:rgb(238, 238, 236);\n"
 "                    background-color: rgb(55, 144, 152);\n"
 "                }\n"
@@ -27,6 +27,10 @@ class Ui_widget(object):
 "                QPushButton:pressed {\n"
 "                    text-decoration: underline;\n"
 "                }\n"
+"QPushButton:checked{\n"
+"background-color: rgb(80, 80, 80);\n"
+"}\n"
+"\n"
 "QLabel{\n"
 "color: rgb(238, 238, 236);\n"
 "}\n"
@@ -59,12 +63,20 @@ class Ui_widget(object):
         self.horizontalLayout_3.addWidget(self.label_File)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
+        self.label_16 = QtWidgets.QLabel(self.openFrame)
+        self.label_16.setObjectName("label_16")
+        self.horizontalLayout_3.addWidget(self.label_16)
         self.btn_range = QtWidgets.QPushButton(self.openFrame)
         self.btn_range.setMinimumSize(QtCore.QSize(30, 0))
-        self.btn_range.setStyleSheet("QPushButton:checked{\n"
+        self.btn_range.setStyleSheet("\n"
+"QPushButton:checked{\n"
 "                    background-color: rgb(80, 80, 80);\n"
 "}\n"
 "")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons_white/icons/png/16x16/cil-lock-unlocked.png"), QtGui.QIcon.Selected, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons_white/icons/png/16x16/cil-lock-locked.png"), QtGui.QIcon.Selected, QtGui.QIcon.On)
+        self.btn_range.setIcon(icon)
         self.btn_range.setCheckable(True)
         self.btn_range.setObjectName("btn_range")
         self.horizontalLayout_3.addWidget(self.btn_range)
@@ -74,15 +86,14 @@ class Ui_widget(object):
 "                    background-color: rgb(80, 80, 80);\n"
 "}\n"
 "")
+        self.btn_amp.setIcon(icon)
         self.btn_amp.setCheckable(True)
         self.btn_amp.setObjectName("btn_amp")
         self.horizontalLayout_3.addWidget(self.btn_amp)
         self.btn_pos = QtWidgets.QPushButton(self.openFrame)
         self.btn_pos.setMinimumSize(QtCore.QSize(30, 0))
-        self.btn_pos.setStyleSheet("QPushButton:checked{\n"
-"                    background-color: rgb(80, 80, 80);\n"
-"}\n"
-"")
+        self.btn_pos.setStyleSheet("")
+        self.btn_pos.setIcon(icon)
         self.btn_pos.setCheckable(True)
         self.btn_pos.setChecked(True)
         self.btn_pos.setObjectName("btn_pos")
@@ -109,6 +120,12 @@ class Ui_widget(object):
         self.layoutInfo_1 = QtWidgets.QVBoxLayout(self.frameinfo_1)
         self.layoutInfo_1.setContentsMargins(4, -1, -1, -1)
         self.layoutInfo_1.setObjectName("layoutInfo_1")
+        self.comboBox = QtWidgets.QComboBox(self.frameinfo_1)
+        self.comboBox.setMinimumSize(QtCore.QSize(0, 26))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.layoutInfo_1.addWidget(self.comboBox)
         self.amp_g1 = QtWidgets.QLabel(self.frameinfo_1)
         self.amp_g1.setStyleSheet("")
         self.amp_g1.setObjectName("amp_g1")
@@ -226,6 +243,12 @@ class Ui_widget(object):
         self.verticalFrame_2.setObjectName("verticalFrame_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalFrame_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.comboBox_2 = QtWidgets.QComboBox(self.verticalFrame_2)
+        self.comboBox_2.setMinimumSize(QtCore.QSize(0, 26))
+        self.comboBox_2.setObjectName("comboBox_2")
+        self.comboBox_2.addItem("")
+        self.comboBox_2.addItem("")
+        self.verticalLayout_2.addWidget(self.comboBox_2)
         self.amp_g2 = QtWidgets.QLabel(self.verticalFrame_2)
         self.amp_g2.setStyleSheet("")
         self.amp_g2.setObjectName("amp_g2")
@@ -341,6 +364,12 @@ class Ui_widget(object):
         self.verticalFrame_4.setObjectName("verticalFrame_4")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.verticalFrame_4)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.comboBox_3 = QtWidgets.QComboBox(self.verticalFrame_4)
+        self.comboBox_3.setMinimumSize(QtCore.QSize(0, 26))
+        self.comboBox_3.setObjectName("comboBox_3")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.verticalLayout_4.addWidget(self.comboBox_3)
         self.amp_g3 = QtWidgets.QLabel(self.verticalFrame_4)
         self.amp_g3.setStyleSheet("")
         self.amp_g3.setObjectName("amp_g3")
@@ -537,9 +566,12 @@ class Ui_widget(object):
         _translate = QtCore.QCoreApplication.translate
         widget.setWindowTitle(_translate("widget", "Form"))
         self.btn_open.setText(_translate("widget", "Abrir"))
-        self.btn_range.setText(_translate("widget", "|-|"))
-        self.btn_amp.setText(_translate("widget", "—"))
-        self.btn_pos.setText(_translate("widget", "|"))
+        self.label_16.setText(_translate("widget", "Herramientas"))
+        self.btn_range.setText(_translate("widget", "Región |-|"))
+        self.btn_amp.setText(_translate("widget", "Amplitud —"))
+        self.btn_pos.setText(_translate("widget", "Tiempo |"))
+        self.comboBox.setItemText(0, _translate("widget", "Original"))
+        self.comboBox.setItemText(1, _translate("widget", "Invetido"))
         self.amp_g1.setText(_translate("widget", "Amplitud (°):"))
         self.label_3.setText(_translate("widget", "— : "))
         self.ampPoint_1.setText(_translate("widget", "--"))
@@ -553,6 +585,8 @@ class Ui_widget(object):
         self.label_9.setText(_translate("widget", ","))
         self.lbl_maxRoll.setText(_translate("widget", "-"))
         self.label_11.setText(_translate("widget", ")"))
+        self.comboBox_2.setItemText(0, _translate("widget", "Original"))
+        self.comboBox_2.setItemText(1, _translate("widget", "Invertido"))
         self.amp_g2.setText(_translate("widget", "Amplitud (°):"))
         self.label.setText(_translate("widget", "— : "))
         self.ampPoint_2.setText(_translate("widget", "--"))
@@ -566,6 +600,8 @@ class Ui_widget(object):
         self.label_15.setText(_translate("widget", ","))
         self.lbl_maxPitch.setText(_translate("widget", "-"))
         self.label_12.setText(_translate("widget", ")"))
+        self.comboBox_3.setItemText(0, _translate("widget", "Original"))
+        self.comboBox_3.setItemText(1, _translate("widget", "Invertido"))
         self.amp_g3.setText(_translate("widget", "Amplitud (°):"))
         self.label_5.setText(_translate("widget", "— : "))
         self.ampPoint_3.setText(_translate("widget", "--"))
@@ -613,3 +649,4 @@ class Ui_widget(object):
         item.setText(_translate("widget", "tYaw (segm A)"))
         item = self.tableWidget.horizontalHeaderItem(14)
         item.setText(_translate("widget", "tYaw (segm B)"))
+from resource import resource_rc

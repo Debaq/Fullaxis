@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">                QPushButton {
                     Text-align:center;
-                    border: none;
+
                     color:rgb(238, 238, 236);
                     background-color: rgb(55, 144, 152);
                 }
@@ -26,6 +26,10 @@
                 QPushButton:pressed {
                     text-decoration: underline;
                 }
+QPushButton:checked{
+background-color: rgb(80, 80, 80);
+}
+
 QLabel{
 color: rgb(238, 238, 236);
 }
@@ -124,6 +128,13 @@ color: rgb(238, 238, 236);
          </spacer>
         </item>
         <item>
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>Herramientas</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="btn_range">
           <property name="minimumSize">
            <size>
@@ -132,13 +143,20 @@ color: rgb(238, 238, 236);
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton:checked{
+           <string notr="true">
+QPushButton:checked{
                     background-color: rgb(80, 80, 80);
 }
 </string>
           </property>
           <property name="text">
-           <string>|-|</string>
+           <string>Región |-|</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <selectedoff>:/icons_white/icons/png/16x16/cil-lock-unlocked.png</selectedoff>
+            <selectedon>:/icons_white/icons/png/16x16/cil-lock-locked.png</selectedon>
+           </iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -160,7 +178,13 @@ color: rgb(238, 238, 236);
 </string>
           </property>
           <property name="text">
-           <string>—</string>
+           <string>Amplitud —</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <selectedoff>:/icons_white/icons/png/16x16/cil-lock-unlocked.png</selectedoff>
+            <selectedon>:/icons_white/icons/png/16x16/cil-lock-locked.png</selectedon>
+           </iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -176,13 +200,16 @@ color: rgb(238, 238, 236);
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton:checked{
-                    background-color: rgb(80, 80, 80);
-}
-</string>
+           <string notr="true"/>
           </property>
           <property name="text">
-           <string>|</string>
+           <string>Tiempo |</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <selectedoff>:/icons_white/icons/png/16x16/cil-lock-unlocked.png</selectedoff>
+            <selectedon>:/icons_white/icons/png/16x16/cil-lock-locked.png</selectedon>
+           </iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -239,6 +266,26 @@ color: rgb(238, 238, 236);
           <property name="leftMargin">
            <number>4</number>
           </property>
+          <item>
+           <widget class="QComboBox" name="comboBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Original</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Invetido</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item>
            <widget class="QLabel" name="amp_g1">
             <property name="styleSheet">
@@ -454,6 +501,26 @@ color: rgb(238, 238, 236);
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
+           <widget class="QComboBox" name="comboBox_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Original</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Invertido</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="amp_g2">
             <property name="styleSheet">
              <string notr="true"/>
@@ -665,6 +732,26 @@ color: rgb(238, 238, 236);
           </size>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QComboBox" name="comboBox_3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>Original</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Invertido</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item>
            <widget class="QLabel" name="amp_g3">
             <property name="styleSheet">
@@ -1099,6 +1186,8 @@ color: rgb(238, 238, 236);
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource/resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

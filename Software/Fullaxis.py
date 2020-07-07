@@ -437,6 +437,9 @@ class WidgetLoginPage(QDialog):
             datos = UIFunc.loginLockRead(self)
             window.verifyLogin(datos['name'])
 
+
+class WidgetFourier(QWidget):
+    pass
 #################################################################
 #                      CLASE PRINCIPAL                          #
 #################################################################
