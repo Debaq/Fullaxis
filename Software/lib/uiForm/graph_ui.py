@@ -59,6 +59,36 @@ class Ui_widget(object):
         self.horizontalLayout_3.addWidget(self.label_File)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
+        self.btn_range = QtWidgets.QPushButton(self.openFrame)
+        self.btn_range.setMinimumSize(QtCore.QSize(30, 0))
+        self.btn_range.setStyleSheet("QPushButton:checked{\n"
+"                    background-color: rgb(80, 80, 80);\n"
+"}\n"
+"")
+        self.btn_range.setCheckable(True)
+        self.btn_range.setObjectName("btn_range")
+        self.horizontalLayout_3.addWidget(self.btn_range)
+        self.btn_amp = QtWidgets.QPushButton(self.openFrame)
+        self.btn_amp.setMinimumSize(QtCore.QSize(30, 0))
+        self.btn_amp.setStyleSheet("QPushButton:checked{\n"
+"                    background-color: rgb(80, 80, 80);\n"
+"}\n"
+"")
+        self.btn_amp.setCheckable(True)
+        self.btn_amp.setObjectName("btn_amp")
+        self.horizontalLayout_3.addWidget(self.btn_amp)
+        self.btn_pos = QtWidgets.QPushButton(self.openFrame)
+        self.btn_pos.setMinimumSize(QtCore.QSize(30, 0))
+        self.btn_pos.setStyleSheet("QPushButton:checked{\n"
+"                    background-color: rgb(80, 80, 80);\n"
+"}\n"
+"")
+        self.btn_pos.setCheckable(True)
+        self.btn_pos.setChecked(True)
+        self.btn_pos.setObjectName("btn_pos")
+        self.horizontalLayout_3.addWidget(self.btn_pos)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout.addWidget(self.openFrame)
         self.frame_1 = QtWidgets.QHBoxLayout()
         self.frame_1.setObjectName("frame_1")
@@ -507,6 +537,9 @@ class Ui_widget(object):
         _translate = QtCore.QCoreApplication.translate
         widget.setWindowTitle(_translate("widget", "Form"))
         self.btn_open.setText(_translate("widget", "Abrir"))
+        self.btn_range.setText(_translate("widget", "|-|"))
+        self.btn_amp.setText(_translate("widget", "—"))
+        self.btn_pos.setText(_translate("widget", "|"))
         self.amp_g1.setText(_translate("widget", "Amplitud (°):"))
         self.label_3.setText(_translate("widget", "— : "))
         self.ampPoint_1.setText(_translate("widget", "--"))

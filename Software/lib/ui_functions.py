@@ -124,7 +124,7 @@ class UIFunctions():
                 w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
 
     def openFile(self):
-        path = QFileDialog.getOpenFileName(None, 'Abrir Archivo de Datos', os.getenv("HOME") ,("CSV(*.csv);;JSON(*.json)"))
+        path = QFileDialog.getOpenFileName(None, 'Abrir Archivo de Datos', os.getenv("HOME") ,("Todos los formatos(*.csv *.json);;CSV(*.csv);;JSON(*.json)"))
         return(path)
 
     
