@@ -91,6 +91,8 @@ from lib.uiForm.menu_lateral_ui import Ui_Lateral_menu
 #from lib.uiForm.transform_ui import Ui_Form
 from lib.uiForm.graph_ui import Ui_widget
 
+import peakutils
+import numpy
 
 # ==> LIBRERIAS PLUGINS
 # AUN NO HAY NADA, TAREA : BUSCAR LA FORMA DE QUE SE CARGEN
@@ -132,12 +134,18 @@ class WidgetGraph(QWidget):
                 self.data1 = data_raw.onlyColumn("A")
                 self.data2 = data_raw.onlyColumn("B")
                 self.data3 = data_raw.onlyColumn("C")
+
                 self.timeMilli = data_raw.onlyColumn("D")
 
             self.data1=self.normalize(self.data1)
             self.data2=self.normalize(self.data2)
-            self.data3=self.normalize(self.data3)
+            #self.data3=self.normalize(self.data3)
+
+
             self.time()
+            y2= self.data3 + numpy.polyval([0.002,-0.08,5], self.time)
+            y2=peakutils.baseline(y2)
+            self.data3 = self.data3-y2
             self.graph()
 
     def normalize(self, data):
