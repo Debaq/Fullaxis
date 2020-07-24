@@ -376,7 +376,6 @@ class WidgetGraph(QWidget):
                 for row in range(NROWS):
                     for col in range(NCOLS):
                         content = colrow[row][col]
-                        print(content)
                         sheet[row, col].set_value(content)
 
                 ods.save()
