@@ -14,4 +14,4 @@ Dependencias:
 - PyQtGraph
 - Numpy
 - Pandas (pip install pandas)
-- odfpy (pip install odfpy)
+- ezodf (pip install ezodf)
