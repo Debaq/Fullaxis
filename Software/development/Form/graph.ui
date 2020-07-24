@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>779</width>
-    <height>655</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -223,6 +223,24 @@ QPushButton:checked{
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_savearea">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Guardar área</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/icons_white/icons/png/16x16/cil-save.png</normalon>
+           </iconset>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -1189,6 +1207,13 @@ QPushButton:checked{
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="btn_ods">
+             <property name="text">
+              <string>Guardar *.ods</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="btn_clear">
              <property name="maximumSize">
               <size>
@@ -1258,12 +1283,12 @@ QPushButton:checked{
              </attribute>
              <column>
               <property name="text">
-               <string>Aroll (punto)</string>
+               <string>aRoll (punto)</string>
               </property>
              </column>
              <column>
               <property name="text">
-               <string>Aroll (segm)</string>
+               <string>aRoll (segm)</string>
               </property>
              </column>
              <column>
@@ -1283,12 +1308,12 @@ QPushButton:checked{
              </column>
              <column>
               <property name="text">
-               <string>APitch (punto)</string>
+               <string>aPitch (punto)</string>
               </property>
              </column>
              <column>
               <property name="text">
-               <string>APitchl (segm)</string>
+               <string>aPitchl (segm)</string>
               </property>
              </column>
              <column>
@@ -1308,12 +1333,12 @@ QPushButton:checked{
              </column>
              <column>
               <property name="text">
-               <string>AYaw (punto)</string>
+               <string>aYaw (punto)</string>
               </property>
              </column>
              <column>
               <property name="text">
-               <string>AYaw (segm)</string>
+               <string>aYaw (segm)</string>
               </property>
              </column>
              <column>

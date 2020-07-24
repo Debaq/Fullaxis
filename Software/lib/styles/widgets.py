@@ -62,3 +62,17 @@ class Styles():
                                 text-decoration: underline;
                         }
                          """)
+    btn_disabled = ("""
+                    QPushButton { 
+                        background-color: rgb(80, 80, 80) 
+                        }
+                         """)
+
+
+    btn_enabled = ("""
+                    QPushButton { 
+                        Text-align:center;
+                        color:rgb(238, 238, 236);
+                        background-color: rgb(55, 144, 152);
+                        }
+                         """)

@@ -127,6 +127,10 @@ class UIFunctions():
         path = QFileDialog.getOpenFileName(None, 'Abrir Archivo de Datos', os.getenv("HOME") ,("Todos los formatos(*.csv *.json);;CSV(*.csv);;JSON(*.json)"))
         return(path)
 
+    def saveFile(self):
+        path = QFileDialog.getSaveFileName(None, 'Guardar Archivo de Datos', os.getenv("HOME") ,("ODS(*.ods)"))
+        return(path)
+
     
 
  
