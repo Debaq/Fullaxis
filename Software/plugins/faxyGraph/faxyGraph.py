@@ -129,6 +129,11 @@ class WidgetGraph(QWidget):
         self.h2Line = pg.InfiniteLine(pos=posh2Line,angle=0, movable=True)
         self.v3Line = pg.InfiniteLine(angle=90, movable=True)
         self.h3Line = pg.InfiniteLine(pos=posh3Line, angle=0, movable=True)
+        
+        self.text_v1Line = pg.InfLineLabel(self.v1Line, text="", position=0.8, movable=True)
+        self.text_v2Line = pg.InfLineLabel(self.v2Line, text="", position=0.8, movable=True)
+        self.text_v3Line = pg.InfLineLabel(self.v3Line, text="", position=0.8, movable=True)
+
 
         self.v1Line.setZValue(10)
         self.v2Line.setZValue(10)
@@ -170,6 +175,8 @@ class WidgetGraph(QWidget):
             self.horizontalLine=False
 
     def move_drag(self, Q):
+
+
         self.v1Line.setZValue(10)
         self.v2Line.setZValue(10)
         self.v3Line.setZValue(10)
@@ -182,16 +189,43 @@ class WidgetGraph(QWidget):
                 pos = self.v1Line.value()
                 self.v2Line.setPos(pos)
                 self.v3Line.setPos(pos)
+                pos_text = str(round(pos,3))
+                self.text_v1Line.setText(pos_text)
+                self.text_v2Line.setText(pos_text)
+                self.text_v3Line.setText(pos_text)
+            else:
+                pos = self.v1Line.value()
+                pos_text = str(round(pos,4))
+                self.text_v1Line.setText(pos_text)
+
         if Q == 2:
             if self.verticalLine:
                 pos = self.v2Line.value()
                 self.v1Line.setPos(pos)
                 self.v3Line.setPos(pos)
+                pos_text = str(round(pos,4))
+                self.text_v1Line.setText(pos_text)
+                self.text_v2Line.setText(pos_text)
+                self.text_v3Line.setText(pos_text)
+            else:
+                pos = self.v2Line.value()
+                pos_text = str(round(pos,4))
+                self.text_v2Line.setText(pos_text)
+
         if Q == 3:
             if self.verticalLine:
                 pos = self.v3Line.value()
                 self.v1Line.setPos(pos)
                 self.v2Line.setPos(pos)
+                pos_text = str(round(pos,4))
+                self.text_v1Line.setText(pos_text)
+                self.text_v2Line.setText(pos_text)
+                self.text_v3Line.setText(pos_text)
+            else:
+                pos = self.v3Line.value()
+                pos_text = str(round(pos,4))
+                self.text_v3Line.setText(pos_text)
+
         if Q == 4:
             pos = self.h1Line.value()
             if self.horizontalLine:
@@ -393,8 +427,8 @@ class WidgetGraph(QWidget):
         minX_reg2, maxX_reg2 = self.region2.getRegion()
         minX_reg3, maxX_reg3 = self.region3.getRegion()
 
-        Pitch, _ = self.closest(self.time, self.data1, maxX_reg1, minX_reg1, range = True)
-        Roll, _ = self.closest(self.time, self.data2, maxX_reg2, minX_reg2, range = True)
+        Roll, _ = self.closest(self.time, self.data1, maxX_reg1, minX_reg1, range = True)
+        Pitch, _ = self.closest(self.time, self.data2, maxX_reg2, minX_reg2, range = True)
         Yaw, TimeSeg = self.closest(self.time, self.data3, maxX_reg3, minX_reg3, range = True)
         TimeMilli = []
         for x in TimeSeg:

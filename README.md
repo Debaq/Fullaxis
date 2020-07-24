@@ -15,3 +15,4 @@ Dependencias:
 - Numpy
 - Pandas (pip install pandas)
 - ezodf (pip install ezodf)
+- PeakUtils (pip install PeakUtils)
