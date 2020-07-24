@@ -16,6 +16,7 @@ import lib.old_exchange as old_csv
 from lib.ui_functions import UIFunctions as UIFunc
 import ezodf
 from lib.styles.widgets import Styles as WStyles
+import json
 
 class WidgetGraph(QWidget):
     def __init__(self, filedoc=None, *args, **kwargs):
@@ -65,6 +66,7 @@ class WidgetGraph(QWidget):
             y2= self.data3 + np.polyval([0.002,-0.08,5], self.time)
             y2=peakutils.baseline(y2)
             self.data3 = self.data3-y2
+            self.data3 = self.data3.tolist()
             self.graph()
 
     def normalize(self, data):
@@ -263,14 +265,20 @@ class WidgetGraph(QWidget):
             self.UI_vertical.lbl_maxYaw.setText("%0.2f"% (maxX_reg3))
             self.UI_vertical.ampRange_3.setText("%0.2f"% (ampRange_3))
 
-    def closest(self, lstin, lstout, maxX, minX): 
+    def closest(self, lstin, lstout, maxX, minX, range = False): 
         array = np.asarray(lstin)
         index_0 = (np.abs(array - minX)).argmin()
         index_1 = (np.abs(array - maxX)).argmin()
         data_0 = lstout[index_0]
         data_1 = lstout[index_1]
-        Amp = abs(data_1-data_0)
-        return Amp
+        Amp = abs(data_1-data_0)        
+        if range == False:
+            return Amp
+        if range:
+            range_data = lstout[index_0:index_1]
+            range_time = lstin[index_0:index_1]
+            return range_data, range_time
+
 
     def addRowTable(self):
         data = [self.UI_vertical.ampPoint_1.text(),
@@ -358,7 +366,7 @@ class WidgetGraph(QWidget):
         NROWS = len(colrow)
         try:
             NCOLS = len(colrow[1])
-            save = self.saveMethod()
+            save = self.saveMethod(ext="ods")
             if save[0] != '':
                 name = save[0]+'.ods'
                 ods = ezodf.newdoc('ods', name)
@@ -375,9 +383,26 @@ class WidgetGraph(QWidget):
         except:
             pass
 
-    def saveMethod(self):
-        path = UIFunc.saveFile(self)
+    def saveMethod(self, ext):
+        path = UIFunc.saveFile(self, ext)
         return path
 
     def saveArea(self):
-        print("okidoki")
+        save = self.saveMethod(ext="json")
+        name = save[0]+'.json'
+        minX_reg1, maxX_reg1 = self.region1.getRegion()
+        minX_reg2, maxX_reg2 = self.region2.getRegion()
+        minX_reg3, maxX_reg3 = self.region3.getRegion()
+
+        Pitch, _ = self.closest(self.time, self.data1, maxX_reg1, minX_reg1, range = True)
+        Roll, _ = self.closest(self.time, self.data2, maxX_reg2, minX_reg2, range = True)
+        Yaw, TimeSeg = self.closest(self.time, self.data3, maxX_reg3, minX_reg3, range = True)
+        TimeMilli = []
+        for x in TimeSeg:
+            milli = x * 1000
+            TimeMilli.append(milli)
+
+        json_out =  { "roll": Roll, "pitch":Pitch, "yaw":Yaw, "time":TimeMilli}
+        with open(name, 'w') as outfile:
+            json.dump(json_out, outfile)
+        

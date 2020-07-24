@@ -134,6 +134,21 @@ color: rgb(238, 238, 236);
           </property>
          </spacer>
         </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="horizontalFrame">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_16">
           <property name="text">
