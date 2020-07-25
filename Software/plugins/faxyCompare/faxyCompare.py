@@ -6,7 +6,7 @@ from PyQt5.QtGui import QIcon, QTableWidgetItem
 from PyQt5 import QtCore
 
 
-from lib.uiForm.graph_ui import Ui_widget
+from lib.uiForm.compare_ui import Ui_widget
 import peakutils
 import numpy as np
 import pyqtgraph as pg
@@ -18,51 +18,55 @@ import ezodf
 from lib.styles.widgets import Styles as WStyles
 import json
 
-class WidgetGraph(QWidget):
-    def __init__(self, filedoc=None, *args, **kwargs):
+
+class WidgetCompare(QWidget):
+    def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
+        self.filedoc1 = None
+        self.filedoc2 = None
         self.UI_vertical = Ui_widget()
         self.UI_vertical.setupUi(self)
-        self.UI_vertical.btn_insert.clicked.connect(self.addRowTable)
-        self.UI_vertical.btn_copyThis.clicked.connect(self.copyLine)
-        self.UI_vertical.btn_clear.clicked.connect(self.clearTable)
-        self.UI_vertical.btn_copyAll.clicked.connect(self.copyAll)
         self.UI_vertical.btn_range.clicked.connect(self.btnToggle)
         self.UI_vertical.btn_amp.clicked.connect(self.btnToggle)
         self.UI_vertical.btn_pos.clicked.connect(self.btnToggle)
-        self.UI_vertical.btn_ods.clicked.connect(self.btnOds)
-        self.UI_vertical.btn_savearea.clicked.connect(self.saveArea)
-        self.UI_vertical.btn_savearea.setStyleSheet(WStyles.btn_disabled)
+        self.UI_vertical.btn_open1.clicked.connect(lambda:self.openMethod(1))
+        self.UI_vertical.btn_open2.clicked.connect(lambda:self.openMethod(2))
 
-
+        self.UI_vertical.label_File1.setText("...")
+        self.UI_vertical.label_File2.setText("...")
         self.verticalLine = True
         self.range = False
         self.horizontalLine=False
-        self.clip = QApplication.clipboard()
+        self.graphBasic()
 
-        if filedoc:
+
+    def openData(self, filedoc):
+        self.filedoc = filedoc
+        
+        if self.filedoc:
             data_raw = old_exchange.dataFrame() 
-            if filedoc.endswith('.json'):
+            if self.filedoc.endswith('.json'):
                 data_raw.read(filedoc, "json")
                 data1 = data_raw.onlyColumn("roll")
                 data2 = data_raw.onlyColumn("pitch")
                 data3 = data_raw.onlyColumn("yaw")
                 timeMilli = data_raw.onlyColumn("time")
 
-            if filedoc.endswith('.csv'):
+            if self.filedoc.endswith('.csv'):
                 data_raw.read(filedoc, "csv")
                 data1 = data_raw.onlyColumn("A")
                 data2 = data_raw.onlyColumn("B")
                 data3 = data_raw.onlyColumn("C")
                 timeMilli = data_raw.onlyColumn("D")
-                
-            self.timeSeg = self.timeSegMethod(timeMilli)
 
-            self.data1=self.normalize(data1, self.timeSeg)
-            self.data2=self.normalize(data2, self.timeSeg)
-            self.data3=self.normalize(data3, self.timeSeg)
 
-            self.graph()
+            timeSeg = self.timeSeg(timeMilli)
+
+            data1=self.normalize(data1, timeSeg)
+            data2=self.normalize(data2, timeSeg)
+            data3=self.normalize(data3, timeSeg)
+       
+            return data1, data2, data3, timeSeg
 
     def normalize(self, data, timeSeg):
         y2= data + np.polyval([0.002,-0.08,5], timeSeg)
@@ -71,7 +75,7 @@ class WidgetGraph(QWidget):
         out = data.tolist()
         return out
 
-    def timeSegMethod(self, Milli):
+    def timeSeg(self, Milli):
         time = []
         calibrateTime = Milli[0]
         for x in Milli:
@@ -83,33 +87,40 @@ class WidgetGraph(QWidget):
         posVertical = sec*(div-1)
         return posVertical
 
-    def graph(self):
+    def graphBasic(self):
+        
+        self.pw1 = pg.PlotWidget(name='Plot1') 
+        self.pw2 = pg.PlotWidget(name='Plot2')
+        self.pw3 = pg.PlotWidget(name='Plot3')  
+           
+        self.UI_vertical.layout_graph_1.addWidget(self.pw1)
+        self.UI_vertical.layout_graph_2.addWidget(self.pw2)
+        self.UI_vertical.layout_graph_3.addWidget(self.pw3)
+
+
+
+    def graph_1(self, data1, data2, data3, time):
+        self.data1 = data1
+        self.data2 = data2
+        self.data3 = data3
+        self.time = time
+
+        p1 = self.pw1.plot(self.time, self.data1, pen="r", clear=True)
+        p2 = self.pw2.plot(self.time, self.data2, pen="c",  clear=True)
+        p3 = self.pw3.plot(self.time, self.data3, pen="g",  clear=True)
+
         self.region1 = pg.LinearRegionItem()
         self.region2 = pg.LinearRegionItem()
         self.region3 = pg.LinearRegionItem()
         self.region1.setZValue(9)
         self.region2.setZValue(9)
         self.region3.setZValue(9)            
-        self.region1.setRegion([(max(self.timeSeg)-1),max(self.timeSeg)])
-        self.region2.setRegion([(max(self.timeSeg)-1),max(self.timeSeg)])
-        self.region3.setRegion([(max(self.timeSeg)-1),max(self.timeSeg)])
-                    
-        pw1 = pg.PlotWidget(name='Plot1') 
-        pw2 = pg.PlotWidget(name='Plot2')
-        pw3 = pg.PlotWidget(name='Plot3')  
-
-
-        pw1.addItem(self.region1, ignoreBounds=False)
-        pw2.addItem(self.region2, ignoreBounds=False)
-        pw3.addItem(self.region3, ignoreBounds=False)
-
-        self.UI_vertical.layout_graph_1.addWidget(pw1)
-        self.UI_vertical.layout_graph_2.addWidget(pw2)
-        self.UI_vertical.layout_graph_3.addWidget(pw3)
-
-        p1 = pw1.plot(self.timeSeg, self.data1, pen="c")
-        p2 = pw2.plot(self.timeSeg, self.data2, pen="g")
-        p3 = pw3.plot(self.timeSeg, self.data3, pen="r")
+        self.region1.setRegion([(max(self.time)-1),max(self.time)])
+        self.region2.setRegion([(max(self.time)-1),max(self.time)])
+        self.region3.setRegion([(max(self.time)-1),max(self.time)])
+        self.pw1.addItem(self.region1, ignoreBounds=False)
+        self.pw2.addItem(self.region2, ignoreBounds=False)
+        self.pw3.addItem(self.region3, ignoreBounds=False)
 
         div = 4
         posh1Line = self.verticalPos(self.data1, div)
@@ -126,7 +137,6 @@ class WidgetGraph(QWidget):
         self.text_v2Line = pg.InfLineLabel(self.v2Line, text="", position=0.8, movable=True)
         self.text_v3Line = pg.InfLineLabel(self.v3Line, text="", position=0.8, movable=True)
 
-
         self.v1Line.setZValue(10)
         self.v2Line.setZValue(10)
         self.v3Line.setZValue(10)
@@ -134,12 +144,12 @@ class WidgetGraph(QWidget):
         self.h2Line.setZValue(10)
         self.h3Line.setZValue(10)
 
-        pw1.addItem(self.v1Line, ignoreBounds=True)
-        pw1.addItem(self.h1Line, ignoreBounds=True)
-        pw2.addItem(self.v2Line, ignoreBounds=True)
-        pw2.addItem(self.h2Line, ignoreBounds=True)
-        pw3.addItem(self.v3Line, ignoreBounds=True)
-        pw3.addItem(self.h3Line, ignoreBounds=True)
+        self.pw1.addItem(self.v1Line, ignoreBounds=True)
+        self.pw1.addItem(self.h1Line, ignoreBounds=True)
+        self.pw2.addItem(self.v2Line, ignoreBounds=True)
+        self.pw2.addItem(self.h2Line, ignoreBounds=True)
+        self.pw3.addItem(self.v3Line, ignoreBounds=True)
+        self.pw3.addItem(self.h3Line, ignoreBounds=True)
 
         self.region1.sigRegionChanged.connect(lambda:self.update(1))
         self.region2.sigRegionChanged.connect(lambda:self.update(2))
@@ -151,6 +161,18 @@ class WidgetGraph(QWidget):
         self.h1Line.sigDragged.connect(lambda:self.move_drag(4))
         self.h2Line.sigDragged.connect(lambda:self.move_drag(5))
         self.h3Line.sigDragged.connect(lambda:self.move_drag(6))
+
+    
+    def graph_2(self, data4, data5, data6, time2):
+        self.data4 = data4
+        self.data5 = data5
+        self.data6 = data6
+        self.time2 = time2
+
+        p4 = self.pw1.plot(self.time2, self.data4, pen="c",  clear=True)
+        p5 = self.pw2.plot(self.time2, self.data5, pen="g",  clear=True)
+        p6 = self.pw3.plot(self.time2, self.data6, pen="r",  clear=True)
+
 
     def btnToggle(self):
         if self.UI_vertical.btn_range.isChecked():
@@ -247,9 +269,6 @@ class WidgetGraph(QWidget):
         minX_reg3, maxX_reg3 = self.region3.getRegion()
 
         if self.range:
-            
-            self.UI_vertical.btn_savearea.setEnabled(True)
-            self.UI_vertical.btn_savearea.setStyleSheet(WStyles.btn_enabled)
             if Q == 1:
                 self.region2.setRegion([minX_reg1,maxX_reg1])
                 self.region3.setRegion([minX_reg1,maxX_reg1])
@@ -259,25 +278,23 @@ class WidgetGraph(QWidget):
             if Q == 3:
                 self.region1.setRegion([minX_reg3,maxX_reg3])
                 self.region2.setRegion([minX_reg3,maxX_reg3])
-        else:
-            self.UI_vertical.btn_savearea.setEnabled(False)
-            self.UI_vertical.btn_savearea.setStyleSheet(WStyles.btn_disabled)
 
-        ampRange_1 = self.closest(self.timeSeg, self.data1, maxX_reg1, minX_reg1)
-        ampRange_2 = self.closest(self.timeSeg, self.data2, maxX_reg2, minX_reg2)
-        ampRange_3 = self.closest(self.timeSeg, self.data3, maxX_reg3, minX_reg3)
+
+        ampRange_1 = self.closest(self.time, self.data1, maxX_reg1, minX_reg1)
+        ampRange_2 = self.closest(self.time, self.data2, maxX_reg2, minX_reg2)
+        ampRange_3 = self.closest(self.time, self.data3, maxX_reg3, minX_reg3)
                 
         tdelta_reg1 = maxX_reg1-minX_reg1
         tdelta_reg2 = maxX_reg2-minX_reg2
         tdelta_reg3 = maxX_reg3-minX_reg3
 
-        if minX_reg1 > 0 and maxX_reg1 < self.timeSeg[-1]:
+        if minX_reg1 > 0 and maxX_reg1 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_1.setText("%0.2f"% (tdelta_reg1))
             self.UI_vertical.lbl_minRoll.setText("%0.2f"% (minX_reg1))
             self.UI_vertical.lbl_maxRoll.setText("%0.2f"% (maxX_reg1))
             self.UI_vertical.ampRange_1.setText("%0.2f"% (ampRange_1))
 
-        if minX_reg2 > 0 and maxX_reg2 < self.timeSeg[-1]:
+        if minX_reg2 > 0 and maxX_reg2 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_2.setText("%0.2f"% (tdelta_reg1))
             self.UI_vertical.lbl_minPitch.setText("%0.2f"% (minX_reg2))
             self.UI_vertical.lbl_maxPitch.setText("%0.2f"% (maxX_reg2))
@@ -285,149 +302,31 @@ class WidgetGraph(QWidget):
 
 
 
-        if minX_reg3 > 0 and maxX_reg3 < self.timeSeg[-1]:
+        if minX_reg3 > 0 and maxX_reg3 < self.time[-1]:
             self.UI_vertical.lbl_tiempo_3.setText("%0.2f"% (tdelta_reg3))
             self.UI_vertical.lbl_minYaw.setText("%0.2f"% (minX_reg3))
             self.UI_vertical.lbl_maxYaw.setText("%0.2f"% (maxX_reg3))
             self.UI_vertical.ampRange_3.setText("%0.2f"% (ampRange_3))
 
-    def closest(self, lstin, lstout, maxX, minX, range = False): 
+    def closest(self, lstin, lstout, maxX, minX): 
         array = np.asarray(lstin)
         index_0 = (np.abs(array - minX)).argmin()
         index_1 = (np.abs(array - maxX)).argmin()
         data_0 = lstout[index_0]
         data_1 = lstout[index_1]
         Amp = abs(data_1-data_0)        
-        if range == False:
-            return Amp
-        if range:
-            range_data = lstout[index_0:index_1]
-            range_time = lstin[index_0:index_1]
-            return range_data, range_time
+        return Amp
+      
 
 
-    def addRowTable(self):
-        data = [self.UI_vertical.ampPoint_1.text(),
-                self.UI_vertical.ampRange_1.text(),
-                self.UI_vertical.lbl_tiempo_1.text(),
-                self.UI_vertical.lbl_minRoll.text(),
-                self.UI_vertical.lbl_maxRoll.text(),
-                self.UI_vertical.ampPoint_2.text(),
-                self.UI_vertical.ampRange_2.text(),
-                self.UI_vertical.lbl_tiempo_2.text(),
-                self.UI_vertical.lbl_minPitch.text(),
-                self.UI_vertical.lbl_maxPitch.text(),
-                self.UI_vertical.ampPoint_3.text(),
-                self.UI_vertical.ampRange_3.text(),
-                self.UI_vertical.lbl_tiempo_3.text(),
-                self.UI_vertical.lbl_minYaw.text(),
-                self.UI_vertical.lbl_maxYaw.text()]
-
-        rowPosition = self.UI_vertical.tableWidget.rowCount()
-        self.UI_vertical.tableWidget.insertRow(rowPosition)
-        for x in range(len(data)):
-            self.UI_vertical.tableWidget.setItem(rowPosition , x, QTableWidgetItem(data[x]))
-
-    def copyLine(self):
-
-            selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
-            out = []
-            
-            for x in range(len(selectedIndexes)):
-                data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
-                out.append(data)
-            
-            stringData = str(out).replace('[','')
-            stringData = stringData.replace(']','')
-            stringData = stringData.replace('\'','')
-            
-            self.clip.setText(stringData)
-
-    def clearTable(self):
-        rowTotal = self.UI_vertical.tableWidget.rowCount()
-        for x in range(rowTotal):
-            self.UI_vertical.tableWidget.removeRow(x)
-        rowTotal = self.UI_vertical.tableWidget.rowCount()
-        if rowTotal > 0:
-            self.clearTable()
-
-    def copyAll(self):
-            rowPosition = self.UI_vertical.tableWidget.rowCount()
-            self.UI_vertical.tableWidget.setSelectionBehavior(QTableView.SelectRows)
-            self.UI_vertical.tableWidget.setSelectionMode(QTableView.SingleSelection)
-            string= ""
-            for x in range(rowPosition):
-                self.UI_vertical.tableWidget.selectRow(x)
-                selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
-                out = []
-                for x in range(len(selectedIndexes)):
-                    data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
-                    out.append(data)
-                string = string + str(out) + '\n'
-
-            stringData = string.replace('[','')
-            stringData = stringData.replace(']','')
-            stringData = stringData.replace('\'','')
-            stringData = stringData.replace('\n,','\n')
-
-            self.clip.setText(stringData)
-
-    def btnOds(self):
-
-        rowPosition = self.UI_vertical.tableWidget.rowCount()
-        self.UI_vertical.tableWidget.setSelectionBehavior(QTableView.SelectRows)
-        self.UI_vertical.tableWidget.setSelectionMode(QTableView.SingleSelection)
-        colrow = [["aRoll(punto)", "aRoll(segm)","Roll-delta(segm)","tRoll(segm A)", 
-                   "tRoll(segm B)", "aPitch(punto)", "aPitch(segm)","Pitch-delta(segm)",
-                   "tPitch(segm A)", "tPitch(segm B)", "aYaw(punto)", "aYaw(segm)",
-                   "Yaw-delta(segm)","tYaw(segm A)", "tYaw(segm B)" ]]
-        for x in range(rowPosition):
-            self.UI_vertical.tableWidget.selectRow(x)
-            selectedIndexes = self.UI_vertical.tableWidget.selectedIndexes()
-            out = []
-            for x in range(len(selectedIndexes)):
-                data = selectedIndexes[x].data(QtCore.Qt.DisplayRole)
-                out.append(data)
-            colrow.append(out)
-        NROWS = len(colrow)
-        try:
-            NCOLS = len(colrow[1])
-            save = self.saveMethod(ext="ods")
-            if save[0] != '':
-                name = save[0]+'.ods'
-                ods = ezodf.newdoc('ods', name)
-                sheet = ezodf.Sheet('Muestra', size=(NROWS, NCOLS))
-                ods.sheets += sheet
-
-                for row in range(NROWS):
-                    for col in range(NCOLS):
-                        content = colrow[row][col]
-                        sheet[row, col].set_value(content)
-
-                ods.save()
-        except:
-            pass
-
-    def saveMethod(self, ext):
-        path = UIFunc.saveFile(self, ext)
-        return path
-
-    def saveArea(self):
-        save = self.saveMethod(ext="json")
-        name = save[0]+'.json'
-        minX_reg1, maxX_reg1 = self.region1.getRegion()
-        minX_reg2, maxX_reg2 = self.region2.getRegion()
-        minX_reg3, maxX_reg3 = self.region3.getRegion()
-
-        Roll, _ = self.closest(self.timeSeg, self.data1, maxX_reg1, minX_reg1, range = True)
-        Pitch, _ = self.closest(self.timeSeg, self.data2, maxX_reg2, minX_reg2, range = True)
-        Yaw, TimeSeg = self.closest(self.timeSeg, self.data3, maxX_reg3, minX_reg3, range = True)
-        TimeMilli = []
-        for x in TimeSeg:
-            milli = x * 1000
-            TimeMilli.append(milli)
-
-        json_out =  { "roll": Roll, "pitch":Pitch, "yaw":Yaw, "time":TimeMilli}
-        with open(name, 'w') as outfile:
-            json.dump(json_out, outfile)
+    def openMethod(self, ind):
+        path = UIFunc.openFile(self)
+        if ind == 1:
+            data1, data2, data3, timeSeg = self.openData(path[0])
+            self.UI_vertical.label_File1.setText(path[0])
+            self.graph_1(data1, data2, data3, timeSeg)
         
+        if ind == 2:
+            data1, data2, data3, timeSeg = self.openData(path[0])
+            self.UI_vertical.label_File2.setText(path[0])
+            self.graph_2(data1, data2, data3, timeSeg)

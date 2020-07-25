@@ -88,6 +88,7 @@ from lib.uiForm.main_ui import Ui_FullAxis
 from lib.uiForm.menu_lateral_ui import Ui_Lateral_menu
 #from lib.uiForm.transform_ui import Ui_Form
 from plugins.faxyGraph.faxyGraph import WidgetGraph
+from plugins.faxyCompare.faxyCompare import WidgetCompare
 
 
 
@@ -211,13 +212,18 @@ class MainWindow(QMainWindow):
         UIFunc.resetLayout(self, self.ui.Center_layout)
         self.graph_page = WidgetGraph(filedoc=File)
         self.graph_page.UI_vertical.btn_open.clicked.connect(self.openMethod)
-        #rowPosition = self.table.rowCount()
         try:
             self.graph_page.UI_vertical.label_File.setText(File)
         except:
             self.graph_page.UI_vertical.label_File.setText("...")
 
         self.ui.Center_layout.addWidget(self.graph_page)
+
+
+    def comparePage(self):
+        UIFunc.resetLayout(self, self.ui.Center_layout)
+        self.compare_page = WidgetCompare()
+        self.ui.Center_layout.addWidget(self.compare_page)
 
 
     def lateralMenu(self):
@@ -228,6 +234,8 @@ class MainWindow(QMainWindow):
             self, "btn_home", "", "home", "Inicio")
         btn_graph = UIFunc.createBtnMenuLat(
             self, "btn_graph", "", "chart-line", "Medir")
+        btn_graph = UIFunc.createBtnMenuLat(
+            self, "btn_compare", "", "clone", "Comparar")
         # =>ESPACIADOR QUE MANTIENE LOS BOTONES ARRIBA
         spacer = UIFunc.spacer(self, "V")
         self.LateralMenu.UI_LateralMenu.layerBack_frame.addItem(spacer)
@@ -279,6 +287,11 @@ class MainWindow(QMainWindow):
         if btnWidget.objectName() == "btn_graph":
             self.graphPage()
             UIFunc.resetStyle(self, "btn_graph")
+            btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
+
+        if btnWidget.objectName() == "btn_compare":
+            self.comparePage()
+            UIFunc.resetStyle(self, "btn_compare")
             btnWidget.setStyleSheet(UIFunc.selectMenu(btnWidget.styleSheet()))
 
     def closeEvent(self, event):
