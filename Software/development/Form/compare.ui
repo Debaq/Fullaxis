@@ -136,6 +136,13 @@ color: rgb(238, 238, 236);
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="btn_clear">
+            <property name="text">
+             <string>Limpiar</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

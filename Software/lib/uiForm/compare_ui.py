@@ -69,6 +69,9 @@ class Ui_widget(object):
         self.horizontalLayout_3.addWidget(self.label_File1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
+        self.btn_clear = QtWidgets.QPushButton(self.openFrame1)
+        self.btn_clear.setObjectName("btn_clear")
+        self.horizontalLayout_3.addWidget(self.btn_clear)
         self.verticalLayout_2.addWidget(self.openFrame1)
         self.openFrame2 = QtWidgets.QHBoxLayout()
         self.openFrame2.setSpacing(4)
@@ -361,6 +364,7 @@ class Ui_widget(object):
         _translate = QtCore.QCoreApplication.translate
         widget.setWindowTitle(_translate("widget", "Form"))
         self.btn_open1.setText(_translate("widget", "Abrir 1"))
+        self.btn_clear.setText(_translate("widget", "Limpiar"))
         self.btn_open2.setText(_translate("widget", "Abrir 2"))
         self.label_16.setText(_translate("widget", "Herramientas"))
         self.btn_range.setText(_translate("widget", "Región |-|"))

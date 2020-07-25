@@ -31,9 +31,12 @@ class WidgetCompare(QWidget):
         self.UI_vertical.btn_pos.clicked.connect(self.btnToggle)
         self.UI_vertical.btn_open1.clicked.connect(lambda:self.openMethod(1))
         self.UI_vertical.btn_open2.clicked.connect(lambda:self.openMethod(2))
+        self.UI_vertical.btn_clear.clicked.connect(self.clear)
 
         self.UI_vertical.label_File1.setText("...")
         self.UI_vertical.label_File2.setText("...")
+        self.file1Full = False
+        self.file2Full = False
         self.verticalLine = True
         self.range = False
         self.horizontalLine=False
@@ -105,9 +108,9 @@ class WidgetCompare(QWidget):
         self.data3 = data3
         self.time = time
 
-        p1 = self.pw1.plot(self.time, self.data1, pen="r", clear=True)
-        p2 = self.pw2.plot(self.time, self.data2, pen="c",  clear=True)
-        p3 = self.pw3.plot(self.time, self.data3, pen="g",  clear=True)
+        p1 = self.pw1.plot(self.time, self.data1, pen="r")
+        p2 = self.pw2.plot(self.time, self.data2, pen="c")
+        p3 = self.pw3.plot(self.time, self.data3, pen="g")
 
         self.region1 = pg.LinearRegionItem()
         self.region2 = pg.LinearRegionItem()
@@ -169,9 +172,9 @@ class WidgetCompare(QWidget):
         self.data6 = data6
         self.time2 = time2
 
-        p4 = self.pw1.plot(self.time2, self.data4, pen="c",  clear=True)
-        p5 = self.pw2.plot(self.time2, self.data5, pen="g",  clear=True)
-        p6 = self.pw3.plot(self.time2, self.data6, pen="r",  clear=True)
+        p4 = self.pw1.plot(self.time2, self.data4, pen="c")
+        p5 = self.pw2.plot(self.time2, self.data5, pen="g")
+        p6 = self.pw3.plot(self.time2, self.data6, pen="r")
 
 
     def btnToggle(self):
@@ -324,9 +327,28 @@ class WidgetCompare(QWidget):
         if ind == 1:
             data1, data2, data3, timeSeg = self.openData(path[0])
             self.UI_vertical.label_File1.setText(path[0])
+            self.UI_vertical.btn_open1.setEnabled(False)
+            self.UI_vertical.btn_open1.setStyleSheet(WStyles.btn_disabled)
             self.graph_1(data1, data2, data3, timeSeg)
+            
         
         if ind == 2:
             data1, data2, data3, timeSeg = self.openData(path[0])
             self.UI_vertical.label_File2.setText(path[0])
+            self.UI_vertical.btn_open2.setEnabled(False)
+            self.UI_vertical.btn_open2.setStyleSheet(WStyles.btn_disabled)
             self.graph_2(data1, data2, data3, timeSeg)
+        
+
+
+
+    def clear (self):
+        self.UI_vertical.btn_open1.setEnabled(True)
+        self.UI_vertical.btn_open1.setStyleSheet(WStyles.btn_enabled)
+        self.UI_vertical.btn_open2.setEnabled(True)
+        self.UI_vertical.btn_open2.setStyleSheet(WStyles.btn_enabled)
+        self.UI_vertical.label_File1.setText("...")
+        self.UI_vertical.label_File2.setText("...")
+        self.pw1.plot(clear=True)
+        self.pw2.plot(clear=True)
+        self.pw3.plot(clear=True)
