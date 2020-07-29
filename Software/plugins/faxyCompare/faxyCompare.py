@@ -109,8 +109,8 @@ class WidgetCompare(QWidget):
         self.time = time
 
         p1 = self.pw1.plot(self.time, self.data1, pen="r")
-        p2 = self.pw2.plot(self.time, self.data2, pen="c")
-        p3 = self.pw3.plot(self.time, self.data3, pen="g")
+        p2 = self.pw2.plot(self.time, self.data2, pen="r")
+        p3 = self.pw3.plot(self.time, self.data3, pen="r")
 
         self.region1 = pg.LinearRegionItem()
         self.region2 = pg.LinearRegionItem()
@@ -173,8 +173,8 @@ class WidgetCompare(QWidget):
         self.time2 = time2
 
         p4 = self.pw1.plot(self.time2, self.data4, pen="c")
-        p5 = self.pw2.plot(self.time2, self.data5, pen="g")
-        p6 = self.pw3.plot(self.time2, self.data6, pen="r")
+        p5 = self.pw2.plot(self.time2, self.data5, pen="c")
+        p6 = self.pw3.plot(self.time2, self.data6, pen="c")
 
 
     def btnToggle(self):
