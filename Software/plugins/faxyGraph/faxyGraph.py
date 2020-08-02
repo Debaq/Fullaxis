@@ -61,8 +61,8 @@ class WidgetGraph(QWidget):
 
             self.data2=self.normalize(data2, self.timeSeg)
             self.data3=self.normalize(data3, self.timeSeg)
-            self.data1 = savgol_filter(data1, 101, 2)
-            self.data1=self.normalize(self.data1, self.timeSeg)
+            #self.data1 = savgol_filter(data1, 101, 2)
+            self.data1=self.normalize(data1, self.timeSeg)
 
             self.graph()
 
