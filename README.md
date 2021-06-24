@@ -5,7 +5,7 @@ Unidad de medición inercial
     NOMBRE PROYECTO : FULLAXIS                   
     VER. 20.7.24 - GUI PYQT5                     
     NOMBRE VER. : AzoGuer                      
-    CREADOR : NICOLÁS QUEZADA BAIER               
+    CREADOR : NICOLÁS QUEZADA BAIER (DAVID ÁVILA QUEZADA)               
 
 
 Dependencias:
