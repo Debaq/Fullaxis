@@ -1,9 +1,4 @@
-from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
-                             QStyleFactory, QTableView, QVBoxLayout, QWidget, 
-                             QVBoxLayout, QHBoxLayout)
-
-from PyQt5.QtGui import QIcon, QTableWidgetItem
-from PyQt5 import QtCore
+from PySide6.QtWidgets import (QWidget)
 
 
 from lib.uiForm.compare_ui import Ui_widget
@@ -12,11 +7,9 @@ import numpy as np
 import pyqtgraph as pg
 
 from lib import old_exchange
-import lib.old_exchange as old_csv
 from lib.ui_functions import UIFunctions as UIFunc
-import ezodf
 from lib.styles.widgets import Styles as WStyles
-import json
+#import json
 
 
 class WidgetCompare(QWidget):

@@ -3,9 +3,9 @@
 import os, sys
 import string
 from os import path
-from PyQt5 import uic
+from PySide6 import uic
 import time
-#from PyQt5 import pyrcc_main
+#from PySide6 import pyrcc_main
 
 class updateUI():
     def __init__(self, source):

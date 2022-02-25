@@ -1,6 +1,6 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QFileDialog
 import old_exchange
 
 

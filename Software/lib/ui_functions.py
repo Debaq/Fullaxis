@@ -2,9 +2,9 @@ import json
 import os
 from datetime import datetime
 
-from PyQt5.QtCore import QAbstractTableModel, Qt, QSize
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import (QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel,
+from PySide6.QtCore import QAbstractTableModel, Qt, QSize
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import (QDialog, QFileDialog, QFrame, QHBoxLayout, QLabel,
                              QMenu, QPushButton, QSizePolicy, QSpacerItem,
                              QVBoxLayout, QWidget)
 

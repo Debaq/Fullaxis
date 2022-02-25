@@ -2,7 +2,7 @@
 #################################################################
 #                                                               #
 #                  NOMBRE PROYECTO : preview-FULLAXIS           #
-#                   VER. 20.7.4 - GUI PYQT5                     #
+#                   VER. 20.7.4 - GUI PySide6                     #
 #                    NOMBRE VER. : AzoGuer                      #
 #               CREADOR : NICOLÁS QUEZADA QUEZADA               #
 #                                                               #
@@ -65,9 +65,9 @@ else:
 import pyqtgraph as pg
 import numpy as np
 # ==> LIBRERIAS PYQT
-from PyQt5 import QtCore
-from PyQt5.QtGui import QIcon, QTableWidgetItem, QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
+from PySide6 import QtCore
+from PySide6.QtGui import QIcon, QTableWidgetItem, QStandardItemModel, QStandardItem
+from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
                              QStyleFactory, QTableView, QVBoxLayout, QWidget, 
                              QVBoxLayout, QHBoxLayout, QFileDialog)
 

@@ -3,7 +3,7 @@
 #################################################################
 #                                                               #
 #                  NOMBRE PROYECTO : FULLAXIS                   #
-#                   VER. 20.7.24 - GUI PYQT5                     #
+#                   VER. 20.7.24 - GUI PySide6                     #
 #                    NOMBRE VER. : AzoGuer                      #
 #               CREADOR : NICOLÁS QUEZADA QUEZADA               #
 #                                                               #
@@ -13,7 +13,7 @@
 import os
 import platform
 import sys
-from os import path, remove
+from os import path
 
 
 # ==> SE ACTUALIZAN UI Y RC SI SE ENCUENTRA EN MODO DESARROLLO
@@ -64,17 +64,16 @@ else:
 import pyqtgraph as pg
 import numpy as np
 # ==> LIBRERIAS PYQT
-from PyQt5 import QtCore
-from PyQt5.QtGui import QIcon, QTableWidgetItem
-from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
-                             QStyleFactory, QTableView, QVBoxLayout, QWidget, 
-                             QVBoxLayout, QHBoxLayout)
+from PySide6 import QtCore
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (QApplication, QDialog, QMainWindow, QMenu,
+                               QWidget)
 
 import lib.PATH_NAME as PATH
 # ==> APIS
 from lib import API_conector
 from lib import basic_functions as basic
-from lib.helpers import updateUI
+#from lib.helpers import updateUI
 from lib.styles.Frames import Styles as FStyles
 # ==> ESTILOS
 from lib.styles.widgets import Styles as WStyles

@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import (QApplication, QDialog, QLabel, QMainWindow, QMenu,
-                             QStyleFactory, QTableView, QVBoxLayout, QWidget, 
-                             QVBoxLayout, QHBoxLayout)
+from PySide6.QtWidgets import (QApplication,
+                              QTableView, QWidget, 
+                              QTableWidgetItem)
 
-from PyQt5.QtGui import QIcon, QTableWidgetItem
-from PyQt5 import QtCore
+from PySide6 import QtCore
 
 
 from lib.uiForm.graph_ui import Ui_widget
@@ -12,12 +11,11 @@ import numpy as np
 import pyqtgraph as pg
 
 from lib import old_exchange
-import lib.old_exchange as old_csv
 from lib.ui_functions import UIFunctions as UIFunc
 import ezodf
 from lib.styles.widgets import Styles as WStyles
 import json
-from scipy.signal import savgol_filter
+#from scipy.signal import savgol_filter
 
 class WidgetGraph(QWidget):
     def __init__(self, filedoc=None, *args, **kwargs):
