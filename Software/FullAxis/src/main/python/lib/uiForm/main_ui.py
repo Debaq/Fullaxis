@@ -19,7 +19,6 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QMenu, QMenuBar, QPushButton,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
-from resource import resource_rc
 
 class Ui_FullAxis(object):
     def setupUi(self, FullAxis):

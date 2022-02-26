@@ -17,7 +17,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QSizePolicy, QVBoxLayout,
     QWidget)
-from resource import resource_rc
 
 class Ui_Lateral_menu(object):
     def setupUi(self, Lateral_menu):
