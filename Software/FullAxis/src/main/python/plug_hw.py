@@ -47,9 +47,12 @@ def verify_receptor_serial():
             
 
 def reset_hw(hw):
-    if not hw.isOpen():
-        hw.open()
-    hw.setDTR(False)
-    sleep(1)
-    hw.flushInput()
-    hw.setDTR(True)    
+    try:
+        if not hw.isOpen():
+            hw.open()
+        hw.setDTR(False)
+        sleep(1)
+        hw.flushInput()
+        hw.setDTR(True)    
+    except AttributeError:
+        print("Error: no exite dispositivo conectado")
