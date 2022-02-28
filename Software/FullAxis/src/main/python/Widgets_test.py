@@ -1,3 +1,4 @@
+from unicodedata import name
 from PySide6.QtWidgets import QWidget
 import pyqtgraph as pg
 from lib.basic_graph import Ui_graph
@@ -56,13 +57,13 @@ class WidgetTUG(QWidget):
             self.mem_pitch.append(data[1])
             self.mem_yaw.append(data[2])
             new_time = self.mem_time_func(data[3])
-            self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r')
-            self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g')
-            self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b')
+            plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
+            plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
+            plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
             if new_time > self.time_max:
-                self.graph_tools(self.pw_roll)
-                self.graph_tools(self.pw_pitch)
-                self.graph_tools(self.pw_yaw)
+                self.graph_tools(self.pw_roll, plot_roll)
+                self.graph_tools(self.pw_pitch, plot_pitch)
+                self.graph_tools(self.pw_yaw, plot_yaw)
                 self.stop = True
 
     def mem_time_func(self, data):
@@ -89,7 +90,7 @@ class WidgetTUG(QWidget):
         pw.setLabel('bottom', 'Time', units='s')
         return pw
 
-    def graph_tools(self,axis):
+    def graph_tools(self,axis,plot):
         region = pg.LinearRegionItem()
         region.setZValue(9)
         region.setRegion([0, 5]) #limite para no salirse de la pantalla
@@ -102,9 +103,14 @@ class WidgetTUG(QWidget):
         axis.addItem(vertical_line, ignoreBounds=True)
         axis.addItem(horizontal_line, ignoreBounds=True)
         axis.addItem(region)
+        #maxy = max(plot.getData()[1])
+        #miny = min(plot.getData()[1])
+        #axis.setYRange(miny, maxy)
+        axis.autoRange()
 
     def graph_range(self, axis):
         axis.setXRange(0, self.time_max)
+        
 
 
 class WidgetSOT(QWidget):

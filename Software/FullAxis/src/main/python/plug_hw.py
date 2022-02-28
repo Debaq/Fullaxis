@@ -4,10 +4,34 @@
 import serial
 import serial.tools.list_ports
 from time import sleep
-from PySide6.QtCore import Signal, QThread
+from PySide6.QtCore import Signal, QThread, QIODevice
+from PySide6.QtSerialPort import QSerialPortInfo, QSerialPort
 
 bautrade_hw = 9600
 
+
+def Serial_discover():
+    ports = QSerialPortInfo.availablePorts()
+    port = None
+    for i in ports:
+        manufactured = "wch.cn"
+        description = "USB-SERIAL CH340"
+        if i.manufacturer() == manufactured and i.description() == description:
+            port = i
+            
+    return port
+        
+ 
+def Serial_read(port):
+    if port is not None:
+        f_axis_connector = QSerialPort(port)
+        f_axis_connector.setBaudRate(bautrade_hw)
+        f_axis_connector.setDataBits(QSerialPort.Data8)
+        f_axis_connector.setParity(QSerialPort.NoParity)
+        f_axis_connector.setStopBits(QSerialPort.OneStop)
+        f_axis_connector.setFlowControl(QSerialPort.NoFlowControl)
+        data = f_axis_connector.readLine()
+        
 
 def verify_receptor_serial():
     ports = list(serial.tools.list_ports.comports())
@@ -84,6 +108,6 @@ class receiver_data(QThread):
                            
     def stop_reading(self):
         self.continue_reading = False
-        reset_hw(self.port)
+#        reset_hw(self.port)
         self.port.close()
 

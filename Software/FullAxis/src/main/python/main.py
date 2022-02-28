@@ -13,6 +13,7 @@
 import os
 import sys
 
+
 os_system = 'win' if os.name == 'nt' else 'linux'
 
 if len(sys.argv) > 1:
@@ -130,6 +131,7 @@ class  BasicTest(QWidget, Ui_Test_basic):
         self.receiver.start()
         self.receiver.data.connect(self.receive_data_and_graph)
 
+
     def receive_data_and_graph(self, data):
         if self.buttons_disabled:
             self.buttons_disabled = False
@@ -140,6 +142,8 @@ class  BasicTest(QWidget, Ui_Test_basic):
             if not self.widget.stop:
                 self.widget.update_graph_display(data)
             else:
+                self.receiver.stop_reading()
+                self.receiver.data.disconnect(self.receive_data_and_graph)
                 self.capture = False
                 self.btn_capture.setText("Capture")
                 self.btn_save.setEnabled(True)
