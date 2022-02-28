@@ -60,6 +60,7 @@ def verify_receptor_serial():
                     try:
                         clean_data = data.decode('utf-8').strip('\r\n')
                         read = read_response(clean_data)
+                        print(data)
                     except UnicodeDecodeError:
                         print("Error: No se pudo decodificar el mensaje")
                     
@@ -97,14 +98,21 @@ class receiver_data(QThread):
         with self.port:
             while self.continue_reading:
                 data = self.port.readline()
+                if data == b'':
+                    print("nvio dato de activación")
+                    self.port.write(b'33')
                 try:
                     clean_data = data.decode('utf-8').strip('\r\n')
                 except UnicodeDecodeError:
                     print("Error: No se pudo decodificar el mensaje")
                 if clean_data[:3] != "Soy":
-                    roll,pitch,yaw,dt = clean_data.split(',')
-                    data = [float(roll),float(pitch),float(yaw),float(dt)]
-                    self.data.emit(data)
+                    try:
+                        roll,pitch,yaw,dt = clean_data.split(',')
+                        data = [float(roll),float(pitch),float(yaw),float(dt)]
+                        self.data.emit(data)
+                    except ValueError:
+                        print("Error: No se pudo decodificar el mensaje: {}".format(data))
+                        
                            
     def stop_reading(self):
         self.continue_reading = False
