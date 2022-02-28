@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>503</width>
-    <height>381</height>
+    <width>749</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -172,6 +172,7 @@
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -324,14 +325,32 @@
        <string>Session</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>1</number>
+         </property>
          <item>
           <widget class="QFrame" name="horizontalFrame">
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>35</height>
+             <height>30</height>
             </size>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -374,7 +393,23 @@
          </item>
          <item>
           <widget class="QWidget" name="widget_session" native="true">
-           <layout class="QVBoxLayout" name="layout_session"/>
+           <layout class="QVBoxLayout" name="layout_session">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+           </layout>
           </widget>
          </item>
         </layout>

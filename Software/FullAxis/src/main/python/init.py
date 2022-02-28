@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from fbs_runtime.application_context.PyQt6 import ApplicationContext
+from fbs_runtime.application_context.PySide6 import ApplicationContext
 context = ApplicationContext()
 
 

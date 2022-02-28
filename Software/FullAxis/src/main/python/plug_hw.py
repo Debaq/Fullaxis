@@ -4,7 +4,8 @@
 import serial
 import serial.tools.list_ports
 from time import sleep
-      
+from PySide6.QtCore import Signal, QThread
+
 bautrade_hw = 9600
 
 
@@ -56,3 +57,33 @@ def reset_hw(hw):
         hw.setDTR(True)    
     except AttributeError:
         print("Error: no exite dispositivo conectado")
+
+#class receiver_data(QThread):
+class receiver_data(QThread):
+
+    data = Signal(object)
+     
+        
+    def run(self):
+        self.continue_reading = True
+        self.port = verify_receptor_serial()
+        self.read_data()
+
+    def read_data(self):
+        with self.port:
+            while self.continue_reading:
+                data = self.port.readline()
+                try:
+                    clean_data = data.decode('utf-8').strip('\r\n')
+                except UnicodeDecodeError:
+                    print("Error: No se pudo decodificar el mensaje")
+                if clean_data[:3] != "Soy":
+                    roll,pitch,yaw,dt = clean_data.split(',')
+                    data = [float(roll),float(pitch),float(yaw),float(dt)]
+                    self.data.emit(data)
+                           
+    def stop_reading(self):
+        self.continue_reading = False
+        reset_hw(self.port)
+        self.port.close()
+
