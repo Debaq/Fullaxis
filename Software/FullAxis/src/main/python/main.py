@@ -28,7 +28,7 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QTreeWidgetItem
 from lib.basic_profile import Ui_Form as BasicProfile
 from lib.main_ui import Ui_MainWindow
 from lib.basic_test import Ui_Test_basic
-from plug_hw import reset_hw, verify_receptor_serial, receiver_data
+from plug_hw import ReceiverData
 from save_profile import ProfileData, SessionData
 from Widgets_test import WidgetTUG, WidgetSOT
 
@@ -127,7 +127,7 @@ class  BasicTest(QWidget, Ui_Test_basic):
         self.widget.with_delay = self.check_delay.isChecked()
 
     def activate_serial(self):
-        self.receiver = receiver_data()
+        self.receiver = ReceiverData()
         self.receiver.start()
         self.receiver.data.connect(self.receive_data_and_graph)
 
@@ -217,8 +217,8 @@ class MainWindows(QMainWindow, Ui_MainWindow):
         print("capturando|")
          
 if __name__ == "__main__":
-    port = verify_receptor_serial()
-    windows = MainWindows(port)
+    #port = verify_receptor_serial()
+    windows = MainWindows(None)
     exit_code = context.app.exec()
-    reset_hw(port)
+    #reset_hw(port)
     sys.exit(exit_code)

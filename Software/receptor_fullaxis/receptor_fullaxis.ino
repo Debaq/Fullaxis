@@ -12,7 +12,11 @@ void setup() {
 }
 
 void loop() {
+
+  
+
   while (connect_state == false) {
+    Serial.println("esperando conexión");
     digitalWrite(LED_BUILTIN, LOW);
     if (Serial.available() > 0) {
       inByte = Serial.read();
@@ -29,11 +33,11 @@ void loop() {
     digitalWrite(LED_BUILTIN, HIGH);
     delay(100);
   }
+  
   if (connect_state == true && repeat_receptor > 0) {
     repeat_receptor = repeat_receptor - 1;
     Serial.print("Soy Tu receptor t:");
     Serial.println(repeat_receptor);
-
   }
   else {
     if (transmit == true) {

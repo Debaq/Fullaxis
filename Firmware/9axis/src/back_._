@@ -1,0 +1,53 @@
+// Se incluyen librerias necesarias
+#include <Arduino.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+  
+// Se definen variables globales
+#define WIFI_SSID "FullAxis"
+#define WIFI_PASS "Zk*DsU@77BzJAXNk"
+#define UDP_PORT 4210 
+int count = 0;
+
+
+// Se instancia UDP
+WiFiUDP UDP;
+IPAddress remote_IP(192,168,4,1);
+
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println("9axis");
+
+  // Setup IO
+  pinMode(2, OUTPUT);
+      
+  // Begin WiFi
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  WiFi.mode(WIFI_STA);
+  
+  // Connecting to WiFi...
+  while (WiFi.status() != WL_CONNECTED) 
+  {
+    digitalWrite(2, LOW);
+    delay(50);
+    digitalWrite(2, HIGH);
+    delay(50);
+  }
+     
+  // Begin UDP port
+  UDP.begin(UDP_PORT);
+  digitalWrite(2, LOW);
+}
+  
+void loop() {
+   Serial.println("9axis");
+
+  // Send Packet
+  UDP.beginPacket(remote_IP, UDP_PORT);
+  UDP.write("hola");
+  UDP.endPacket();
+  delay(100);
+   
+}
