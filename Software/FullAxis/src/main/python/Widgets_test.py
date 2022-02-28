@@ -103,9 +103,6 @@ class WidgetTUG(QWidget):
         axis.addItem(vertical_line, ignoreBounds=True)
         axis.addItem(horizontal_line, ignoreBounds=True)
         axis.addItem(region)
-        #maxy = max(plot.getData()[1])
-        #miny = min(plot.getData()[1])
-        #axis.setYRange(miny, maxy)
         axis.autoRange()
 
     def graph_range(self, axis):

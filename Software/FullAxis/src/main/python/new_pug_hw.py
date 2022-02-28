@@ -1,44 +1,58 @@
-from PySide6.QtCore import QIODevice, Slot
+from encodings import utf_8
 from PySide6.QtSerialPort import QSerialPortInfo, QSerialPort
-
-bautrade_hw = 9600
-
-
-class FullAxisConnector():
-    def __init__(self) -> None:
-        port = self.Serial_discover()
-        self.Serial_read(port)
+from PySide6.QtCore import QThread, Signal,Slot,QIODevice, QByteArray
+from PySide6 import Qt
 
 
+
+class receiver_data(QThread):
+    data = Signal(str)
+
+    def run(self):
+        self.portname = self.Serial_discover()
+        self.serial = QSerialPort(
+            self.portname,
+            baudRate= 9600,
+            readyRead=self.receive)
+        self.data.emit("Serial port is open")
+        self.serial.open(QIODevice.ReadWrite)
+        self.send(self.serial.isOpen())
+        self.send(self.serial.isReadable())
+        self.send_auto()
+        while True:
+            self.receive()
+   
     def Serial_discover(self):
         ports = QSerialPortInfo.availablePorts()
         port = None
         for i in ports:
-            manufactured = "wch.cn"
-            description = "USB-SERIAL CH340"
-            if i.manufacturer() == manufactured and i.description() == description:
+            manufactured = ["wch.cn", "1a86"]
+            description = ["USB-SERIAL CH340", "USB2.0-Serial"]
+            if i.manufacturer() in manufactured and i.description() in description:
                 port = i
-
         return port
-
-    def Serial_read(self, port):
-        if port is not None:
-            self.f_axis_connector = QSerialPort(port, readyRead=self.read_response)
-            self.f_axis_connector.setBaudRate(QSerialPort.Baud9600)
-            self.f_axis_connector.setDataBits(QSerialPort.Data8)
-            self.f_axis_connector.setParity(QSerialPort.NoParity)
-            self.f_axis_connector.setStopBits(QSerialPort.OneStop)
-            self.f_axis_connector.setFlowControl(QSerialPort.NoFlowControl)
+          
+    def receive(self):
+        text = self.serial.readLine().data().decode()
+        if len(text) != 0:
             
+            #text = text.rstrip('\r\n')
+            self.data.emit("algo esta entrando")
+        else:
+            self.data.emit("no entra nada")
 
+            self.send_auto()
 
-    @Slot()
-    def read_response(self):
-        while self.f_axis_connector.canReadLine():
-            line = self.f_axis_connector.readLine().data().decode()
-            line = line.rsplit('\r\n')
-            print(line)
+            
+    def send(self, data):
+        if data is not str:
+            data = str(data)
+        self.data.emit(data)
+        
+        
+    def send_auto(self):
+        self.serial.write("33".encode())
+        
 
-
-
-test = FullAxisConnector()
+    def close(self):
+        self.serial.close()
