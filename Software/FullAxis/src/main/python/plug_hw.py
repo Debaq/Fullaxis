@@ -8,25 +8,30 @@ from PySide6.QtCore import Signal, QThread
 import signal
 import sys
 
-bautrade_hw = 9600
+bautrade_hw = 115200
 
 
 class FullAxisReceptor():
     def __init__(self) -> None:
         port = self.search_port()
-        self.connection = self.activate_connection(port)
-        self.reset(self.connection)
+        if port is not None:
+            self.connection = self.activate_connection(port)
+            self.reset(self.connection)
+        else:
+            return None
         
     def search_port(self):
         ports = list(serial.tools.list_ports.comports())
         manufactured = ["wch.cn", "1a86"]
-        description = ["USB-SERIAL CH340", "USB2.0-Serial"]
+        description = ["USB-SERIAL CH340", "USB2.0-Serial","USB-SERIAL CH340 (COM7)","USB-SERIAL CH340 (COM3),USB-SERIAL CH340 (COM4),USB-SERIAL CH340 (COM5)"]
         vid = [6790]
         pid = [29987]
         port = None
         if ports :
             for p in ports:
-                if p.description in description and p.pid in pid and p.vid in vid:
+                #if p.description in description and p.pid in pid and p.vid in vid:
+                if p.description in description :
+
                     port = p.device
         return port    
                 
@@ -106,4 +111,9 @@ class ReceiverData(QThread):
             self.read = True
         
 
+if __name__ == "__main__":
 
+    W = FullAxisReceptor()
+    W.activate_receptor()
+    while True:
+        print(W.read_line())
