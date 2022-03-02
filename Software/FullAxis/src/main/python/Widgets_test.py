@@ -84,7 +84,7 @@ class WidgetTUG(QWidget):
     def graph_axis(self, name):
         pw = pg.PlotWidget(name=name)
         pw.setBackground('w')
-        pw.setYRange(-180, 180)
+        pw.setYRange(-80, 80)
         pw.showGrid(x=True, y=True)
         pw.setLabel('left', 'Amplitude', units='degrees')
         pw.setLabel('bottom', 'Time', units='s')

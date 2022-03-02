@@ -142,8 +142,8 @@ class  BasicTest(QWidget, Ui_Test_basic):
             if not self.widget.stop:
                 self.widget.update_graph_display(data)
             else:
-                self.receiver.stop_reading()
-                self.receiver.data.disconnect(self.receive_data_and_graph)
+                #self.receiver.quit()
+                #self.receiver.data.disconnect(self.receive_data_and_graph)
                 self.capture = False
                 self.btn_capture.setText("Capture")
                 self.btn_save.setEnabled(True)

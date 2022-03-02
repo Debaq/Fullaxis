@@ -8,7 +8,7 @@ from PySide6.QtCore import Signal, QThread
 import signal
 import sys
 
-bautrade_hw = 9600
+bautrade_hw = 115200
 
 
 class FullAxisReceptor():
@@ -68,6 +68,7 @@ class FullAxisReceptor():
         error = False
         try:
             line = self.connection.readline().decode().replace("\r\n","")
+           
         except UnicodeDecodeError:
             error = True
         if error == False:
@@ -79,6 +80,12 @@ class FullAxisReceptor():
                 except ValueError:
                    self.activate_receptor()
         
+
+
+#w = FullAxisReceptor()
+#w.activate_receptor()  
+#while True:
+    #print(w.read_line())
 
 
 class ReceiverData(QThread):
@@ -99,7 +106,7 @@ class ReceiverData(QThread):
                     self.data.emit(data)
                 
 
-    def stop_data(self, a = True):
+    def stop_reading(self, a = True):
         if a:
             self.read = False
         else:

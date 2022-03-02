@@ -65,7 +65,6 @@ void change_state(String st){
   
 }
 
-
 // funciones para display
 
 void logo(){
