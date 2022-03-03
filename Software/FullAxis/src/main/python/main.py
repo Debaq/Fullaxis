@@ -299,7 +299,7 @@ class MainWindows(QMainWindow, Ui_MainWindow):
         self.show()
         self.btns_tools_clicked()
         self.combo_serial_complete()
-        self.btns_icons()
+        #self.btns_icons()
 
        
     def configure_window(self) -> None:
@@ -331,10 +331,8 @@ class MainWindows(QMainWindow, Ui_MainWindow):
 
         for i in ports.search_ports():
             if i[2] != 'n/a':
-
-                self.combo_serial.addItem(icon_signal, i[0])
+                self.combo_serial.addItem(i[0])
                 self.combo_serial.setCurrentText(i[0])
-                
             else:
                 self.combo_serial.addItem(i[0])
         
