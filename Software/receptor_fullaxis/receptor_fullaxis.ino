@@ -7,7 +7,7 @@ unsigned long t = 0;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(2, OUTPUT);
 
 }
 
@@ -17,20 +17,20 @@ void loop() {
 
   while (connect_state == false) {
     Serial.println("esperando conexión");
-    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(2, LOW);
     if (Serial.available() > 0) {
       inByte = Serial.read();
       delay(10);
       if (inByte == 51) {
       }
-      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(2, LOW);
       connect_state = true;
       delay(10);
       Serial.println("Soy Tu receptor t:10");
       break;
     }
     delay(100);
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(2, HIGH);
     delay(100);
   }
   

@@ -21,16 +21,16 @@ from PySide6.QtWidgets import (QApplication, QDateEdit, QFontComboBox, QFormLayo
     QSpinBox, QTabWidget, QTextEdit, QTreeWidget,
     QTreeWidgetItem, QVBoxLayout, QWidget)
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(749, 603)
-        self.verticalLayout = QVBoxLayout(Form)
+class Ui_Profile_user(object):
+    def setupUi(self, Profile_user):
+        if not Profile_user.objectName():
+            Profile_user.setObjectName(u"Profile_user")
+        Profile_user.resize(749, 603)
+        self.verticalLayout = QVBoxLayout(Profile_user)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget = QTabWidget(Form)
+        self.tabWidget = QTabWidget(Profile_user)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setTabPosition(QTabWidget.West)
         self.tabWidget.setTabShape(QTabWidget.Rounded)
@@ -276,7 +276,7 @@ class Ui_Form(object):
         QWidget.setTabOrder(self.btn_save, self.btn_new_tug)
         QWidget.setTabOrder(self.btn_new_tug, self.btn_new_sot)
 
-        self.retranslateUi(Form)
+        self.retranslateUi(Profile_user)
         self.fontComboBox.currentFontChanged.connect(self.input_info.setCurrentFont)
         self.pushButton_2.clicked["bool"].connect(self.input_info.setFontUnderline)
         self.pushButton_3.clicked["bool"].connect(self.input_info.setFontItalic)
@@ -285,34 +285,34 @@ class Ui_Form(object):
         self.tabWidget.setCurrentIndex(0)
 
 
-        QMetaObject.connectSlotsByName(Form)
+        QMetaObject.connectSlotsByName(Profile_user)
     # setupUi
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.lbl_number.setText(QCoreApplication.translate("Form", u"Number", None))
-        self.input_number.setText(QCoreApplication.translate("Form", u"nn", None))
-        self.lbl_first_name.setText(QCoreApplication.translate("Form", u"First name", None))
-        self.lbl_last_name.setText(QCoreApplication.translate("Form", u"Last name", None))
-        self.lbl_id.setText(QCoreApplication.translate("Form", u"Id", None))
-        self.lbl_date_birth.setText(QCoreApplication.translate("Form", u"Date of birth", None))
-        self.input_date_birth.setDisplayFormat(QCoreApplication.translate("Form", u"dd-MM-yyyy", None))
-        self.lbl_info.setText(QCoreApplication.translate("Form", u"Info", None))
-        self.btn_save.setText(QCoreApplication.translate("Form", u"Save", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"B", None))
-        self.pushButton_2.setText(QCoreApplication.translate("Form", u"U", None))
-        self.pushButton_3.setText(QCoreApplication.translate("Form", u"I", None))
-        self.btn_pred.setText(QCoreApplication.translate("Form", u"pred.", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profile), QCoreApplication.translate("Form", u"Profile", None))
-        self.btn_create_session.setText(QCoreApplication.translate("Form", u"Create Session", None))
+    def retranslateUi(self, Profile_user):
+        Profile_user.setWindowTitle(QCoreApplication.translate("Profile_user", u"Form", None))
+        self.lbl_number.setText(QCoreApplication.translate("Profile_user", u"Number", None))
+        self.input_number.setText(QCoreApplication.translate("Profile_user", u"nn", None))
+        self.lbl_first_name.setText(QCoreApplication.translate("Profile_user", u"First name", None))
+        self.lbl_last_name.setText(QCoreApplication.translate("Profile_user", u"Last name", None))
+        self.lbl_id.setText(QCoreApplication.translate("Profile_user", u"Id", None))
+        self.lbl_date_birth.setText(QCoreApplication.translate("Profile_user", u"Date of birth", None))
+        self.input_date_birth.setDisplayFormat(QCoreApplication.translate("Profile_user", u"dd-MM-yyyy", None))
+        self.lbl_info.setText(QCoreApplication.translate("Profile_user", u"Info", None))
+        self.btn_save.setText(QCoreApplication.translate("Profile_user", u"Save", None))
+        self.pushButton.setText(QCoreApplication.translate("Profile_user", u"B", None))
+        self.pushButton_2.setText(QCoreApplication.translate("Profile_user", u"U", None))
+        self.pushButton_3.setText(QCoreApplication.translate("Profile_user", u"I", None))
+        self.btn_pred.setText(QCoreApplication.translate("Profile_user", u"pred.", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profile), QCoreApplication.translate("Profile_user", u"Profile", None))
+        self.btn_create_session.setText(QCoreApplication.translate("Profile_user", u"Create Session", None))
         ___qtreewidgetitem = self.list_records.headerItem()
-        ___qtreewidgetitem.setText(2, QCoreApplication.translate("Form", u"Date", None));
-        ___qtreewidgetitem.setText(1, QCoreApplication.translate("Form", u"Activity", None));
-        ___qtreewidgetitem.setText(0, QCoreApplication.translate("Form", u"Session", None));
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_record), QCoreApplication.translate("Form", u"Records", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Last:", None))
-        self.btn_new_sot.setText(QCoreApplication.translate("Form", u"New SOT", None))
-        self.btn_new_tug.setText(QCoreApplication.translate("Form", u"New TUG", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_session), QCoreApplication.translate("Form", u"Session", None))
+        ___qtreewidgetitem.setText(2, QCoreApplication.translate("Profile_user", u"Date", None));
+        ___qtreewidgetitem.setText(1, QCoreApplication.translate("Profile_user", u"Activity", None));
+        ___qtreewidgetitem.setText(0, QCoreApplication.translate("Profile_user", u"Session", None));
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_record), QCoreApplication.translate("Profile_user", u"Records", None))
+        self.label.setText(QCoreApplication.translate("Profile_user", u"Last:", None))
+        self.btn_new_sot.setText(QCoreApplication.translate("Profile_user", u"New SOT", None))
+        self.btn_new_tug.setText(QCoreApplication.translate("Profile_user", u"New TUG", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_session), QCoreApplication.translate("Profile_user", u"Session", None))
     # retranslateUi
 

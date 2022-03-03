@@ -13,12 +13,10 @@ bautrade_hw = 115200
 
 class FullAxisReceptor():
     def __init__(self) -> None:
-        port = self.search_port()
-        if port is not None:
-            self.connection = self.activate_connection(port)
-            self.reset(self.connection)
-        else:
-            return None
+        pass
+        #port = self.search_port()
+        #self.connection = self.activate_connection(port)
+        #self.reset(self.connection)
         
     def search_port(self):
         ports = list(serial.tools.list_ports.comports())
@@ -34,6 +32,19 @@ class FullAxisReceptor():
 
                     port = p.device
         return port    
+               
+               
+    def search_ports(self):
+        data = []
+        ports = serial.tools.list_ports.comports()
+        for i in ports:
+            port = [i.device, i.name,i.description,i.hwid,i.vid,i.pid,i.serial_number,i.location,i.manufacturer,i.product,i.interface]
+            data.append(port)
+
+            
+        
+        return data
+    
                 
     def reset(self,hw):
         try:
@@ -73,6 +84,7 @@ class FullAxisReceptor():
         error = False
         try:
             line = self.connection.readline().decode().replace("\r\n","")
+           
         except UnicodeDecodeError:
             error = True
         if error == False:
@@ -84,6 +96,12 @@ class FullAxisReceptor():
                 except ValueError:
                    self.activate_receptor()
         
+
+
+#w = FullAxisReceptor()
+#w.activate_receptor()  
+#while True:
+    #print(w.read_line())
 
 
 class ReceiverData(QThread):
@@ -104,7 +122,7 @@ class ReceiverData(QThread):
                     self.data.emit(data)
                 
 
-    def stop_data(self, a = True):
+    def stop_reading(self, a = True):
         if a:
             self.read = False
         else:
