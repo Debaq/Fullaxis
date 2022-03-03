@@ -13,9 +13,10 @@ bautrade_hw = 115200
 
 class FullAxisReceptor():
     def __init__(self) -> None:
-        port = self.search_port()
-        self.connection = self.activate_connection(port)
-        self.reset(self.connection)
+        pass
+        #port = self.search_port()
+        #self.connection = self.activate_connection(port)
+        #self.reset(self.connection)
         
     def search_port(self):
         ports = list(serial.tools.list_ports.comports())
@@ -29,6 +30,19 @@ class FullAxisReceptor():
                 if p.description in description and p.pid in pid and p.vid in vid:
                     port = p.device
         return port    
+               
+               
+    def search_ports(self):
+        data = []
+        ports = serial.tools.list_ports.comports()
+        for i in ports:
+            port = [i.device, i.name,i.description,i.hwid,i.vid,i.pid,i.serial_number,i.location,i.manufacturer,i.product,i.interface]
+            data.append(port)
+
+            
+        
+        return data
+    
                 
     def reset(self,hw):
         try:

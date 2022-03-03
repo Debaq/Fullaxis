@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QMainWindow, QPushButton,
-    QSizePolicy, QSpacerItem, QStatusBar, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QMainWindow,
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(3, 3, 3, 3)
+        self.verticalLayout.setContentsMargins(6, 3, 6, 3)
         self.widget = QWidget(self.centralwidget)
         self.widget.setObjectName(u"widget")
         self.widget.setMaximumSize(QSize(16777215, 35))
@@ -46,16 +46,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.btn_open_profile)
 
-        self.btn_save = QPushButton(self.widget)
-        self.btn_save.setObjectName(u"btn_save")
-
-        self.horizontalLayout.addWidget(self.btn_save)
-
-        self.btn_save_as = QPushButton(self.widget)
-        self.btn_save_as.setObjectName(u"btn_save_as")
-
-        self.horizontalLayout.addWidget(self.btn_save_as)
-
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
@@ -64,6 +54,12 @@ class Ui_MainWindow(object):
         self.btn_connect.setObjectName(u"btn_connect")
 
         self.horizontalLayout.addWidget(self.btn_connect)
+
+        self.combo_serial = QComboBox(self.widget)
+        self.combo_serial.setObjectName(u"combo_serial")
+        self.combo_serial.setInsertPolicy(QComboBox.InsertAtTop)
+
+        self.horizontalLayout.addWidget(self.combo_serial)
 
         self.btn_view_raw = QPushButton(self.widget)
         self.btn_view_raw.setObjectName(u"btn_view_raw")
@@ -89,10 +85,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
         QWidget.setTabOrder(self.btn_new_profile, self.btn_open_profile)
-        QWidget.setTabOrder(self.btn_open_profile, self.btn_save)
-        QWidget.setTabOrder(self.btn_save, self.btn_save_as)
-        QWidget.setTabOrder(self.btn_save_as, self.btn_connect)
-        QWidget.setTabOrder(self.btn_connect, self.btn_view_raw)
+        QWidget.setTabOrder(self.btn_open_profile, self.btn_view_raw)
 
         self.retranslateUi(MainWindow)
 
@@ -103,8 +96,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.btn_new_profile.setText(QCoreApplication.translate("MainWindow", u"New Profile", None))
         self.btn_open_profile.setText(QCoreApplication.translate("MainWindow", u"Open Profile", None))
-        self.btn_save.setText(QCoreApplication.translate("MainWindow", u"Save", None))
-        self.btn_save_as.setText(QCoreApplication.translate("MainWindow", u"Save as..", None))
         self.btn_connect.setText(QCoreApplication.translate("MainWindow", u"Connect ...", None))
         self.btn_view_raw.setText(QCoreApplication.translate("MainWindow", u"View Raw", None))
     # retranslateUi
