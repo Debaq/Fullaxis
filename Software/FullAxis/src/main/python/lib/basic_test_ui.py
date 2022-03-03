@@ -15,16 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGroupBox,
-    QHBoxLayout, QLabel, QPushButton, QSizePolicy,
-    QSpacerItem, QSpinBox, QTextEdit, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
+    QFrame, QHBoxLayout, QLabel, QPushButton,
+    QSizePolicy, QSpacerItem, QSpinBox, QTextEdit,
+    QVBoxLayout, QWidget)
 
 class Ui_Test_basic(object):
     def setupUi(self, Test_basic):
         if not Test_basic.objectName():
             Test_basic.setObjectName(u"Test_basic")
-        Test_basic.resize(684, 530)
+        Test_basic.resize(798, 695)
         self.verticalLayout = QVBoxLayout(Test_basic)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -36,38 +36,6 @@ class Ui_Test_basic(object):
         self.verticalLayout_2.setSpacing(3)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(-1, 0, -1, -1)
-        self.lbl_test_name = QLabel(self.horizontalFrame)
-        self.lbl_test_name.setObjectName(u"lbl_test_name")
-        sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lbl_test_name.sizePolicy().hasHeightForWidth())
-        self.lbl_test_name.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout.addWidget(self.lbl_test_name)
-
-        self.label = QLabel(self.horizontalFrame)
-        self.label.setObjectName(u"label")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy1)
-
-        self.horizontalLayout.addWidget(self.label)
-
-        self.lbl_test_date = QLabel(self.horizontalFrame)
-        self.lbl_test_date.setObjectName(u"lbl_test_date")
-
-        self.horizontalLayout.addWidget(self.lbl_test_date)
-
-
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
-
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(-1, -1, -1, 0)
@@ -78,7 +46,7 @@ class Ui_Test_basic(object):
 
         self.txt_edit_test = QTextEdit(self.horizontalFrame)
         self.txt_edit_test.setObjectName(u"txt_edit_test")
-        self.txt_edit_test.setMaximumSize(QSize(16777215, 50))
+        self.txt_edit_test.setMaximumSize(QSize(16777215, 80))
         self.txt_edit_test.setReadOnly(False)
 
         self.horizontalLayout_3.addWidget(self.txt_edit_test)
@@ -99,47 +67,76 @@ class Ui_Test_basic(object):
 
         self.frame = QFrame(Test_basic)
         self.frame.setObjectName(u"frame")
-        self.frame.setMaximumSize(QSize(16777215, 25))
+        self.frame.setMinimumSize(QSize(0, 34))
+        self.frame.setMaximumSize(QSize(16777215, 34))
         self.horizontalLayout_2 = QHBoxLayout(self.frame)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalFrame_1 = QFrame(self.frame)
+        self.horizontalFrame_1.setObjectName(u"horizontalFrame_1")
+        self.horizontalFrame_1.setMinimumSize(QSize(50, 0))
+        self.horizontalLayout_5 = QHBoxLayout(self.horizontalFrame_1)
+        self.horizontalLayout_5.setSpacing(2)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.btn_connect = QPushButton(self.horizontalFrame_1)
+        self.btn_connect.setObjectName(u"btn_connect")
+
+        self.horizontalLayout_5.addWidget(self.btn_connect)
+
+        self.combo_serial = QComboBox(self.horizontalFrame_1)
+        self.combo_serial.setObjectName(u"combo_serial")
+        self.combo_serial.setInsertPolicy(QComboBox.InsertAtTop)
+
+        self.horizontalLayout_5.addWidget(self.combo_serial)
+
+        self.btn_view_raw = QPushButton(self.horizontalFrame_1)
+        self.btn_view_raw.setObjectName(u"btn_view_raw")
+        self.btn_view_raw.setEnabled(False)
+        self.btn_view_raw.setFlat(False)
+
+        self.horizontalLayout_5.addWidget(self.btn_view_raw)
+
+
+        self.horizontalLayout_2.addWidget(self.horizontalFrame_1)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.groupBox_2 = QGroupBox(self.frame)
-        self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setMinimumSize(QSize(50, 0))
-        self.horizontalLayout_4 = QHBoxLayout(self.groupBox_2)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.label_2 = QLabel(self.groupBox_2)
+        self.label_2 = QLabel(self.frame)
         self.label_2.setObjectName(u"label_2")
+        font = QFont()
+        font.setPointSize(8)
+        self.label_2.setFont(font)
 
-        self.horizontalLayout_4.addWidget(self.label_2)
+        self.horizontalLayout_2.addWidget(self.label_2)
 
-        self.time_max = QSpinBox(self.groupBox_2)
+        self.time_max = QSpinBox(self.frame)
         self.time_max.setObjectName(u"time_max")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.time_max.sizePolicy().hasHeightForWidth())
-        self.time_max.setSizePolicy(sizePolicy2)
-        self.time_max.setMaximumSize(QSize(39, 16777215))
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.time_max.sizePolicy().hasHeightForWidth())
+        self.time_max.setSizePolicy(sizePolicy)
+        self.time_max.setMaximumSize(QSize(30, 16777215))
+        self.time_max.setFont(font)
+        self.time_max.setLayoutDirection(Qt.RightToLeft)
+        self.time_max.setAutoFillBackground(False)
+        self.time_max.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.time_max.setButtonSymbols(QAbstractSpinBox.NoButtons)
         self.time_max.setMinimum(1)
+        self.time_max.setMaximum(3600)
         self.time_max.setValue(10)
 
-        self.horizontalLayout_4.addWidget(self.time_max)
+        self.horizontalLayout_2.addWidget(self.time_max)
 
-        self.label_3 = QLabel(self.groupBox_2)
+        self.label_3 = QLabel(self.frame)
         self.label_3.setObjectName(u"label_3")
+        self.label_3.setFont(font)
 
-        self.horizontalLayout_4.addWidget(self.label_3)
-
-
-        self.horizontalLayout_2.addWidget(self.groupBox_2)
+        self.horizontalLayout_2.addWidget(self.label_3)
 
         self.btn_capture = QPushButton(self.frame)
         self.btn_capture.setObjectName(u"btn_capture")
@@ -182,11 +179,10 @@ class Ui_Test_basic(object):
 
     def retranslateUi(self, Test_basic):
         Test_basic.setWindowTitle(QCoreApplication.translate("Test_basic", u"Form", None))
-        self.lbl_test_name.setText(QCoreApplication.translate("Test_basic", u"Test_name", None))
-        self.label.setText(QCoreApplication.translate("Test_basic", u"Date:", None))
-        self.lbl_test_date.setText(QCoreApplication.translate("Test_basic", u"nn", None))
         self.lbl_test_comments.setText(QCoreApplication.translate("Test_basic", u"comments:", None))
         self.txt_edit_test.setDocumentTitle("")
+        self.btn_connect.setText(QCoreApplication.translate("Test_basic", u"Connect ...", None))
+        self.btn_view_raw.setText(QCoreApplication.translate("Test_basic", u"View Raw", None))
         self.label_2.setText(QCoreApplication.translate("Test_basic", u"max time:", None))
         self.label_3.setText(QCoreApplication.translate("Test_basic", u"s.", None))
         self.btn_capture.setText(QCoreApplication.translate("Test_basic", u"Capture", None))

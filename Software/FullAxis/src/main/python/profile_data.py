@@ -77,14 +77,14 @@ class ListProfiles():
         data.sort()
         return data
 
-    def get_list_profile_full(self):
+    def get_list_profile_full(self) -> list:
         list_profile = self.get_list_profiles()
         data = []
         for i in list_profile:
             data.append(self.get_profile_full(i))
         return data
     
-    def get_profile_full(self, name_profile):
+    def get_profile_full(self, name_profile) -> dict:
         return self.data_base.table(name_profile).all()[0]
     
     
@@ -94,8 +94,7 @@ class SessionData():
         path = Path(context.get_resource('database.json'))
         self.data_base = TinyDB(path)
 
-    
-    def create_session(self, number_unique):
+    def create_session(self, number_unique) -> int:
         name_table_profile = "profile_{:05d}".format(number_unique)
         profile = self.data_base.table(name_table_profile)
         session_index = self.create_index_session(profile)
@@ -115,7 +114,7 @@ class SessionData():
         data = self.search_unique_id(index_session, profile)
         return data
     
-    def create_index_session(self, profile):
+    def create_index_session(self, profile) -> list:
         search = Query()
         index_session = profile.search(search.type == "index_session")
         if index_session:
@@ -136,12 +135,12 @@ class SessionData():
         index_session = profile.search(search.unique_id == unique_id)
         return index_session
         
-    def search_new_index_session(self, profile):
+    def search_new_index_session(self, profile) -> list:
         search = Query()
         index_session = profile.search(search.type == "index_session")
         return index_session[0]["list_session"]
 
-    def load_sessions(self, name_profile):
+    def load_sessions(self, name_profile) -> list:
         profile = self.data_base.table(name_profile)
         search = Query()
         index_session = profile.search(search.type == "session")
@@ -153,15 +152,11 @@ class ActivityData():
         path = Path(context.get_resource('database.json'))
         self.data_base = TinyDB(path)
     
-    def create_activity(self, profile, session, name):
+    def create_activity(self, profile, session, name) -> dict:
         profile_db = self.data_base.table(profile)
         search = Query()
-        print(profile)
-        print(session)
-        print(name)
-        data_session = profile_db.search((search.type == "session")&(search.name == session))
-        print(data_session)
-        print(data_session[0])
+        data_session = profile_db.search(
+            (search.type == "session")&(search.name == session))
         if not data_session[0]["activity"]:
             idx = 0
         else:
@@ -169,7 +164,7 @@ class ActivityData():
         date_now = datetime.datetime.now()
         date = "{}.{}.{}".format(date_now.day, date_now.month, date_now.year)
         index_test = "{}.{}".format(data_session[0]["unique_id"], idx)
-        profile_db.insert({
+        data = {
             "type" : "test",
             "name" : name,
             "unique_id" : index_test,
@@ -178,16 +173,35 @@ class ActivityData():
             "comments" : "",
             "enable" : True,
             "position" : idx
-            })
-        self.add_in_session(profile_db,data_session[0]["unique_id"],data_session[0]["activity"],idx)
+            }
+        profile_db.insert(data)
+        self.add_in_session(profile_db,
+                            data_session[0]["unique_id"],
+                            data_session[0]["activity"],idx)
+        return data
     
-    def add_in_session(self,profile,unique_id,idxs,idx):
+    def add_in_session(self,profile,unique_id,idxs,idx)->None:
         search = Query()
         _idxs = idxs
         _idxs.append(idx)
         profile.update({'activity': _idxs}, search.unique_id == unique_id)
 
-
+    def load_activities(self, name_profile, unique_id ) -> list:
+        profile = self.data_base.table(name_profile)
+        
+        search = Query()
+        index_activity = profile.search(search.type == "test")
+        data = []
+        for i in index_activity:
+            if i["unique_id"].startswith(unique_id):
+                data.append(i)
+        return data
+    
+    def save_data(self, profile, unique_id, data):
+        profile_db = self.data_base.table(profile)
+        search = Query()
+        index_activity = profile_db.search(search.unique_id == unique_id)
+        profile_db.update({'data': data}, search.unique_id == unique_id)
         
         
    

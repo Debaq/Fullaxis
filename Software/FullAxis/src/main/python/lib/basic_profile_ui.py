@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDateEdit, QFontComboBox, QFormLayout,
-    QFrame, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
-    QSpinBox, QTabWidget, QTextEdit, QTreeWidget,
-    QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QDateEdit, QFontComboBox,
+    QFormLayout, QFrame, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QSpacerItem, QSpinBox, QTabWidget, QTextEdit,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_Profile_user(object):
     def setupUi(self, Profile_user):
@@ -203,6 +203,15 @@ class Ui_Profile_user(object):
 
         self.list_records = QTreeWidget(self.tab_record)
         self.list_records.setObjectName(u"list_records")
+        self.list_records.setTabKeyNavigation(False)
+        self.list_records.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.list_records.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.list_records.setTextElideMode(Qt.ElideRight)
+        self.list_records.setAutoExpandDelay(0)
+        self.list_records.setExpandsOnDoubleClick(True)
+        self.list_records.header().setMinimumSectionSize(200)
+        self.list_records.header().setHighlightSections(False)
+        self.list_records.header().setProperty("showSortIndicator", True)
 
         self.verticalLayout_4.addWidget(self.list_records)
 
@@ -218,14 +227,11 @@ class Ui_Profile_user(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalFrame = QFrame(self.tab_session)
         self.horizontalFrame.setObjectName(u"horizontalFrame")
-        self.horizontalFrame.setMaximumSize(QSize(16777215, 30))
+        self.horizontalFrame.setMaximumSize(QSize(16777215, 39))
         self.horizontalLayout = QHBoxLayout(self.horizontalFrame)
+        self.horizontalLayout.setSpacing(3)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.horizontalFrame)
-        self.label.setObjectName(u"label")
-
-        self.horizontalLayout.addWidget(self.label)
-
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
@@ -310,7 +316,6 @@ class Ui_Profile_user(object):
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Profile_user", u"Activity", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("Profile_user", u"Session", None));
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_record), QCoreApplication.translate("Profile_user", u"Records", None))
-        self.label.setText(QCoreApplication.translate("Profile_user", u"Last:", None))
         self.btn_new_sot.setText(QCoreApplication.translate("Profile_user", u"New SOT", None))
         self.btn_new_tug.setText(QCoreApplication.translate("Profile_user", u"New TUG", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_session), QCoreApplication.translate("Profile_user", u"Session", None))

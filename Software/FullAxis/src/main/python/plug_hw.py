@@ -13,77 +13,51 @@ bautrade_hw = 115200
 
 class FullAxisReceptor():
     def __init__(self) -> None:
-        pass
+        self.hw = None
         #port = self.search_port()
         #self.connection = self.activate_connection(port)
         #self.reset(self.connection)
-        
-    def search_port(self):
-        ports = list(serial.tools.list_ports.comports())
-        manufactured = ["wch.cn", "1a86"]
-        description = ["USB-SERIAL CH340", "USB2.0-Serial","USB-SERIAL CH340 (COM7)","USB-SERIAL CH340 (COM3),USB-SERIAL CH340 (COM4),USB-SERIAL CH340 (COM5)"]
-        vid = [6790]
-        pid = [29987]
-        port = None
-        if ports :
-            for p in ports:
-                #if p.description in description and p.pid in pid and p.vid in vid:
-                if p.description in description :
 
-                    port = p.device
-        return port    
-               
-               
+                   
     def search_ports(self):
         data = []
         ports = serial.tools.list_ports.comports()
         for i in ports:
             port = [i.device, i.name,i.description,i.hwid,i.vid,i.pid,i.serial_number,i.location,i.manufacturer,i.product,i.interface]
             data.append(port)
-
-            
-        
         return data
-    
                 
-    def reset(self,hw):
+    def reset(self):
         try:
-            if not hw.isOpen():
-                hw.open()
-            hw.setDTR(False)
+            if not self.hw.isOpen():
+                self.hw.open()
+            self.hw.setDTR(False)
             sleep(1)
-            hw.flushInput()
-            hw.setDTR(True)    
+            self.hw.flushInput()
+            self.hw.setDTR(True)    
         except AttributeError:
             return None
 
-            
-
-    def activate_connection(self,port):
-        try:
-            hw = serial.Serial(port = port, 
-                                baudrate = bautrade_hw, 
-                                bytesize=serial.EIGHTBITS,
-                                parity=serial.PARITY_NONE,
-                                stopbits=serial.STOPBITS_ONE,
-                                timeout=1,
-                                xonxoff=0,
-                                rtscts=1)
-            return hw
-        except AttributeError:
-            print("Error: no exite dispositivo conectado")
-            return None
+    def activate_connection(self,port) -> None:
+        self.hw = serial.Serial(port = port, 
+                            baudrate = bautrade_hw, 
+                            bytesize=serial.EIGHTBITS,
+                            parity=serial.PARITY_NONE,
+                            stopbits=serial.STOPBITS_ONE,
+                            timeout=1,
+                            xonxoff=0,
+                            rtscts=1)
     
     def is_open(self):
-        return self.connection.isOpen()
+        return self.hw.isOpen()
     
     def activate_receptor(self):
-        self.connection.write(b'51')
+        self.hw.write(b'51')
         
     def read_line(self):
         error = False
         try:
-            line = self.connection.readline().decode().replace("\r\n","")
+            line = self.hw.readline().decode().replace("\r\n","")
            
         except UnicodeDecodeError:
             error = True
@@ -105,9 +79,23 @@ class FullAxisReceptor():
 
 
 class ReceiverData(QThread):
+    data = Signal(list)
+    def run(self):
+        while True:
+            if "connection" in dir(self):
+                data = self.connection.read_line()
+                if data != None:
+                    self.data.emit(data)
+                sleep(0.01)
+    
+    def set_connection(self, connection):
+        self.connection = connection
+
+"""
+class ReceiverData(QThread):
     data = Signal(object)
 
-    def run(self):
+    def run(self, connection):
         self.connector = FullAxisReceptor()
         self.connector.activate_receptor()
         self.continue_reading = True
@@ -135,3 +123,4 @@ if __name__ == "__main__":
     W.activate_receptor()
     while True:
         print(W.read_line())
+"""

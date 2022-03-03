@@ -78,33 +78,6 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="QPushButton" name="btn_connect">
-         <property name="text">
-          <string>Connect ...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="combo_serial">
-         <property name="insertPolicy">
-          <enum>QComboBox::InsertAtTop</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_view_raw">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>View Raw</string>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>
@@ -136,7 +109,6 @@
  <tabstops>
   <tabstop>btn_new_profile</tabstop>
   <tabstop>btn_open_profile</tabstop>
-  <tabstop>btn_view_raw</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -1,7 +1,7 @@
 from unicodedata import name
 from PySide6.QtWidgets import QWidget
 import pyqtgraph as pg
-from lib.basic_graph import Ui_graph
+from lib.basic_graph_ui import Ui_graph
 import random
 
 class Widget_basic(QWidget, Ui_graph):
@@ -55,7 +55,8 @@ class WidgetTUG(QWidget):
                 self.graph_range(self.pw_yaw)
             self.mem_roll.append(data[0])
             self.mem_pitch.append(data[1])
-            self.mem_yaw.append(data[2])
+            self.calibrate_yaw(data[2])
+            
             new_time = self.mem_time_func(data[3])
             plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
             plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
@@ -65,8 +66,17 @@ class WidgetTUG(QWidget):
                 self.graph_tools(self.pw_pitch, plot_pitch)
                 self.graph_tools(self.pw_yaw, plot_yaw)
                 self.stop = True
+    
+    def calibrate_yaw(self,data) -> float:
+        if not self.mem_yaw:
+            self.dyaw = data
+            new_yaw = 0
+        else:
+            new_yaw = data - self.dyaw
+        self.mem_yaw.append(new_yaw)
+        return new_yaw
 
-    def mem_time_func(self, data):
+    def mem_time_func(self, data) -> float:
         data = data/1000
         if not self.mem_time:
             self.dt = data
@@ -84,7 +94,7 @@ class WidgetTUG(QWidget):
     def graph_axis(self, name):
         pw = pg.PlotWidget(name=name)
         pw.setBackground('w')
-        pw.setYRange(-80, 80)
+        pw.setYRange(-90, 90)
         pw.showGrid(x=True, y=True)
         pw.setLabel('left', 'Amplitude', units='degrees')
         pw.setLabel('bottom', 'Time', units='s')
@@ -107,6 +117,9 @@ class WidgetTUG(QWidget):
 
     def graph_range(self, axis):
         axis.setXRange(0, self.time_max)
+        
+    def get_data(self):
+        return [self.mem_time, self.mem_roll, self.mem_pitch, self.mem_yaw]
         
 
 
