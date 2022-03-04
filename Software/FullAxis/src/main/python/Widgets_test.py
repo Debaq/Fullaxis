@@ -46,7 +46,17 @@ class WidgetTUG(QWidget):
         self.UI_Frame.layout_graph_principal.addWidget(self.pw_roll)
         self.UI_Frame.layout_graph_principal.addWidget(self.pw_pitch)
         self.UI_Frame.layout_graph_principal.addWidget(self.pw_yaw)
-    
+
+    def draw_graph(self,data):
+        self.mem_time = data[0]
+        self.mem_roll = data[1]
+        self.mem_pitch = data[2]
+        self.mem_yaw = data[3]
+        self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
+        self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
+        self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
+
+
     def update_graph_display(self, data):
         if self.stop == False:
             if not self.mem_time:

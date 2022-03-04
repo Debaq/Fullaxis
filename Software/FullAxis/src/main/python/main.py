@@ -74,8 +74,6 @@ class Profile(QWidget,Ui_Profile_user):
         self.setupUi(self)
         self.tabWidget.setTabEnabled(1, False)
         self.tabWidget.setTabEnabled(2, False)
-        selmodel = self.list_records.selectionModel()
-        selmodel.selectionChanged.connect(self.handle_selection)
         self.session = None
         self.profile = None
         self.configure_btn()
@@ -110,6 +108,9 @@ class Profile(QWidget,Ui_Profile_user):
         self.profile = None
         self.list_records.clear()
         self.input_info.setText("")
+        if self.tabWidget.isTabVisible(3):
+            self.tabWidget.removeTab(3)
+        self.tabWidget.setTabText(2, "Sessions")
         ###esto no lo hace ni idea de porque?
         date_now = datetime.datetime.now()
         date = "{}.{}.{}".format(date_now.day, date_now.month, date_now.year)
@@ -117,6 +118,10 @@ class Profile(QWidget,Ui_Profile_user):
         self.input_date_birth.setDate(QDate.fromString(date, "dd.MM.yyyy"))
 
     def user_fill(self, user):
+        if self.tabWidget.isTabVisible(3):
+            self.tabWidget.removeTab(3)
+        self.tabWidget.setTabText(2, "Sessions")
+        self.tabWidget.setTabEnabled(2, False)
         profile = (ListProfiles().get_profile_full(user))
         self.input_id.setText(profile['id'])
         self.input_number.setText(str(profile['number_unique']))
@@ -170,35 +175,36 @@ class Profile(QWidget,Ui_Profile_user):
             session.setText(0, s['name'])
             session.setText(2, s['date_create'])
             activities=ActivityData().load_activities(profile, s["unique_id"])
+
             for a in activities:
                 activity = QTreeWidgetItem()
                 activity.setIcon(1, icon_file)
                 activity.setText(1, a['name'])
                 activity.setText(2, a['date_create'])
+                activity.setText(3, a['unique_id'])
                 session.addChild(activity)
-            
+        self.list_records.itemDoubleClicked.connect(self.handler)
+        self.list_records.itemClicked.connect(self.handler_expand)
+
     def create_new_session(self):
         data = SessionData().create_session(int(self.input_number.text()))
         self.populate_list_records(self.profile, data)
-        
-    def handle_selection(self, selected, deselected):
-        for index in selected.indexes():
-            item = self.list_records.itemFromIndex(index)
-            if item.text(0):
+
+    def handler(self, item, column_no):
+        if item.text(0):
                 self.tabWidget.setTabEnabled(2, True)
                 self.tabWidget.setTabText(2, item.text(0))
                 self.session = item.text(0)
-            if item.text(1):
-                self.view_results(item.text(1),item.text(2))
-            #profile = self.input_number.text()
-            #self.data_export.emit([profile, item.text(0)])
-            #print('SEL: row: %s, col: %s, text: %s' % (
-            #    index.row(), index.column(), item.text(0)))
-        for index in deselected.indexes():
-            item = self.list_records.itemFromIndex(index)
-            #print('DESEL: row: %s, col: %s, text: %s' % (
-            #    index.row(), index.column(), item.text(0)))
-
+        if item.text(1):
+                self.view_results(item.text(1),item.text(2), item.text(3))
+    
+    def handler_expand(self, item, column_no):
+        if item.text(0):
+            if not item.isExpanded():
+                    item.setExpanded(True)
+            else:
+                item.setExpanded(False)
+                
     def create_new_test(self, profile:str, session, test:str):
         helpers.reset_layout(self,self.layout_session)
         widget_test = BasicTest()
@@ -207,12 +213,25 @@ class Profile(QWidget,Ui_Profile_user):
         self.load_session(profile)
         self.layout_session.addWidget(widget_test)
         
-    def view_results(self,name, date):
+    def view_results(self,name_test, date, unique_id):
+        if self.tabWidget.isTabVisible(3):
+            self.tabWidget.removeTab(3)
         new_tab = QWidget()
         new_tab.setObjectName(u"view_results")
         self.layout_view_results = QVBoxLayout(new_tab)
-        name = "{} {}".format(name, date)
-        self.tabWidget.addTab(new_tab, name)
+        name_tab = "{} {}".format(name_test, date)
+        self.tabWidget.insertTab(3, new_tab, name_tab)
+        self.load_results(name_test, unique_id)
+
+    def load_results(self, name, unique_id):
+        helpers.reset_layout(self,self.layout_view_results)
+        if name == "TUG":
+            widget_results = WidgetTUG()
+        self.layout_view_results.addWidget(widget_results)
+        data_db = ActivityData().load_data(self.profile, unique_id)
+        widget_results.draw_graph(data_db)        
+
+
 
 
 
@@ -231,11 +250,11 @@ class  BasicTest(QWidget, Ui_Test_basic):
     def set_data(self, profile:str, session, test:str) -> None:
         self.profile = profile
         self.session = session
-        if test == "TUG":
+        if test == "SOT":
+            self.create_sot_test()
+        elif test == "TUG":
             self.create_tug_test()
             self.check_delay.stateChanged.connect(self.with_delay)
-        elif test == "SOT":
-            self.create_sot_test()
     
     def get_unique_id(self) -> str:
         return self.activity_data['unique_id']

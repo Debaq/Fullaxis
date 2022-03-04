@@ -188,20 +188,22 @@ class ActivityData():
 
     def load_activities(self, name_profile, unique_id ) -> list:
         profile = self.data_base.table(name_profile)
-        
         search = Query()
         index_activity = profile.search(search.type == "test")
-        data = []
-        for i in index_activity:
-            if i["unique_id"].startswith(unique_id):
-                data.append(i)
-        return data
+        return [i for i in index_activity if i["unique_id"].startswith(unique_id)]
     
-    def save_data(self, profile, unique_id, data):
+    def save_data(self, profile, unique_id, data) -> None:
+        profile_db = self.data_base.table(profile)
+        search = Query()
+        #index_activity = profile_db.search(search.unique_id == unique_id)
+        profile_db.update({'data': data}, search.unique_id == unique_id)
+
+    def load_data(self, profile, unique_id) -> list:
         profile_db = self.data_base.table(profile)
         search = Query()
         index_activity = profile_db.search(search.unique_id == unique_id)
-        profile_db.update({'data': data}, search.unique_id == unique_id)
+        return index_activity[0]["data"]
+
         
         
    

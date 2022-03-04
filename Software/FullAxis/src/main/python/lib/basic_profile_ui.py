@@ -312,6 +312,7 @@ class Ui_Profile_user(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_profile), QCoreApplication.translate("Profile_user", u"Profile", None))
         self.btn_create_session.setText(QCoreApplication.translate("Profile_user", u"Create Session", None))
         ___qtreewidgetitem = self.list_records.headerItem()
+        ___qtreewidgetitem.setText(3, QCoreApplication.translate("Profile_user", u"N\u00b0 register", None));
         ___qtreewidgetitem.setText(2, QCoreApplication.translate("Profile_user", u"Date", None));
         ___qtreewidgetitem.setText(1, QCoreApplication.translate("Profile_user", u"Activity", None));
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("Profile_user", u"Session", None));
