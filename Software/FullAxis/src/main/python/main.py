@@ -13,6 +13,8 @@
 import os
 import sys
 
+from numpy import True_
+
 os_system = 'win' if os.name == 'nt' else 'linux'
 
 if len(sys.argv) > 1:
@@ -24,19 +26,28 @@ if len(sys.argv) > 1:
 import datetime
 
 import qtawesome as qta
-import qtvscodestyle as qtvsc
 from PySide6.QtCore import QDate, Qt, Signal
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem, QWidget, QVBoxLayout
+from PySide6.QtGui import QAction, QCursor
+from PySide6.QtWidgets import (QMainWindow, QMenu, QMessageBox,
+                               QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from init import context
 from lib.basic_profile_ui import Ui_Profile_user
 from lib.basic_test_ui import Ui_Test_basic
 from lib.list_user_ui import Ui_List_user
 from lib.main_ui import Ui_MainWindow
+from lib.terminal_ui import Ui_terminal
 from plug_hw import FullAxisReceptor, ReceiverData
-from profile_data import ActivityData, ListProfiles, ProfileData, SessionData
+from profile_data import (ActivityData, DeleteData, ListProfiles, ProfileData,
+                          SessionData)
 from ui_helper import helpers
 from Widgets_test import WidgetSOT, WidgetTUG
+
+
+class Terminal(QWidget, Ui_terminal):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setupUi(self)
 
 
 class ListUser(QWidget, Ui_List_user):
@@ -77,12 +88,55 @@ class Profile(QWidget,Ui_Profile_user):
         self.session = None
         self.profile = None
         self.configure_btn()
+
+
+
+        self.menu_list_delete_action = QAction("Delete")
+        self.menu_list_delete_action.triggered.connect(lambda: self.menu_list_delete_item(None))
+        self.menu_list_records = QMenu()
+        self.menu_list_records.addAction(self.menu_list_delete_action)
+        self.list_records.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.list_records.customContextMenuRequested.connect(self.handle_right_click)
+
+
+
         if profile:
             self.profile = profile
             self.user_fill(profile)
         else:
             self.clean_data()
-        
+
+    def handle_right_click(self, position):
+        self.menu_list_select_id_unique = None
+        if item := self.list_records.currentItem():
+            if item.text(0):
+                self.type_current_item = "session"
+            elif item.text(1) in ["SOT", "TUG"]:
+                self.type_current_item = "test"
+            if self.list_records.itemAt(position) :
+                self.menu_list_select_id_unique = item.text(3)
+                self.menu_list_records.exec_(QCursor.pos())
+    
+    def menu_list_delete_item(self , i):
+
+        if i is None:
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Warning)
+            msgBox.setText("Do you want to delete this item?")
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            msgBox.buttonClicked.connect(self.menu_list_delete_item)
+            msgBox.exec()
+
+        elif i.text() == "&Yes":
+            id_unique = [
+                int(i)
+                for i in self.menu_list_select_id_unique.split(".")
+                if i.isdigit()
+            ]
+            DeleteData(self.profile, id_unique)
+            self.change_data_list(True)
+
+
     def configure_btn(self):
         self.btn_save.clicked.connect(self.save_profile_data)
         self.btn_create_session.clicked.connect(self.create_new_session)
@@ -174,8 +228,8 @@ class Profile(QWidget,Ui_Profile_user):
             session.setIcon(0, icon_folder)
             session.setText(0, s['name'])
             session.setText(2, s['date_create'])
+            session.setText(3, s['unique_id'])
             activities=ActivityData().load_activities(profile, s["unique_id"])
-
             for a in activities:
                 activity = QTreeWidgetItem()
                 activity.setIcon(1, icon_file)
@@ -206,12 +260,17 @@ class Profile(QWidget,Ui_Profile_user):
                 item.setExpanded(False)
                 
     def create_new_test(self, profile:str, session, test:str):
-        helpers.reset_layout(self,self.layout_session)
-        widget_test = BasicTest()
-        widget_test.set_data(profile, session, test)
-        self.list_records.clear()
-        self.load_session(profile)
-        self.layout_session.addWidget(widget_test)
+        self.test_current = test
+        if "widget_test" in dir(self):
+            self.widget_test.new()
+        else:
+            helpers.reset_layout(self,self.layout_session)
+            self.widget_test = BasicTest()
+            self.widget_test.save_true.connect(self.change_data_list)
+            self.widget_test.set_data(profile, session, self.test_current)
+            self.list_records.clear()
+            self.load_session(profile)
+            self.layout_session.addWidget(self.widget_test)
         
     def view_results(self,name_test, date, unique_id):
         if self.tabWidget.isTabVisible(3):
@@ -223,6 +282,11 @@ class Profile(QWidget,Ui_Profile_user):
         self.tabWidget.insertTab(3, new_tab, name_tab)
         self.load_results(name_test, unique_id)
 
+    def change_data_list(self, data):
+        if data:
+            self.list_records.clear()
+            self.load_session(self.profile)
+
     def load_results(self, name, unique_id):
         helpers.reset_layout(self,self.layout_view_results)
         if name == "TUG":
@@ -232,20 +296,22 @@ class Profile(QWidget,Ui_Profile_user):
         widget_results.draw_graph(data_db)        
 
 
-
-
-
-
 class  BasicTest(QWidget, Ui_Test_basic):
+    save_true = Signal(bool)
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.buttons_disabled = True
         self.capture = False
-        #self.activate_serial()
         self.combo_serial_complete()
         self.btns_icons()
         self.btns_tools_clicked()
+
+    def new(self):
+        self.btn_capture.setEnabled(True)
+        self.btn_save.setEnabled(False)
+        self.btn_report.setEnabled(False)
+        self.reset_graph()
 
     def set_data(self, profile:str, session, test:str) -> None:
         self.profile = profile
@@ -263,7 +329,6 @@ class  BasicTest(QWidget, Ui_Test_basic):
         self.widget = WidgetTUG()
         helpers.reset_layout(self, self.layout_test)
         self.layout_test.addWidget(self.widget)
-        self.create_db("TUG")
     
     def create_db(self, type_test):
         db = ActivityData()
@@ -281,7 +346,6 @@ class  BasicTest(QWidget, Ui_Test_basic):
             self.buttons_disabled = False
             self.btn_capture.setEnabled(True)
             self.btn_reset.setEnabled(True)
-            
         if self.capture == True:
             if not self.widget.stop:
                 self.widget.update_graph_display(data)
@@ -293,6 +357,7 @@ class  BasicTest(QWidget, Ui_Test_basic):
                 self.btn_save.setEnabled(True)
 
     def test_variable(self):
+        print(self.capture)
         if self.capture == False:
             self.capture = True
             self.btn_capture.setText("Pause")
@@ -311,15 +376,19 @@ class  BasicTest(QWidget, Ui_Test_basic):
         port = self.combo_serial.currentText()
         connection = FullAxisReceptor()
         connection.activate_connection(port)
-        connection.reset()
+        #connection.reset() #este quizas es el error de porque no funciona bien la conexión
         self.receiver = ReceiverData()
         self.receiver.start()
         self.receiver.set_connection(connection)
         self.receiver.data.connect(self.receive_data_and_graph)
+        self.btn_connect.setEnabled(False)
+        self.btn_connect.setText("Conected")
+        self.combo_serial.setDisabled(True)
+        self.btn_view_raw.setEnabled(True)
 
     def combo_serial_complete(self) -> None:
         ports = FullAxisReceptor()
-        icon_signal = qta.icon('fa5s.signal',color='#c5c5c5')
+        icon_signal = qta.icon('fa5s.signal',color='#595959')
 
         for i in ports.search_ports():
             if i[2] != 'n/a':
@@ -329,26 +398,32 @@ class  BasicTest(QWidget, Ui_Test_basic):
                 self.combo_serial.addItem(i[0])
                 
     def save_data(self):
+        self.create_db("TUG")
         db = ActivityData()
         unique_id = self.activity_data['unique_id']
         data = self.widget.get_data()
         db.save_data(self.profile, unique_id, data)
         self.btn_capture.setEnabled(False)
         self.btn_reset.setEnabled(False)
+        self.save_true.emit(True)
         
-                
     def btns_icons(self) -> None:
-        terminal = qta.icon('fa5s.terminal', color='#c5c5c5')
-        icon_conect = qta.icon('fa5s.plug', color='#c5c5c5')
+        terminal = qta.icon('fa5s.terminal', color='#595959')
+        icon_conect = qta.icon('fa5s.plug', color='#595959')
         self.btn_view_raw.setIcon(terminal)
         self.btn_connect.setIcon(icon_conect)
         
-        
     def btns_tools_clicked(self) -> None:
+        
         self.btn_connect.clicked.connect(self.connect_serial)
         self.btn_capture.clicked.connect(self.test_variable)
         self.btn_save.clicked.connect(self.save_data)
         self.btn_reset.clicked.connect(self.reset_graph)
+        self.btn_view_raw.clicked.connect(self.terminal_active)
+    
+    def terminal_active(self) ->None:
+        term = Terminal()
+        term.show()
         
 class MainWindows(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -378,8 +453,8 @@ class MainWindows(QMainWindow, Ui_MainWindow):
             self.new_profile(user)
         
     def btns_icons(self):
-        user_new = qta.icon('ri.user-add-line', color='#c5c5c5')
-        user_list = qta.icon('ri.contacts-book-line', color='#c5c5c5')
+        user_new = qta.icon('ri.user-add-line', color='#595959')
+        user_list = qta.icon('ri.contacts-book-line', color='#595959')
         self.btn_new_profile.setIcon(user_new)
         self.btn_open_profile.setIcon(user_list)    
         
@@ -388,7 +463,7 @@ class MainWindows(QMainWindow, Ui_MainWindow):
         self.btn_open_profile.clicked.connect(self.open_profile)
     
     def new_profile(self, user) -> None:
-        if not 'profile' in dir(self):
+        if 'profile' not in dir(self):
             self.profile = Profile(user)
         if user is None:
             self.profile.clean_data()
@@ -406,8 +481,19 @@ if __name__ == "__main__":
 
      apply_stylesheet(windows, theme='dark_teal.xml', extra=extra)
      """
-    theme_file = context.get_resource("OneDark-Pro-flat.json")
-    stylesheet = qtvsc.load_stylesheet(theme_file)
-    windows.setStyleSheet(stylesheet)
+    #theme_file = context.get_resource("OneDark-Pro-flat.json")
+    #stylesheet = qtvsc.load_stylesheet(theme_file)
+    #windows.setStyleSheet(stylesheet)
     exit_code = context.app.exec()
     sys.exit(exit_code)
+
+###error observado 
+"""
+guarda la prueba antes de presionar el boton de guardar (solucionado)
+se pega la conexion cuando se intenta tomar mas de una prueba
+no se pueden borrar las sesiones ni las pruebas
+no puede medir en los graficos de la vista de la prueba (solucionado)
+cambiar en el eje y amplitud por nombre de plano (solucionado)
+poner dibujo para los ejes
+
+"""

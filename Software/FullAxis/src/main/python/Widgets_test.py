@@ -52,10 +52,10 @@ class WidgetTUG(QWidget):
         self.mem_roll = data[1]
         self.mem_pitch = data[2]
         self.mem_yaw = data[3]
-        self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
-        self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
-        self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
-
+        plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
+        plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
+        plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
+        self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
 
     def update_graph_display(self, data):
         if self.stop == False:
@@ -66,17 +66,19 @@ class WidgetTUG(QWidget):
             self.mem_roll.append(data[0])
             self.mem_pitch.append(data[1])
             self.calibrate_yaw(data[2])
-            
             new_time = self.mem_time_func(data[3])
             plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
             plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
             plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
             if new_time > self.time_max:
-                self.graph_tools(self.pw_roll, plot_roll)
-                self.graph_tools(self.pw_pitch, plot_pitch)
-                self.graph_tools(self.pw_yaw, plot_yaw)
+                self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
                 self.stop = True
-    
+
+    def _extracted_from_update_graph_display_9(self, plot_roll, plot_pitch, plot_yaw):
+        self.graph_tools(self.pw_roll, plot_roll)
+        self.graph_tools(self.pw_pitch, plot_pitch)
+        self.graph_tools(self.pw_yaw, plot_yaw)
+
     def calibrate_yaw(self,data) -> float:
         if not self.mem_yaw:
             self.dyaw = data
@@ -106,7 +108,8 @@ class WidgetTUG(QWidget):
         pw.setBackground('w')
         pw.setYRange(-90, 90)
         pw.showGrid(x=True, y=True)
-        pw.setLabel('left', 'Amplitude', units='degrees')
+
+        pw.setLabel('left', name, units='degrees')
         pw.setLabel('bottom', 'Time', units='s')
         return pw
 

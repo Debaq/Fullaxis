@@ -90,6 +90,9 @@ class ReceiverData(QThread):
     
     def set_connection(self, connection):
         self.connection = connection
+    
+    def is_connected(self):
+        return self.connection.is_open()
 
 """
 class ReceiverData(QThread):

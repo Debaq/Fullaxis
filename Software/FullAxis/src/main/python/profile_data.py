@@ -1,4 +1,5 @@
 #from jmespath import search
+from re import search
 from tinydb import Storage, TinyDB, Query
 from init import context
 from pathlib import Path
@@ -9,7 +10,6 @@ database_path = Path(context.get_resource('database.json'))
 class ProfileData():
     def __init__(self) -> None:
         self.data_base = TinyDB(database_path)
-       
 
     def set_data(self, **kwargs) -> None:
         if kwargs["number_unique"] == "nn":
@@ -24,7 +24,6 @@ class ProfileData():
         name_table_profile = "profile_{:05d}".format(data["number_unique"])
         table_new_profile = self.data_base.table(name_table_profile)
         table_new_profile.insert(data)
-        
 
     def table_index(self) -> list:
         return self.data_base.table('index').all()
@@ -47,7 +46,6 @@ class ProfileData():
         table_index = self.data_base.table('index')
         table_index.update({'last_profile': number}, search.unique_id == 'index')
 
-
     def verify_enumerate(self) -> int:
         if not self.data_base.tables():
             return self.create_new_base()
@@ -66,27 +64,19 @@ class ProfileData():
 class ListProfiles():
     def __init__(self):
         self.data_base = TinyDB(database_path)
-
     
     def get_list_profiles(self):
         profiles = self.data_base.tables()
-        data = []
-        for i in profiles:
-            if i.startswith("profile"):
-                data.append(i)
+        data = [i for i in profiles if i.startswith("profile")]
         data.sort()
         return data
 
     def get_list_profile_full(self) -> list:
         list_profile = self.get_list_profiles()
-        data = []
-        for i in list_profile:
-            data.append(self.get_profile_full(i))
-        return data
+        return [self.get_profile_full(i) for i in list_profile]
     
     def get_profile_full(self, name_profile) -> dict:
         return self.data_base.table(name_profile).all()[0]
-    
     
 
 class SessionData():
@@ -111,8 +101,7 @@ class SessionData():
                         "enable" : True,
                         "position" : position
                         })
-        data = self.search_unique_id(index_session, profile)
-        return data
+        return self.search_unique_id(index_session, profile)
     
     def create_index_session(self, profile) -> list:
         search = Query()
@@ -132,8 +121,7 @@ class SessionData():
         
     def search_unique_id(self, unique_id, profile):
         search = Query()
-        index_session = profile.search(search.unique_id == unique_id)
-        return index_session
+        return profile.search(search.unique_id == unique_id)
         
     def search_new_index_session(self, profile) -> list:
         search = Query()
@@ -143,8 +131,7 @@ class SessionData():
     def load_sessions(self, name_profile) -> list:
         profile = self.data_base.table(name_profile)
         search = Query()
-        index_session = profile.search(search.type == "session")
-        return index_session
+        return profile.search(search.type == "session")
 
 
 class ActivityData():
@@ -204,6 +191,53 @@ class ActivityData():
         index_activity = profile_db.search(search.unique_id == unique_id)
         return index_activity[0]["data"]
 
+
+class DeleteData():
+    def __init__(self, name_profile:str, list_id_unique:list) -> None:
+        self.data_base = TinyDB(database_path)
+        id_unique = self.transform_id_unique(list_id_unique)
+        table_active = self.table(name_profile)
+        if len(list_id_unique) == 3:
+            self.delete_activity(table_active, id_unique)
+        elif len(list_id_unique) == 2:
+            self.delete_session(table_active, id_unique)
+        elif len(list_id_unique) == 1:
+            self.delete_profile(table_active, id_unique)
+    
+    def transform_id_unique(self, list_id_unique:list) -> str:
+        id_unique = "".join(f'{i}.' for i in list_id_unique)
+        return id_unique[:-1]
+
+    def table(self, name_profile:str) -> TinyDB:
+        return self.data_base.table(name_profile)
+
+    def delete_profile(self, table:TinyDB) -> None:
+        print("eliminaremos el profile")
+    
+    def delete_session(self, table:TinyDB, id_unique:str) -> None:
+        search = Query()
+        session = table.search(search.unique_id == id_unique)
+        #table.remove(search.unique_id == id_unique)
+        ativities = session[0]["activity"]
+        for i in ativities:
+            id_unique_activity = "{}.{}".format(id_unique, i)
+            print(id_unique_activity)
+
+        print("eliminaremos la session")
+
+    def delete_activity(self, table:TinyDB, id_unique:str) -> None:
+        search = Query()
+        table.remove(search.unique_id == id_unique)
+        self.modify_index_session(table, id_unique)
+        print("eliminaremos la activity")
         
+    def modify_index_session(self, table:TinyDB, id_unique:str) -> None:
+        p,s,a = id_unique.split(".")
+        session_id_unique =  self.transform_id_unique([p,s])
+        search = Query()
+        session = table.search(search.unique_id == session_id_unique)
+        idx_session = session[0]["activity"]
+        idx_session.remove(int(a))
+        table.update({'activity': idx_session}, search.unique_id == session_id_unique)
         
    
