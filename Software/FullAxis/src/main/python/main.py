@@ -491,7 +491,8 @@ if __name__ == "__main__":
 """
 guarda la prueba antes de presionar el boton de guardar (solucionado)
 se pega la conexion cuando se intenta tomar mas de una prueba
-no se pueden borrar las sesiones ni las pruebas
+existe un deley del buffer luego de los 5 segundos
+no se pueden borrar las sesiones(incompleto) ni las pruebas (solucionado)
 no puede medir en los graficos de la vista de la prueba (solucionado)
 cambiar en el eje y amplitud por nombre de plano (solucionado)
 poner dibujo para los ejes
