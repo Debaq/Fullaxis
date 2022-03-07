@@ -1,9 +1,10 @@
 #from jmespath import search
-from re import search
-from tinydb import Storage, TinyDB, Query
-from init import context
-from pathlib import Path
 import datetime
+from pathlib import Path
+
+from tinydb import Query, Storage, TinyDB
+
+from init import context
 
 database_path = Path(context.get_resource('database.json'))
 

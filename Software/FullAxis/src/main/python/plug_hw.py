@@ -61,6 +61,7 @@ class FullAxisReceptor():
            
         except UnicodeDecodeError:
             error = True
+            self.hw.reset_input_buffer()
         if error == False:
             if line[:3] != "Soy":
                 try:

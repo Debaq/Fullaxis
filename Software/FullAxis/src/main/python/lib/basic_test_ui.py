@@ -46,7 +46,7 @@ class Ui_Test_basic(object):
 
         self.txt_edit_test = QTextEdit(self.horizontalFrame)
         self.txt_edit_test.setObjectName(u"txt_edit_test")
-        self.txt_edit_test.setMaximumSize(QSize(16777215, 80))
+        self.txt_edit_test.setMinimumSize(QSize(0, 80))
         self.txt_edit_test.setReadOnly(False)
 
         self.horizontalLayout_3.addWidget(self.txt_edit_test)
@@ -105,6 +105,15 @@ class Ui_Test_basic(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
+        self.move_cond = QHBoxLayout()
+        self.move_cond.setObjectName(u"move_cond")
+
+        self.horizontalLayout_2.addLayout(self.move_cond)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
         self.label_2 = QLabel(self.frame)
         self.label_2.setObjectName(u"label_2")
         font = QFont()
@@ -128,7 +137,7 @@ class Ui_Test_basic(object):
         self.time_max.setButtonSymbols(QAbstractSpinBox.NoButtons)
         self.time_max.setMinimum(1)
         self.time_max.setMaximum(3600)
-        self.time_max.setValue(10)
+        self.time_max.setValue(15)
 
         self.horizontalLayout_2.addWidget(self.time_max)
 
