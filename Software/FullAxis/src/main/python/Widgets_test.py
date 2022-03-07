@@ -93,8 +93,6 @@ class WidgetTUG(QWidget):
     def draw_graph(self,data):
         self.mem_time = np.append(self.mem_time , data[0])
         self.update_memories(data)
-
-
         plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
         plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
         plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
@@ -116,6 +114,9 @@ class WidgetTUG(QWidget):
             self.update_memories(data, True)
             self.calibrate_yaw(data[2])
             new_time = self.mem_time_func(data[3])
+            self.pw_roll.clear()
+            self.pw_pitch.clear()
+            self.pw_yaw.clear()
             plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
             plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
             plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
@@ -340,10 +341,11 @@ class WidgetSOT(QWidget):
         
         
     def update_graph_display(self, data):
-        idx_cond = self.state_cond
         if self.stop == False:
+            idx_cond = self.state_cond
             self.update_memories(data)
             new_time = self.mem[idx_cond][2][-1]
+            self.conditions_graph[idx_cond].clear()
             self.conditions_graph[idx_cond].plot(self.mem[idx_cond][0], 
                                            self.mem[idx_cond][1], 
                                            pen='b', name='curve')
@@ -390,13 +392,9 @@ class WidgetSOT(QWidget):
         return new_time
     
     def get_data(self) -> None:
-        data = []
         cond_1 = self.mem[0].tolist()
         cond_2 = self.mem[1].tolist()
         cond_3 = self.mem[2].tolist()
         cond_4 = self.mem[3].tolist()
-        data.append(cond_1)
-        data.append(cond_2)
-        data.append(cond_3)
-        data.append(cond_4)
+        data = list((cond_1, cond_2, cond_3, cond_4))
         return[data]
