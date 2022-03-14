@@ -31,8 +31,6 @@ class Profile(QWidget,Ui_Profile_user):
         self.list_records.setContextMenuPolicy(Qt.CustomContextMenu)
         self.list_records.customContextMenuRequested.connect(self.handle_right_click)
 
-
-
         if profile:
             self.profile = profile
             self.user_fill(profile)

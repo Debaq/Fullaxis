@@ -34,8 +34,6 @@ from ui_helper import helpers
 from WidgetProfile import Profile
 
 
-
-
 class ListUser(QWidget, Ui_List_user):
     user_selected = Signal(str)
     def __init__(self) -> None:
@@ -131,11 +129,13 @@ if __name__ == "__main__":
 guarda la prueba antes de presionar el boton de guardar (solucionado)
 se pega la conexion cuando se intenta tomar mas de una prueba (solucionado)
 cambiar list de datos en graph de list a numpy.array (solucionado)
-no tiene sentido el flujod e los botones capture y reset
-existe un delay del buffer luego de los 5 segundos (ni idea hay que probarlo)
-no se pueden borrar las sesiones(incompleto) ni las pruebas (solucionado)
+existe un delay del buffer luego de los 5 segundos (Solucionado)
 no puede medir en los graficos de la vista de la prueba (solucionado)
 cambiar en el eje y amplitud por nombre de plano (solucionado)
 poner dibujo para los ejes (solucionado)
-
+no se pueden borrar las pruebas (solucionado)
+no se pueden borrar las sesiones(incompleto)
+problemas al cambiar entre TUG y SOT
+no tiene sentido el flujod e los botones capture y reset
+no borra el grafico en SOT
 """
