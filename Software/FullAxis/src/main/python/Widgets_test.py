@@ -85,9 +85,7 @@ class WidgetTUG(QWidget):
 
     def reset_graph(self):
         self.create_memories()
-        self.pw_roll.clear()
-        self.pw_pitch.clear()
-        self.pw_yaw.clear()
+        self.clear_data()
         self.dt = 0
 
     def draw_graph(self,data):
@@ -114,15 +112,18 @@ class WidgetTUG(QWidget):
             self.update_memories(data, True)
             self.calibrate_yaw(data[2])
             new_time = self.mem_time_func(data[3])
-            self.pw_roll.clear()
-            self.pw_pitch.clear()
-            self.pw_yaw.clear()
+            self.clear_data()
             plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
             plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
             plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
             if new_time > self.time_max:
                 self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
                 self.stop = True
+
+    def clear_data(self):
+        self.pw_roll.clear()
+        self.pw_pitch.clear()
+        self.pw_yaw.clear()
 
     def _extracted_from_update_graph_display_9(self, plot_roll, plot_pitch, plot_yaw):
         self.graph_tools(self.pw_roll, plot_roll)
@@ -378,7 +379,7 @@ class WidgetSOT(QWidget):
         return ([min_lat, min_ant_pos],[size_x, size_y], very_max)
         
     def mem_time_func(self, data:int, idx:int) -> float:
-        data = data/1000
+        data /= 1000
         if self.mem[idx][2].size == 0:
             self.dt = data
             new_time = 0

@@ -48,9 +48,7 @@ class ProfileData():
         table_index.update({'last_profile': number}, search.unique_id == 'index')
 
     def verify_enumerate(self) -> int:
-        if not self.data_base.tables():
-            return self.create_new_base()
-        return self.add_index()
+        return self.add_index() if self.data_base.tables() else self.create_new_base()
         
     def create_new_base(self) -> int:
         table_index = self.data_base.table('index')
@@ -90,10 +88,10 @@ class SessionData():
         profile = self.data_base.table(name_table_profile)
         session_index = self.create_index_session(profile)
         date_now = datetime.datetime.now()
-        date = "{}.{}.{}".format(date_now.day, date_now.month, date_now.year)
-        index_session = "{}.{}".format(number_unique, session_index)
+        date = f"{date_now.day}.{date_now.month}.{date_now.year}"
+        index_session = f"{number_unique}.{session_index}"
         position = session_index - 1
-        name = "session_{}".format(session_index)
+        name = f"session_{session_index}"
         profile.insert({"type" : "session",
                         "name" : name,
                         "unique_id" : index_session,
@@ -145,13 +143,10 @@ class ActivityData():
         search = Query()
         data_session = profile_db.search(
             (search.type == "session")&(search.name == session))
-        if not data_session[0]["activity"]:
-            idx = 0
-        else:
-            idx = data_session[0]["activity"][-1] + 1
+        idx = data_session[0]["activity"][-1] + 1 if data_session[0]["activity"] else 0
         date_now = datetime.datetime.now()
-        date = "{}.{}.{}".format(date_now.day, date_now.month, date_now.year)
-        index_test = "{}.{}".format(data_session[0]["unique_id"], idx)
+        date = f"{date_now.day}.{date_now.month}.{date_now.year}"
+        index_test = f'{data_session[0]["unique_id"]}.{idx}'
         data = {
             "type" : "test",
             "name" : name,
@@ -221,7 +216,8 @@ class DeleteData():
         #table.remove(search.unique_id == id_unique)
         ativities = session[0]["activity"]
         for i in ativities:
-            id_unique_activity = "{}.{}".format(id_unique, i)
+            id_unique_activity = f"{id_unique}.{i}"
+            
             print(id_unique_activity)
 
         print("eliminaremos la session")

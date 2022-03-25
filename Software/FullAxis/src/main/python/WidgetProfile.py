@@ -51,13 +51,7 @@ class Profile(QWidget,Ui_Profile_user):
     def menu_list_delete_item(self , i):
 
         if i is None:
-            msgBox = QMessageBox()
-            msgBox.setIcon(QMessageBox.Warning)
-            msgBox.setText("Do you want to delete this item?")
-            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
-            msgBox.buttonClicked.connect(self.menu_list_delete_item)
-            msgBox.exec()
-
+            self.create_win_delete_item()
         elif i.text() == "&Yes":
             id_unique = [
                 int(i)
@@ -66,6 +60,14 @@ class Profile(QWidget,Ui_Profile_user):
             ]
             DeleteData(self.profile, id_unique)
             self.change_data_list(True)
+
+    def create_win_delete_item(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Warning)
+        msgBox.setText("Do you want to delete this item?")
+        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        msgBox.buttonClicked.connect(self.menu_list_delete_item)
+        msgBox.exec()
 
 
     def configure_btn(self):
@@ -98,7 +100,7 @@ class Profile(QWidget,Ui_Profile_user):
         self.tabWidget.setTabText(2, "Sessions")
         ###esto no lo hace ni idea de porque?
         date_now = datetime.datetime.now()
-        date = "{}.{}.{}".format(date_now.day, date_now.month, date_now.year)
+        date = f"{date_now.day}.{date_now.month}.{date_now.year}"
         self.input_date_birth.setMaximumDate(QDate.fromString(date, "dd.MM.yyyy"))
         self.input_date_birth.setDate(QDate.fromString(date, "dd.MM.yyyy"))
 
@@ -156,20 +158,20 @@ class Profile(QWidget,Ui_Profile_user):
         icon_file = qta.icon('ri.file-chart-line', color='green')
         for s in sessions:
             session = QTreeWidgetItem(self.list_records)
-            session.setIcon(0, icon_folder)
-            session.setText(0, s['name'])
-            session.setText(2, s['date_create'])
-            session.setText(3, s['unique_id'])
+            self.set_item_list_record(session, 0, icon_folder, s)
             activities=ActivityData().load_activities(profile, s["unique_id"])
             for a in activities:
                 activity = QTreeWidgetItem()
-                activity.setIcon(1, icon_file)
-                activity.setText(1, a['name'])
-                activity.setText(2, a['date_create'])
-                activity.setText(3, a['unique_id'])
+                self.set_item_list_record(activity, 1, icon_file, a)
                 session.addChild(activity)
         self.list_records.itemDoubleClicked.connect(self.handler)
         self.list_records.itemClicked.connect(self.handler_expand)
+
+    def set_item_list_record(self, arg0, arg1, arg2, arg3):
+        arg0.setIcon(arg1, arg2)
+        arg0.setText(arg1, arg3['name'])
+        arg0.setText(2, arg3['date_create'])
+        arg0.setText(3, arg3['unique_id'])
 
     def create_new_session(self):
         data = SessionData().create_session(int(self.input_number.text()))
@@ -209,7 +211,7 @@ class Profile(QWidget,Ui_Profile_user):
         new_tab = QWidget()
         new_tab.setObjectName(u"view_results")
         self.layout_view_results = QVBoxLayout(new_tab)
-        name_tab = "{} {}".format(name_test, date)
+        name_tab = f"{name_test} {date}"
         self.tabWidget.insertTab(3, new_tab, name_tab)
         self.load_results(name_test, unique_id)
 
