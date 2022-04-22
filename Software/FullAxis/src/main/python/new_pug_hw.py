@@ -25,9 +25,9 @@ class receiver_data(QThread):
     def Serial_discover(self):
         ports = QSerialPortInfo.availablePorts()
         port = None
+        manufactured = ["wch.cn", "1a86"]
+        description = ["USB-SERIAL CH340", "USB2.0-Serial"]
         for i in ports:
-            manufactured = ["wch.cn", "1a86"]
-            description = ["USB-SERIAL CH340", "USB2.0-Serial"]
             if i.manufacturer() in manufactured and i.description() in description:
                 port = i
         return port
