@@ -104,7 +104,8 @@ class SessionData():
     
     def create_index_session(self, profile) -> list:
         search = Query()
-        if index_session := profile.search(search.type == "index_session"):
+        index_session = profile.search(search.type == "index_session")
+        if index_session:
             list_idx = self.search_new_index_session(profile)
             new_idx = list_idx[-1] + 1
             list_idx.append(new_idx)
@@ -216,8 +217,8 @@ class DeleteData():
         ativities = session[0]["activity"]
         for i in ativities:
             id_unique_activity = f"{id_unique}.{i}"
-            
-            print(id_unique_activity)
+            self.delete_activity(table, id_unique_activity)
+        table.remove(search.unique_id == id_unique)           
 
         print("eliminaremos la session")
 
@@ -226,6 +227,7 @@ class DeleteData():
         table.remove(search.unique_id == id_unique)
         self.modify_index_session(table, id_unique)
         print("eliminaremos la activity")
+
         
     def modify_index_session(self, table:TinyDB, id_unique:str) -> None:
         p,s,a = id_unique.split(".")

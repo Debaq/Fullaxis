@@ -58,18 +58,16 @@ class FullAxisReceptor():
         error = False
         try:
             line = self.hw.readline().decode().replace("\r\n","")
-           
+
         except UnicodeDecodeError:
             error = True
             self.hw.reset_input_buffer()
-        if error == False:
-            if line[:3] != "Soy":
-                try:
-                    roll,pitch,yaw,dt = line.split(',')
-                    data = [float(roll),float(pitch),float(yaw),float(dt)]
-                    return data
-                except ValueError:
-                   self.activate_receptor()
+        if not error and line[:3] != "Soy":
+            try:
+                roll,pitch,yaw,dt = line.split(',')
+                return [float(roll),float(pitch),float(yaw),float(dt)]
+            except ValueError:
+                self.activate_receptor()
         
 
 

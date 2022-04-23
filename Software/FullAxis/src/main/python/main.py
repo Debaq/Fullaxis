@@ -134,7 +134,8 @@ no puede medir en los graficos de la vista de la prueba (solucionado)
 cambiar en el eje y amplitud por nombre de plano (solucionado)
 poner dibujo para los ejes (solucionado)
 no se pueden borrar las pruebas (solucionado)
-no se pueden borrar las sesiones(incompleto)
+no se pueden borrar las sesiones(solucionado)
+eliminar indices de las sessiones el profile
 problemas al cambiar entre TUG y SOT
 no tiene sentido el flujod e los botones capture y reset
 no borra el grafico en SOT

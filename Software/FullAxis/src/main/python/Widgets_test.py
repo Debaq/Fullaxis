@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (QFrame, QHBoxLayout,
 from init import context
 from lib.basic_graph_ui import Ui_graph
 
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks, peak_widths
 
 
 class Widget_basic(QWidget, Ui_graph):
@@ -92,19 +92,36 @@ class WidgetTUG(QWidget):
     def draw_graph(self,data):
         self.mem_time = np.append(self.mem_time , data[3])
         self.update_memories(data)
-        peaks, _ = find_peaks(self.mem_roll, distance=10)
 
-        self.pw_roll.plot(x=self.mem_time[peaks], y=self.mem_roll[peaks], symbol='o')
+        peaks_roll, _ = find_peaks(self.mem_roll, distance=10)
+        self.pw_roll.plot(x=self.mem_time[peaks_roll], y=self.mem_roll[peaks_roll], symbol='t')
+        results_half = peak_widths(self.mem_roll, peaks_roll, rel_height=0.5)
+        results_full = peak_widths(self.mem_roll, peaks_roll, rel_height=1)
+        
 
-        plot_roll = pg.PlotCurveItem(clickable=True)
-        plot_roll.setData(self.mem_time, self.mem_roll, pen='r')
-        #self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
+        peaks_pitch, _ = find_peaks(self.mem_pitch, distance=10)
+        self.pw_pitch.plot(x=self.mem_time[peaks_pitch], y=self.mem_pitch[peaks_pitch], symbol='t')
+        peaks_yaw, _ = find_peaks(self.mem_yaw, distance=10)
+        self.pw_yaw.plot(x=self.mem_time[peaks_yaw], y=self.mem_yaw[peaks_yaw], symbol='t')
+
+
+        plot_roll = self.set_curve(self.mem_time, self.mem_roll, pen='r')
+        plot_pitch = self.set_curve(self.mem_time, self.mem_pitch, pen='g')
+        plot_yaw = self.set_curve(self.mem_time, self.mem_yaw, pen='b')
+
+          
         self.pw_roll.addItem(plot_roll)
-        plot_roll.sigClicked.connect(self.clicked)
+        self.pw_pitch.addItem(plot_pitch)
+        self.pw_yaw.addItem(plot_yaw)
 
-        plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
-        plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
         self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
+
+    def set_curve(self, data_x, data_y, pen):
+        curve = pg.PlotCurveItem()
+        curve.setClickable(True)
+        curve.setData(data_x, data_y, pen=pen)
+        curve.sigClicked.connect(self.clicked)
+        return curve
 
     def update_memories(self, data, capture=False):
         self.mem_roll = np.append(self.mem_roll,data[0])
@@ -170,7 +187,7 @@ class WidgetTUG(QWidget):
         pw.setBackground('w')
         pw.setYRange(-90, 90)
         pw.showGrid(x=True, y=True)
-
+        pw.setMenuEnabled(False)
         pw.setLabel('left', name, units='degrees')
         pw.setLabel('bottom', 'Time', units='s')
         pw.setLimits(xMin=0)
@@ -196,9 +213,10 @@ class WidgetTUG(QWidget):
         axis.setXRange(0, self.time_max)
         
     def get_data(self):
-        return [self.mem_roll, self.mem_pitch, self.mem_yaw, self.mem_time]
+        return [self.mem_roll.tolist(), self.mem_pitch.tolist(), self.mem_yaw.tolist(), self.mem_time.tolist()]
     
     def clicked(self, plot, points):
+        print(plot)
         print(points.pos())
 
 
@@ -355,7 +373,7 @@ class WidgetSOT(QWidget):
         
     def update_graph_display(self, data):
         if self.stop == False:
-            idx_cond = self.state_condlist
+            idx_cond = self.state_cond
             self.update_memories(data)
             new_time = self.mem[idx_cond][2][-1]
             self.conditions_graph[idx_cond].clear()
