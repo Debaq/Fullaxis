@@ -62,13 +62,22 @@ class Profile(QWidget,Ui_Profile_user):
             self.change_data_list(True)
 
     def create_win_delete_item(self):
-        msgBox = QMessageBox()
-        msgBox.setIcon(QMessageBox.Warning)
-        msgBox.setText("Do you want to delete this item?")
-        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        msgBox = self._extracted_from_create_win_save_2("Do you want to delete this item?")
         msgBox.buttonClicked.connect(self.menu_list_delete_item)
         msgBox.exec()
+        
+    def create_win_save(self):
+        msgBox = self._extracted_from_create_win_save_2("wants to save?")
+        #msgBox.buttonClicked.connect(self.menu_list_delete_item)
+        msgBox.exec()
 
+    # TODO Rename this here and in `create_win_delete_item` and `create_win_save`
+    def _extracted_from_create_win_save_2(self, arg0):
+        result = QMessageBox()
+        result.setIcon(QMessageBox.Warning)
+        result.setText(arg0)
+        result.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        return result
 
     def configure_btn(self):
         self.btn_save.clicked.connect(self.save_profile_data)
@@ -193,17 +202,40 @@ class Profile(QWidget,Ui_Profile_user):
                 item.setExpanded(False)
                 
     def create_new_test(self, profile:str, session, test:str):
-        self.test_current = test
-        if "widget_test" in dir(self):
-            self.widget_test.new()
-        else:
-            helpers.reset_layout(self,self.layout_session)
-            self.widget_test = BasicTest()
-            self.widget_test.save_true.connect(self.change_data_list)
-            self.widget_test.set_data(profile, session, self.test_current)
-            self.list_records.clear()
-            self.load_session(profile)
-            self.layout_session.addWidget(self.widget_test)
+        """Crea un nuevo test según se seleccione
+
+        Args:
+            profile (str): numero del perfil debe estar seteado como perfil_{:05d}
+            session (_type_): nombre de la sesión
+            test (str): nombre del test
+        """
+        if "test_current" in dir(self): #si ya hay un test abierto
+            if test != self.test_current:
+                self.old_test = self.test_current #guarda el test anterior, por ahora no sirve de nada
+                self.test_current = test
+                #self.widget_test.new()
+                if self.widget_test.data_full():
+                    self.create_win_save()
+                else:
+                    print("no tengo datos")
+                self.widget_test.disconnect_serial()
+                self._extracted_from_create_new_test_7(profile, session)
+
+        else: #si no hay un test abierto
+                self.test_current = test
+                self._extracted_from_create_new_test_7(profile, session)
+
+
+
+    # TODO Rename this here and in `create_new_test`
+    def _extracted_from_create_new_test_7(self, profile, session):
+        helpers.reset_layout(self,self.layout_session)
+        self.widget_test = BasicTest()
+        self.widget_test.save_true.connect(self.change_data_list)
+        self.widget_test.set_data(profile, session, self.test_current)
+        self.list_records.clear()
+        self.load_session(profile)
+        self.layout_session.addWidget(self.widget_test)
         
     def view_results(self,name_test, date, unique_id):
         if self.tabWidget.isTabVisible(3):
@@ -216,6 +248,11 @@ class Profile(QWidget,Ui_Profile_user):
         self.load_results(name_test, unique_id)
 
     def change_data_list(self, data):
+        """Recibe un boleano al ser True limpia la lista de guardados 
+        y carga los nuevos datos.
+        
+        Esto solo ocurre cuando se guarda la prueba
+        """
         if data:
             self.list_records.clear()
             self.load_session(self.profile)

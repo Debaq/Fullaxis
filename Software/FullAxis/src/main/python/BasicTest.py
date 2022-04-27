@@ -16,7 +16,7 @@ class Terminal(QWidget, Ui_terminal):
         self.setupUi(self)
 
 class  BasicTest(QWidget, Ui_Test_basic):
-    save_true = Signal(bool)
+    save_true = Signal(bool) #emite señal True al guardar la información
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -77,10 +77,33 @@ class  BasicTest(QWidget, Ui_Test_basic):
         self.receiver.start()
         self.receiver.set_connection(connection)
         self.receiver.data.connect(self.receive_data_and_graph)
-        self.btn_connect.setEnabled(False)
-        self.btn_connect.setText("Conected")
-        self.combo_serial.setDisabled(True)
-        self.btn_view_raw.setEnabled(True)        
+        self.change_state_btn_connection(True)
+    
+    def disconnect_serial(self):
+        if "receiver" in dir(self):
+            self.receiver.set_connection(None)
+            self.change_state_btn_connection(False)
+            self.buttons_disabled = True
+            self.btn_capture.setEnabled(False)
+            self.btn_reset.setEnabled(False)
+            self.btn_save.setEnabled(False)
+    
+    def change_state_btn_connection(self, activate:bool = True) -> None:
+        self.btn_connect.setDisabled(activate)
+        if self.btn_connect.isEnabled():
+            self.btn_connect.setText("Connect")
+        else:
+            self.btn_connect.setText("Conected")
+        self.combo_serial.setDisabled(activate)
+        self.btn_view_raw.setEnabled(activate)
+    
+    def change_state_btn_capture(self, activate:bool = True) -> None:
+        self.btn_capture.setEnabled(activate)
+        if self.btn_capture.isEnabled():
+            self.btn_capture.setText("Capture")
+        self.btn_reset.setEnabled(activate)
+
+
     
     def combo_serial_complete(self) -> None:
         ports = FullAxisReceptor()
@@ -99,9 +122,8 @@ class  BasicTest(QWidget, Ui_Test_basic):
     ###Funciones de Graph
     def receive_data_and_graph(self, data):
         if self.buttons_disabled:
+            self.change_state_btn_capture(True)
             self.buttons_disabled = False
-            self.btn_capture.setEnabled(True)
-            self.btn_reset.setEnabled(True)
         if self.capture == True:
             if not self.widget.stop:
                 self.widget.update_graph_display(data)
@@ -126,6 +148,9 @@ class  BasicTest(QWidget, Ui_Test_basic):
         self.btn_capture.setEnabled(False)
         self.btn_reset.setEnabled(False)
         self.save_true.emit(True)
+    
+    def data_full(self):
+        return self.widget.not_empty_data()
         
     def get_unique_id(self) -> str:
         return self.activity_data['unique_id']

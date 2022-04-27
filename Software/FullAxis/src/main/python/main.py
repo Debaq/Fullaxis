@@ -136,7 +136,9 @@ poner dibujo para los ejes (solucionado)
 no se pueden borrar las pruebas (solucionado)
 no se pueden borrar las sesiones(solucionado)
 eliminar indices de las sessiones el profile
-problemas al cambiar entre TUG y SOT
+problemas al cambiar entre TUG y SOT(solucionado)
 no tiene sentido el flujod e los botones capture y reset
-no borra el grafico en SOT
+no borra el grafico en SOT, cuando?
+cuando se conecta por primera al cambiar de prueba parece como no conectado cuando si lo esta( corregido)
+al corregir el de arriba, ahora se cierra el programa al tener datos y cambiar de prueba
 """

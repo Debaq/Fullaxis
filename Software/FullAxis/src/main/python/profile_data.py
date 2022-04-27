@@ -104,8 +104,7 @@ class SessionData():
     
     def create_index_session(self, profile) -> list:
         search = Query()
-        index_session = profile.search(search.type == "index_session")
-        if index_session:
+        if index_session := profile.search(search.type == "index_session"):
             list_idx = self.search_new_index_session(profile)
             new_idx = list_idx[-1] + 1
             list_idx.append(new_idx)

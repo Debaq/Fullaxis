@@ -97,7 +97,10 @@ class WidgetTUG(QWidget):
         self.pw_roll.plot(x=self.mem_time[peaks_roll], y=self.mem_roll[peaks_roll], symbol='t')
         results_half = peak_widths(self.mem_roll, peaks_roll, rel_height=0.5)
         results_full = peak_widths(self.mem_roll, peaks_roll, rel_height=1)
-        
+        print(results_half)
+        #line = pg.LineROI([0, 60], [20, 80], width=5, pen=(1,9))
+        #self.pw_roll.addItem(line)
+
 
         peaks_pitch, _ = find_peaks(self.mem_pitch, distance=10)
         self.pw_pitch.plot(x=self.mem_time[peaks_pitch], y=self.mem_pitch[peaks_pitch], symbol='t')
@@ -116,6 +119,10 @@ class WidgetTUG(QWidget):
 
         self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
 
+    def detect_up_stand(self, data) -> list:
+        result = 0
+        return result 
+    
     def set_curve(self, data_x, data_y, pen):
         curve = pg.PlotCurveItem()
         curve.setClickable(True)
@@ -214,6 +221,10 @@ class WidgetTUG(QWidget):
         
     def get_data(self):
         return [self.mem_roll.tolist(), self.mem_pitch.tolist(), self.mem_yaw.tolist(), self.mem_time.tolist()]
+    
+    def not_empty_data(self):
+        print(self.mem_roll)
+        return len(self.mem_roll) > 0
     
     def clicked(self, plot, points):
         print(plot)
@@ -316,6 +327,17 @@ class WidgetSOT(QWidget):
         self.mem = [mem_con, mem_con, 
                     mem_con, mem_con]
 
+    def reset_graph(self):
+        self.create_memories()
+        self.clear_data()
+        self.dt = 0
+        
+    def clear_data(self):
+        self.cond1.clear()
+        self.cond2.clear()
+        self.cond_3.clear()
+        self.cond_4.clear()
+        
     def draw_graph(self,data):
         OStyel = "background-color: rgba(0, 170, 255, 0);"
         self.frame_cond1.setStyleSheet(OStyel)
@@ -429,3 +451,7 @@ class WidgetSOT(QWidget):
         cond_4 = self.mem[3].tolist()
         data = [cond_1, cond_2, cond_3, cond_4]
         return[data]
+        
+    def not_empty_data(self):
+        only_one = self.mem[0].tolist()[0]
+        return len(only_one) > 0

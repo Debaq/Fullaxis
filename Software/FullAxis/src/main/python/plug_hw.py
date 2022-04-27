@@ -51,6 +51,9 @@ class FullAxisReceptor():
     def is_open(self):
         return self.hw.isOpen()
     
+    def close(self):
+        self.hw.close()
+        
     def activate_receptor(self):
         self.hw.write(b'51')
         
@@ -82,11 +85,18 @@ class ReceiverData(QThread):
     def run(self):
         while True:
             if "connection" in dir(self):
-                data = self.connection.read_line()
-                if data != None:
-                    self.data.emit(data)
+                if self.connection is not None:
+                    data = self.connection.read_line()
+                    if data != None:
+                        self.data.emit(data)
+                else:
+                    self.terminate()
+
                 sleep(0.01)
-    
+                
+    def close(self):
+        self.connection.close()
+        
     def set_connection(self, connection):
         self.connection = connection
     
