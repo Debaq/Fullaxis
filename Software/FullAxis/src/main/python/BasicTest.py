@@ -7,7 +7,7 @@ from lib.terminal_ui import Ui_terminal
 from plug_hw import FullAxisReceptor, ReceiverData
 from profile_data import ActivityData
 from ui_helper import helpers
-from Widgets_test import WidgetSOT, WidgetTUG
+from Widgets_test import WidgetSOT, WidgetTUG, WidgetVNG
 
 
 class Terminal(QWidget, Ui_terminal):
@@ -36,6 +36,9 @@ class  BasicTest(QWidget, Ui_Test_basic):
         elif test == "TUG":
             self.test = "TUG"
             self.create_tug_test()
+        elif test == "VNG":
+            self.test = "VNG"
+            self.create_vng_test()
         self.check_delay.stateChanged.connect(self.with_delay)
             
     def new(self):
@@ -158,7 +161,14 @@ class  BasicTest(QWidget, Ui_Test_basic):
     def create_db(self, type_test):
         db = ActivityData()
         self.activity_data = db.create_activity(self.profile, self.session, type_test)    
-              
+
+    ### Funciones VNG
+    def create_vng_test(self) -> None: 
+        self.widget = WidgetVNG()
+        helpers.reset_layout(self, self.layout_test)
+        self.layout_test.addWidget(self.widget)
+        
+                  
     ### Funciones TUG
     def create_tug_test(self) -> None:
         self.widget = WidgetTUG()

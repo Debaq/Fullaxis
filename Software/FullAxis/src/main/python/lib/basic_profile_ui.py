@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'basic_profile.ui'
+## Form generated from reading UI file 'basic_profileSzewCo.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.2.3
+## Created by: Qt User Interface Compiler version 6.3.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -248,6 +248,11 @@ class Ui_Profile_user(object):
 
         self.horizontalLayout.addWidget(self.btn_new_tug)
 
+        self.btn_new_vng = QPushButton(self.horizontalFrame)
+        self.btn_new_vng.setObjectName(u"btn_new_vng")
+
+        self.horizontalLayout.addWidget(self.btn_new_vng)
+
 
         self.verticalLayout_2.addWidget(self.horizontalFrame)
 
@@ -288,7 +293,7 @@ class Ui_Profile_user(object):
         self.pushButton_3.clicked["bool"].connect(self.input_info.setFontItalic)
         self.spinBox.valueChanged.connect(self.input_info.setFontWeight)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(Profile_user)
@@ -319,6 +324,7 @@ class Ui_Profile_user(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_record), QCoreApplication.translate("Profile_user", u"Records", None))
         self.btn_new_sot.setText(QCoreApplication.translate("Profile_user", u"New SOT", None))
         self.btn_new_tug.setText(QCoreApplication.translate("Profile_user", u"New TUG", None))
+        self.btn_new_vng.setText(QCoreApplication.translate("Profile_user", u"New VNG", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_session), QCoreApplication.translate("Profile_user", u"Session", None))
     # retranslateUi
 

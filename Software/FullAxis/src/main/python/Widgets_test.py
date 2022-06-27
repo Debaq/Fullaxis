@@ -12,10 +12,15 @@ from lib.basic_graph_ui import Ui_graph
 from scipy.signal import find_peaks, peak_widths
 
 
+
+
 class Widget_basic(QWidget, Ui_graph):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
+ 
+        
+        
 
 class WidgetTUG(QWidget):
     def __init__(self) -> None:

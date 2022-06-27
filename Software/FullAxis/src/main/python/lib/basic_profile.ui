@@ -449,6 +449,13 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="btn_new_vng">
+              <property name="text">
+               <string>New VNG</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>

@@ -79,6 +79,7 @@ class Profile(QWidget,Ui_Profile_user):
         result.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
         return result
 
+
     def configure_btn(self):
         self.btn_save.clicked.connect(self.save_profile_data)
         self.btn_create_session.clicked.connect(self.create_new_session)
@@ -92,7 +93,13 @@ class Profile(QWidget,Ui_Profile_user):
                 self.profile, 
                 self.session, 
                 "TUG"))
-    
+        self.btn_new_vng.clicked.connect(
+            lambda : self.create_new_test(
+                self.profile, 
+                self.session,
+                "VNG"))
+
+
     def clean_data(self):
         self.input_id.setText("")
         self.input_number.setText("nn")
