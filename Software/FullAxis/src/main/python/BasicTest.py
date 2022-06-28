@@ -7,7 +7,7 @@ from lib.terminal_ui import Ui_terminal
 from plug_hw import FullAxisReceptor, ReceiverData
 from profile_data import ActivityData
 from ui_helper import helpers
-from Widgets_test import WidgetSOT, WidgetTUG, WidgetVNG
+from Widgets_test import WidgetSOT, WidgetTUG
 
 
 class Terminal(QWidget, Ui_terminal):

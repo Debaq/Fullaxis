@@ -68,7 +68,7 @@ class FullAxisReceptor():
         if not error and line[:3] != "Soy":
             try:
                 roll,pitch,yaw,dt = line.split(',')
-                return [float(roll),float(pitch),float(yaw),float(dt)]
+                return [float(roll),float(pitch),float(yaw),float(dt),float(bat)]
             except ValueError:
                 self.activate_receptor()
         
