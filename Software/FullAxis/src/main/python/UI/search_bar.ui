@@ -17,17 +17,29 @@
    <property name="spacing">
     <number>0</number>
    </property>
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QFrame" name="verticalFrame">
      <property name="minimumSize">
       <size>
-       <width>150</width>
+       <width>250</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>150</width>
+       <width>250</width>
        <height>16777215</height>
       </size>
      </property>
@@ -46,24 +58,11 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLineEdit" name="lineEdit">
        <property name="styleSheet">
-        <string notr="true">QLineEdit {
-    border-radius: 8px;
-    padding: 0 8px;
-    background: rgb(237,238,240,255);
-    selection-background-color: darkgray;
-}
-QLineEdit:hover {
-	background-color: rgb(255, 255, 255);
- 
-}
-QLineEdit:focus {
-	background-color: rgb(255, 255, 255);
- 
-}</string>
+        <string notr="true"/>
        </property>
        <property name="placeholderText">
         <string>Buscar usuario</string>
@@ -86,7 +85,7 @@ QLineEdit:focus {
        <height>16777215</height>
       </size>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">

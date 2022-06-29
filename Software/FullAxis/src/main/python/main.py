@@ -1,144 +1,84 @@
-# -*- coding: utf-8 -*-
 
-#################################################################
-#                                                               #
-#                  NAME PROJECT : FULLAXIS                      #
-#                   VER. 22.2.25 - GUI PySide6                  #
-#                    NAME  VER. : reboot                        #
-#               CREATOR : DAVID ÁVILA QUEZADA                   #
-#                          AKA: NICOLÁS QUEZADA BAIER           #
-#                                                               #
-#################################################################
-
-import os
+__VERSION__ = '1.0.0'
+from fileinput import close
 import sys
 
-
-os_system = 'win' if os.name == 'nt' else 'linux'
-
-if len(sys.argv) > 1:
-    from init import ParameterInput
-    parameters = ParameterInput(sys.argv[1], os_system)
-    if parameters.final_state == "stop":
-        sys.exit()
-
-
-import qtawesome as qta
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import (QMainWindow,QTreeWidgetItem,QWidget)
-from init import context
-from lib.list_user_ui import Ui_List_user
-from lib.main_ui import Ui_MainWindow
-from profile_data import ListProfiles
-from ui_helper import helpers
-from WidgetProfile import Profile
+from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QTabBar, QPushButton
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt, QSize
+from base import context
+from UI.Ui_main import Ui_MainWindow
+from UI.Ui_search_bar import Ui_search_bar
+from UI.Ui_windows_principal import Ui_win_principal
 
 
-class ListUser(QWidget, Ui_List_user):
-    user_selected = Signal(str)
-    def __init__(self) -> None:
-        super().__init__()
+class UiWinPrincipal(QWidget, Ui_win_principal):
+    def __init__(self, parent=None):
+        super(UiWinPrincipal, self).__init__(parent)
         self.setupUi(self)
-        self.list_user.setSortingEnabled(True)
-        self.list_user.sortByColumn(0, Qt.AscendingOrder)
-        self.complete_list_user()
 
-    def complete_list_user(self):
-        list_user = ListProfiles().get_list_profile_full()
-        icon = qta.icon('ri.user-line', selected='ri.user-received-2-line',
-                        color_off='orange',
-                        color_on='orange')
-        for i in list_user:
-            item = QTreeWidgetItem(self.list_user)
-            item.setIcon(0, icon)
-            item.setText(0, str(i['number_unique']))
-            item.setText(1, i['id'])
-            item.setText(2, i['first_name'])
-            item.setText(3, i['last_name'])
-        self.list_user.itemDoubleClicked.connect(self.handler)
-
-    def handler(self, item, column_no):
-        number_user = "profile_{:05d}".format(int(item.text(0)))
-        self.user_selected.emit(number_user)
-   
         
-class MainWindows(QMainWindow, Ui_MainWindow):
+
+
+class UiSearchBar(QWidget, Ui_search_bar):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.configure_window()
-        self.btns_tools_clicked()
-        self.btns_icons()
-        self.show()
-       
-    def configure_window(self) -> None:
-        self.resize(1024,600)
-        self.setWindowTitle("FullAxis")
+        logo = QPixmap(context.get_resource("img/logo_w_name.png"))
+        #logo = logo.scaledToHeight(50, Qt.SmoothTransformation)
+        self.label.setText("")
+        self.label.setPixmap(logo)
 
-    def open_profile(self):
-        self.list_user = ListUser()
-        self.list_user.user_selected.connect(self.load_profile)
-        helpers.reset_layout(self, self.layout_central)
-        self.layout_central.addWidget(self.list_user)        
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        self.bar_search = UiSearchBar()
+        self.win_principal = UiWinPrincipal()
+        self.layout_menu.addWidget(self.bar_search)
+        self.layout_central.addWidget(self.win_principal)
+        self.btn_exit.clicked.connect(self.close)
+        self.btn_min.clicked.connect(self._toggle_maxmin)
+        self.btn_new.clicked.connect(self._move_new_tab)
         
-    def load_profile(self, user):
-        helpers.reset_layout(self, self.layout_central)
-        if 'profile' in dir(self):
-            self.layout_central.addWidget(self.profile)
-            self.profile.user_fill(user)
+    def _move_new_tab(self):
+        self.sender().deleteLater()
+        self.create_new_tab()
+        btn = QPushButton("+")
+        btn.clicked.connect(self._move_new_tab)
+        self.layotu_btn_tabs.addWidget(btn)
+        
+    def create_new_tab(self):
+        if "tb" not in dir(self):
+            self.tb = QTabBar(self)
+        self.tb.addTab("nueva prueba")
+        self.tb.currentChanged.connect(self.tab_changed)
+        self.tb.tabCloseRequested.connect(self.tab_close)
+        self.tb.setTabsClosable(True)
+        self.tb.setDocumentMode(True)
+        self.layotu_btn_tabs.addWidget(self.tb)
+
+    def tab_changed(self, index):
+        print(index)
+
+    def tab_close(self, index):
+        print(index)
+        
+    def _toggle_maxmin(self):
+        if self.isMaximized():
+            self.showNormal()
+            self.resize(800,600)
         else:
-            self.new_profile(user)
-        
-    def btns_icons(self):
-        user_new = qta.icon('ri.user-add-line', color='#595959')
-        user_list = qta.icon('ri.contacts-book-line', color='#595959')
-        self.btn_new_profile.setIcon(user_new)
-        self.btn_open_profile.setIcon(user_list)    
-        
-    def btns_tools_clicked(self) -> None:
-        self.btn_new_profile.clicked.connect(lambda:self.new_profile(None))
-        self.btn_open_profile.clicked.connect(self.open_profile)
-    
-    def new_profile(self, user) -> None:
-        if 'profile' not in dir(self):
-            self.profile = Profile(user)
-        if user is None:
-            self.profile.clean_data()
-        helpers.reset_layout(self, self.layout_central)
-        self.layout_central.addWidget(self.profile)
+            self.showMaximized()
 
-        
-if __name__ == "__main__":
-    windows = MainWindows()
-    """ extra = {
-    
-    # Density Scale
-    'density_scale': '-2',
-}
+    def new_tab(self):
+        btn = QPushButton
 
-     apply_stylesheet(windows, theme='dark_teal.xml', extra=extra)
-     """
-    #theme_file = context.get_resource("OneDark-Pro-flat.json")
-    #stylesheet = qtvsc.load_stylesheet(theme_file)
-    #windows.setStyleSheet(stylesheet)
+
+if __name__ == '__main__':
+    #app = QApplication([])
+    window = MainWindow()
+    window.show()
     exit_code = context.app.exec()
     sys.exit(exit_code)
-
-###error observado 
-"""
-guarda la prueba antes de presionar el boton de guardar (solucionado)
-se pega la conexion cuando se intenta tomar mas de una prueba (solucionado)
-cambiar list de datos en graph de list a numpy.array (solucionado)
-existe un delay del buffer luego de los 5 segundos (Solucionado)
-no puede medir en los graficos de la vista de la prueba (solucionado)
-cambiar en el eje y amplitud por nombre de plano (solucionado)
-poner dibujo para los ejes (solucionado)
-no se pueden borrar las pruebas (solucionado)
-no se pueden borrar las sesiones(solucionado)
-eliminar indices de las sessiones el profile
-problemas al cambiar entre TUG y SOT(solucionado)
-no tiene sentido el flujod e los botones capture y reset
-no borra el grafico en SOT, cuando?
-cuando se conecta por primera al cambiar de prueba parece como no conectado cuando si lo esta( corregido)
-al corregir el de arriba, ahora se cierra el programa al tener datos y cambiar de prueba
-"""
