@@ -42,16 +42,20 @@ void loop() {
   else {
     if (transmit == true) {
       unsigned long dt = millis() - t;
+      
       int x = random(-10 , 300);
       int y = random(-150, 150);
       int z = random(100);
+      int batt = random(300 , 370);
       Serial.print(x);
       Serial.print(",");
       Serial.print(y);
       Serial.print(",");
       Serial.print(z);
       Serial.print(",");
-      Serial.println(dt);
+      Serial.print(dt);
+      Serial.print(",");
+      Serial.println(batt);
       delay(10);
       if (Serial.available() > 0) {
         inByte = Serial.read();

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
    id="svg873"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="logos.svg">
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="logos.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs867">
     <marker
@@ -210,18 +210,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="361.10284"
-     inkscape:cy="46.018238"
+     inkscape:zoom="1.4"
+     inkscape:cx="238.21428"
+     inkscape:cy="352.85714"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1048"
+     inkscape:window-height="1007"
      inkscape:window-x="0"
-     inkscape:window-y="32"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:document-rotation="0" />
+     inkscape:document-rotation="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata870">
     <rdf:RDF>
@@ -413,5 +416,77 @@
          x="-265.21793"
          id="tspan1382"
          sodipodi:role="line" /></text>
+    <g
+       id="g272"
+       transform="translate(21.946496,-159.74982)"
+       inkscape:export-filename="../img/splash.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g437"
+         transform="matrix(1.284317,0,0,1.284317,-21.963735,-75.068298)">
+        <circle
+           style="fill:#379098;fill-opacity:1;stroke:none;stroke-width:0.280644;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="circle252"
+           cx="77.335388"
+           cy="246.87776"
+           inkscape:export-xdpi="96"
+           inkscape:export-ydpi="96"
+           r="19.01375" />
+        <g
+           transform="matrix(0.39965324,0,0,0.39965324,204.90968,137.5948)"
+           id="g260">
+          <path
+             inkscape:connector-curvature="0"
+             id="path254"
+             d="m -341.88093,247.75177 v 49.58095"
+             style="fill:#ffffff;stroke:#ffffff;stroke-width:2.63259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.141;stroke-opacity:1;marker-start:url(#marker1041)"
+             inkscape:export-xdpi="96"
+             inkscape:export-ydpi="96" />
+          <path
+             style="fill:#ffffff;stroke:#ffffff;stroke-width:2.63259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.141;stroke-opacity:1;marker-start:url(#marker1031)"
+             d="m -306.82191,260.96135 -35.05902,35.05902"
+             id="path256"
+             inkscape:connector-curvature="0"
+             inkscape:export-xdpi="96"
+             inkscape:export-ydpi="96" />
+          <path
+             inkscape:connector-curvature="0"
+             id="path258"
+             d="m -292.29998,296.02037 h -49.58095"
+             style="fill:#ffffff;stroke:#ffffff;stroke-width:2.63259;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.141;stroke-opacity:1;marker-start:url(#marker1021)"
+             inkscape:export-xdpi="96"
+             inkscape:export-ydpi="96" />
+        </g>
+      </g>
+      <g
+         transform="translate(0,-1.6400473)"
+         id="g270">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:9.60277px;line-height:1.25;font-family:sans-serif;fill:#379098;fill-opacity:1;stroke:none;stroke-width:0.240071"
+           x="50.752117"
+           y="270.2175"
+           id="text264"
+           transform="scale(0.97313477,1.0276069)"><tspan
+             sodipodi:role="line"
+             id="tspan262"
+             x="50.752117"
+             y="270.2175"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';fill:#379098;fill-opacity:1;stroke-width:0.240071">FullAxis</tspan></text>
+        <text
+           transform="scale(0.97313477,1.0276069)"
+           id="text268"
+           y="272.98557"
+           x="51.452606"
+           style="font-style:normal;font-weight:normal;font-size:3.15208px;line-height:1.25;font-family:sans-serif;fill:#379098;fill-opacity:1;stroke:none;stroke-width:0.0788027"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';fill:#379098;fill-opacity:1;stroke-width:0.0788027"
+             y="272.98557"
+             x="51.452606"
+             id="tspan266"
+             sodipodi:role="line">Sistema de evaluación neurootológica</tspan></text>
+      </g>
+    </g>
   </g>
 </svg>

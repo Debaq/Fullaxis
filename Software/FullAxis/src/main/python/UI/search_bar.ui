@@ -7,18 +7,37 @@
     <x>0</x>
     <y>0</y>
     <width>672</width>
-    <height>300</height>
+    <height>299</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame{background-color: rgb(245, 245, 245);}
+
+                          QLineEdit {
+                            border: 2px none gray;
+                            border-radius: 18px;
+                            padding: 10 20px;
+                            background: rgb(237, 238, 240);
+                            selection-background-color: darkgray;
+                            }
+                            QLineEdit:hover {
+                                background: rgb(230, 232, 237);
+                                }
+                            QLineEdit:focus {
+                                background: rgb(255, 255, 255);
+                                
+                            }
+</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <property name="spacing">
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>6</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
     <number>0</number>
@@ -52,24 +71,29 @@
         <property name="text">
          <string>FullAxis</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="placeholderText">
-        <string>Buscar usuario</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QFrame" name="frame_search">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLineEdit" name="lineEdit">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="placeholderText">
+         <string>Buscar usuario</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QFrame" name="horizontalFrame_2">
@@ -87,9 +111,12 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btn_config">
         <property name="text">
          <string>Configuración</string>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

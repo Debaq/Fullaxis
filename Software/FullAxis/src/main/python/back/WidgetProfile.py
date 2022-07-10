@@ -140,7 +140,7 @@ class Profile(QWidget,Ui_Profile_user):
         profile_data = ProfileData()
         number_unique = self.input_number.text()
         number_unique = profile_data.set_data(
-            first_name = self.input_first_name.text(), 
+            first_name = self.text(), 
             last_name  = self.input_last_name.text(),
             data_birth= self.input_date_birth.date().toString("dd.MM.yyyy"),
             id = self.input_id.text(),
