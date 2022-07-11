@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name 9axis-rescue)(type Legacy)(uri ${KIPRJMOD}/9axis-rescue.lib)(options "")(descr ""))
-)

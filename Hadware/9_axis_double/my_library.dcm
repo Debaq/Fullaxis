@@ -1,9 +1,0 @@
-EESchema-DOCLIB  Version 2.0
-#
-$CMP USB_C_2.0
-D USB Type C connector only 2.0
-K connector USB
-F  ~
-$ENDCMP
-#
-#End Doc Library

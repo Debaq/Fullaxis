@@ -1,7 +1,2 @@
-.ipynb_checkpoints
-**/__pycache__/**
-**/.history/**
-**/.vscode/**
-**/server_hide/**
-trash
-
+/target
+/.vscode

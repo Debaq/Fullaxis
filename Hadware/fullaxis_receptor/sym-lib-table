@@ -1,4 +1,0 @@
-(sym_lib_table
-  (lib (name "9axis-rescue")(type "Legacy")(uri "${KIPRJMOD}/9axis-rescue.lib")(options "")(descr ""))
-  (lib (name "ch340")(type "KiCad")(uri "/home/nick/Escritorio/Proyectos/Sirrov/Hardware/connector_rpi/connector rpi/ch340.kicad_sym")(options "")(descr ""))
-)
