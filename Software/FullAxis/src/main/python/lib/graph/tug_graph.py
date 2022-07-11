@@ -45,9 +45,9 @@ class WidgetTUG(QWidget):
         return layout
         
     def load_images(self):
-        self.helper_image(self.frame_pitch, self.layout_pitch, "pos_pitch.png")
-        self.helper_image(self.frame_roll, self.layout_roll, "pos_roll.png")
-        self.helper_image(self.frame_yaw, self.layout_yaw, "pos_yaw.png")
+        self.helper_image(self.frame_pitch, self.layout_pitch, "img/pos_pitch.png")
+        self.helper_image(self.frame_roll, self.layout_roll, "img/pos_roll.png")
+        self.helper_image(self.frame_yaw, self.layout_yaw, "img/pos_yaw.png")
     
     def helper_image(self, frame:QFrame, layout:QHBoxLayout, name_image:str) -> None:
         lbl = QLabel(frame)
@@ -274,10 +274,10 @@ class WidgetSOT(QWidget):
         return layout
         
     def load_images(self) -> None:
-        self.helper_image(self.frame_cond1, self.layout_cond_1, "sot_eyeo_surf.png")
-        self.helper_image(self.frame_cond2, self.layout_cond_2, "sot_eyec_surf.png")
-        self.helper_image(self.frame_cond3, self.layout_cond_3, "sot_eyeo_surv.png")
-        self.helper_image(self.frame_cond4, self.layout_cond_4, "sot_eyec_surv.png")
+        self.helper_image(self.frame_cond1, self.layout_cond_1, "img/sot_eyeo_surf.png")
+        self.helper_image(self.frame_cond2, self.layout_cond_2, "img/sot_eyec_surf.png")
+        self.helper_image(self.frame_cond3, self.layout_cond_3, "img/sot_eyeo_surv.png")
+        self.helper_image(self.frame_cond4, self.layout_cond_4, "img/sot_eyec_surv.png")
     
     def helper_image(self, frame:QFrame, layout:QHBoxLayout, name_image:str) -> None:
         lbl = QLabel(frame)
