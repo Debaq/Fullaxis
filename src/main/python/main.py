@@ -41,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                            "SOT":QPixmap(context.get_resource("icons/png/icon_sot.png")),
                            "VNG":QPixmap(context.get_resource("icons/png/icon_vng.png"))}
         
-        
         # action #1
     def mousePressEvent(self, event):
         self.oldPosition = event.globalPosition().toPoint()
@@ -171,7 +170,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     def progress():
-        for _ in range(30):
+        for _ in range(5):
             time.sleep(0.1)
     pixmap = QPixmap(context.get_resource("img/splash.png"))
     splash = QSplashScreen(pixmap)

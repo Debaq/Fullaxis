@@ -228,6 +228,11 @@ class UiWinPrincipal(QWidget, Ui_win_principal):
         wlist.resizeColumnToContents(0)
         wlist.clicked.connect(self.handler_list)
         #wlist.itemDoubleClicked.connect(self.handler_edit_profile)
+        for i in range(wlist.topLevelItemCount()):
+            number_profile = wlist.topLevelItem(i).data(0, Qt.UserRole)
+            data= ProfileData().get_profile_by_number(f"profile_{number_profile:05d}")
+            print(data)
+
     
     def handler_list(self, item):
         number_user = self.sender().currentItem().data(0, Qt.UserRole)
