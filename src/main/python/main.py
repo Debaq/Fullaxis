@@ -17,6 +17,7 @@ from UI.main2 import Ui_MainWindow
 from lib.graph.tug_graph import WidgetTUG, WidgetSOT, WidgetVNG
 
 
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -24,9 +25,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.resize(1200,650)
         self.window_buttons()
-        self.wd_bar_search = UiSearchBar()
         self.wd_principal = UiWinPrincipal()
+        data_list_user = self.wd_principal.get_list()
         self.wd_newprofile = UiNewProfile()
+        self.wd_bar_search = UiSearchBar(data_list_user)
+
         self.wd_toolbar = UiToolBar()
         self.create_central_layers()
         self._populate_layer_principal()
@@ -127,7 +130,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tabWidget.setCurrentIndex(count-1)
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.tabBar().setTabButton(0, QTabBar.RightSide,None)
-        
         
         print(self.tabWidget.currentIndex())
         

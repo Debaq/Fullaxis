@@ -12,6 +12,8 @@ from UI.Ui_windows_principal import Ui_win_principal
 
 from lib.helpers.calculate import cal_age
 from lib.profile_data import ListProfiles, ProfileData
+from lib.autocomplete_list import AutoCompleteEdit
+
 from base import context
 
 
@@ -228,11 +230,14 @@ class UiWinPrincipal(QWidget, Ui_win_principal):
         wlist.resizeColumnToContents(0)
         wlist.clicked.connect(self.handler_list)
         #wlist.itemDoubleClicked.connect(self.handler_edit_profile)
+        self.data_list =[]
         for i in range(wlist.topLevelItemCount()):
             number_profile = wlist.topLevelItem(i).data(0, Qt.UserRole)
             data= ProfileData().get_profile_by_number(f"profile_{number_profile:05d}")
-            print(data)
+            self.data_list.append(data)
 
+    def get_list(self):
+        return self.data_list
     
     def handler_list(self, item):
         number_user = self.sender().currentItem().data(0, Qt.UserRole)
@@ -284,8 +289,9 @@ class UiWinPrincipal(QWidget, Ui_win_principal):
     
 
 class UiSearchBar(QWidget, Ui_search_bar):
-    def __init__(self):
+    def __init__(self, values):
         super().__init__()
+        val = self.setup_list(values)
         self.setupUi(self)
         logo = QPixmap(context.get_resource("img/logo_w_name.png"))
         #logo = logo.scaledToHeight(50, Qt.SmoothTransformation)
@@ -293,5 +299,16 @@ class UiSearchBar(QWidget, Ui_search_bar):
         self.label.setPixmap(logo)
         self._btn_configure()
 
+        btn = AutoCompleteEdit(val)
+        self.verticalLayout_2.addWidget(btn)
+
+    def setup_list(self, values):
+        data = []
+        for i in values:
+            #print(i["first_name"])
+            name = f"{i['first_name']} {i['last_name']} - {i['id']}"
+            data.append(name)
+        return data
+    
     def _btn_configure(self):
         set_button_icon(self.btn_config, 'ph.gear', tool_tip="Configuración")
