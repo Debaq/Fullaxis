@@ -33,35 +33,92 @@ def set_button_icon(button:QPushButton,
 
 
 class UiToolBar(QWidget, Ui_tool_bar):
-    def __init__(self, parent=None):
+    state = Signal(list)
+    def __init__(self, data,parent=None):
         super(UiToolBar, self).__init__(parent)
+        self.data = data
         self.setupUi(self)
         self._btn_configure()
         self.start_test_state = False
+        self.connect_9axis = False
+        self._init_9axis_data()
         
     def _btn_configure(self):
         set_button_icon(self.btn_start, 'ph.play', size=30, tool_tip="Iniciar prueba")
-
         set_button_icon(self.btn_save, 'ph.floppy-disk', size=30, tool_tip="Guardar")
         set_button_icon(self.btn_config, 'ph.gear', size=30, tool_tip="Configurar")
-        set_button_icon(self.btn_exit, 'ph.x-square', size=30, tool_tip="Cerrar")
+        set_button_icon(self.btn_connect, 'ph.wifi-x', size=30, tool_tip="Conectar")
+        set_button_icon(self.btn_battery, 'ph.battery-warning', size=20)
+        set_button_icon(self.btn_new, 'ph.file-plus', size=30, tool_tip="nueva prueba")
         self.btn_start.clicked.connect(self.start_test)
+        self.btn_save.clicked.connect(self.save)
+        self._menu_new_test()
+    
+    def _menu_new_test(self):
+        m_new_test = QMenu()
+        m_new_test.addAction("TUG", lambda: self._new_test("TUG"))
+        m_new_test.addAction("SOT", lambda: self._new_test("SOT"))
+        m_new_test.addAction("VNG", lambda: self._new_test("VNG"))
+        self.btn_new.setMenu(m_new_test)
+        self.btn_new.menu()
+    
+    def _new_test(self, label):
+        self.state.emit(["new", self.data, self.n_tab, label, self.profile])
+    
+    def _init_9axis_data(self):
+        self.lbl_roll.setText("--")
+        self.lbl_pitch.setText("--")
+        self.lbl_yaw.setText("--")
+        self.lbl_batt.setText("--")
+        
+    def set_number_tab(self, number):
+        self.n_tab = number
+        
+    def get_number_tab(self):
+        return self.n_tab
+    
+    def set_profile(self, profile):
+        self.profile = profile
+        
+    def save(self):
+        self.state.emit(["save", self.data, self.n_tab])
     
     def start_test(self):
         if self.start_test_state == False:
-            set_button_icon(self.btn_start, 'ph.pause', size=30, tool_tip="Pausar prueba")
-            self.start_test_state = True
+            signal = ["start", self.data, self.n_tab]
+            self._start_pause('ph.stop', "Pausar prueba", True, signal)
         else:
-            set_button_icon(self.btn_start, 'ph.play', size=30, tool_tip="Iniciar prueba")
-            self.start_test_state = False
+            signal = ["stop", self.data, self.n_tab]
+            self._start_pause('ph.play', "Iniciar prueba", False, signal)
+
+    def _start_pause(self, icon:str, tool_tip:str, state:bool, signal:list)->None:
+        set_button_icon(self.btn_start, icon, size=30, tool_tip=tool_tip)
+        self.start_test_state = state
+        self.state.emit(signal)
+            
         
 
 class UiFormBasic(QWidget, Ui_from_basic):
-    def __init__(self, parent=None) -> None:
+    state = Signal(list)
+    def __init__(self, data,parent=None) -> None:
         super(UiFormBasic, self).__init__(parent)
         self.setupUi(self)
-        self.control = UiToolBar()
+        self.control = UiToolBar(data)
         self.verticalLayout.addWidget(self.control)
+        self.control.state.connect(self.emit_signal)
+    
+    def emit_signal(self, signal):
+        self.state.emit(signal)
+        
+    def set_number(self, number):
+        self.control.set_number_tab(number)
+    
+    def get_number(self)->int:
+        return self.control.get_number_tab()
+    
+    def set_profile(self, profile):
+        self.control.set_profile(profile)
+        
 
 class UiNewProfile(QWidget, Ui_new_profile):
     exit_= Signal(bool)
@@ -239,6 +296,11 @@ class UiWinPrincipal(QWidget, Ui_win_principal):
     def get_list(self):
         return self.data_list
     
+    def search_in_list(self, data:str):
+        _, number_user = data.split('#')
+        number_user = f"profile_{int(number_user):05d}"
+        self.inf_profile_complete(number_user)
+        
     def handler_list(self, item):
         number_user = self.sender().currentItem().data(0, Qt.UserRole)
         number_user = f"profile_{number_user:05d}"
@@ -289,6 +351,7 @@ class UiWinPrincipal(QWidget, Ui_win_principal):
     
 
 class UiSearchBar(QWidget, Ui_search_bar):
+    data_signal = Signal(str)
     def __init__(self, values):
         super().__init__()
         val = self.setup_list(values)
@@ -298,15 +361,17 @@ class UiSearchBar(QWidget, Ui_search_bar):
         self.label.setText("")
         self.label.setPixmap(logo)
         self._btn_configure()
+        self.line_search = AutoCompleteEdit(val, placehold = "Buscar Usuario")
+        self.line_search.data_signal.connect(self.selection)
+        self.verticalLayout_2.addWidget(self.line_search)
 
-        btn = AutoCompleteEdit(val)
-        self.verticalLayout_2.addWidget(btn)
+    def selection(self, data):
+        self.data_signal.emit(data)
 
     def setup_list(self, values):
         data = []
         for i in values:
-            #print(i["first_name"])
-            name = f"{i['first_name']} {i['last_name']} - {i['id']}"
+            name = f"{i['first_name']} {i['last_name']} - {i['id']} - #{i['number_unique']}"
             data.append(name)
         return data
     

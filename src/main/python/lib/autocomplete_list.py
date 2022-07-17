@@ -92,13 +92,15 @@ class CustomQCompleter(QtWidgets.QCompleter):
 
 
 class AutoCompleteEdit(QtWidgets.QLineEdit):
+    data_signal = QtCore.Signal(str)
     """ Basically from:
     http://doc.qt.io/qt-5/qtwidgets-tools-customcompleter-example.html
     """
 
-    def __init__(self, list_data, separator=' ', addSpaceAfterCompleting=True):
+    def __init__(self, list_data, placehold='', separator=' ', addSpaceAfterCompleting=True):
         super(AutoCompleteEdit, self).__init__()
         # settings
+        self.setPlaceholderText(placehold)
         self._separator = separator
         self._addSpaceAfterCompleting = addSpaceAfterCompleting
         # completer
@@ -132,7 +134,7 @@ class AutoCompleteEdit(QtWidgets.QLineEdit):
         if self._addSpaceAfterCompleting:
             extra_text += ' '
         self.setText(stripped_text + extra_text)
-        print(self.text())
+        self.data_signal.emit(self.text())
 
     def textUnderCursor(self):
         text = self.text()

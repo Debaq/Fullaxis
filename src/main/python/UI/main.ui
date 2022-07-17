@@ -302,6 +302,9 @@ QTabBar::close-button:hover {background: rgb(107,114,132);}</string>
 </string>
       </property>
       <layout class="QHBoxLayout" name="layout_menu">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
