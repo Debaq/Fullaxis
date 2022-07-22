@@ -3,19 +3,20 @@ __VERSION__ = '1.0.0'
 import sys
 import time
 
-from PySide6.QtCore import QSize, Qt, QPoint 
+from PySide6.QtCore import QPoint, Qt
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import (QFrame, QHBoxLayout, QMainWindow, QPushButton,
-                               QTabBar, QSplashScreen, QMessageBox)
+from PySide6.QtWidgets import (QFrame, QHBoxLayout, QMainWindow, QMessageBox,
+                               QPushButton, QSplashScreen, QTabBar)
 
 from base import context
+from lib.graph.sot_graph import WidgetSOT
+from lib.graph.tug_graph import WidgetTUG
+from lib.graph.video_graph import WidgetVNG
 from lib.profile_data import ProfileData
 from lib.Ui_constructors import (UiFormBasic, UiNewProfile, UiSearchBar,
-                                 UiToolBar, UiWinPrincipal)
+                                 UiWinPrincipal)
 from lib.ui_helper import Helpers
 from UI.main2 import Ui_MainWindow
-from lib.graph.tug_graph import WidgetTUG, WidgetSOT, WidgetVNG
-
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
