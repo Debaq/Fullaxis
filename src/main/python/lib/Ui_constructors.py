@@ -106,6 +106,8 @@ class UiFormBasic(QWidget, Ui_from_basic):
         self.control = UiToolBar(data)
         self.verticalLayout.addWidget(self.control)
         self.control.state.connect(self.emit_signal)
+        self.horizontalWidget.setMaximumHeight(5)
+        self.horizontalWidget.setMinimumHeight(5)
     
     def emit_signal(self, signal):
         self.state.emit(signal)

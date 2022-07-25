@@ -14,6 +14,7 @@ def write_read(x):
         time.sleep(0.05)
         return arduino.readline()
 
+
 class read_serial(QThread):
         data_signal = Signal()
         def run(self):

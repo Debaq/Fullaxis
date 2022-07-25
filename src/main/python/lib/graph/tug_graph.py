@@ -3,65 +3,65 @@ import pyqtgraph as pg
 from base import context
 from lib.graph.basic_graph import Widget_basic
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QWidget
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QWidget, QFormLayout
 from scipy.signal import find_peaks, peak_widths
+from UI.Ui_layout_tug import Ui_layout_tug
+from lib.ui_helper import Helpers
 
 
-class WidgetTUG(QWidget):
+class WidgetTUG(QWidget, Ui_layout_tug):
     def __init__(self) -> None:
         super().__init__()
         self.lastClicked = []
-        self.UI_Frame = Widget_basic()
-        self.UI_Frame.setupUi(self)
+        #self.UI_Frame = Widget_basic()
+        self.setupUi(self)
         self.create_memories()
         self.load_variables()
-        self.create_frames2()
         #self.load_images()
-        #self.graph_principal()
-
-    def create_frames2(self):
+        self._create_graphs()
+        self.states = ["roll", "pitch", "yaw"]
+        self.images = ["img/pos_roll.png","img/pos_pitch.png","img/pos_yaw.png"]
+        self.current_state = 0
+        self.btn_next_state.clicked.connect(self.change_state)
+        self.btn_prev_state.clicked.connect(lambda: self.change_state(False))
+        self._change_image()
         
+    def change_state(self, _next:bool=True):
+        if _next:
+            self.current_state +=1
+            if self.current_state > 2:
+                self.current_state = 0
+        else:
+            self.current_state -=1
+            if self.current_state < 0:
+                self.current_state = 2
+        self._change_image()
+        self._change_principal_graph()
         
-        
-    def create_qframes(self):
-        self.frame_pitch = QFrame(self)
-        self.frame_roll = QFrame(self)
-        self.frame_yaw = QFrame(self)
-        self.layout_pitch = self.create_qlayout_prop(self.frame_pitch)
-        self.layout_roll = self.create_qlayout_prop(self.frame_roll)
-        self.layout_yaw = self.create_qlayout_prop(self.frame_yaw)
-        self.UI_Frame.layout_graph_principal.addWidget(self.frame_pitch)
-        self.UI_Frame.layout_graph_principal.addWidget(self.frame_roll)
-        self.UI_Frame.layout_graph_principal.addWidget(self.frame_yaw)
-    
-    def create_qlayout_prop(self, frame:QFrame)->QHBoxLayout:
-        layout = QHBoxLayout(frame)
-        layout.setSpacing(3)
-        layout.setContentsMargins(0, 0, 0, 0)
-        return layout
-        
-    def load_images(self):
-        self.helper_image(self.frame_pitch, self.layout_pitch, "img/pos_pitch.png")
-        self.helper_image(self.frame_roll, self.layout_roll, "img/pos_roll.png")
-        self.helper_image(self.frame_yaw, self.layout_yaw, "img/pos_yaw.png")
-    
-    def helper_image(self, frame:QFrame, layout:QHBoxLayout, name_image:str) -> None:
-        lbl = QLabel(frame)
-        image = QPixmap(context.get_resource(name_image))
+    def _change_image(self):
+        image_path = self.images[self.current_state]
+        image = QPixmap(context.get_resource(image_path))
         image = image.scaledToHeight(115)
-        lbl.setPixmap(image)
-        layout.addWidget(lbl)
+        self.lbl_image.setPixmap(image)
+    
+    def _change_principal_graph(self):
+        Helpers.reset_layout(self, self.layout_graph)
+        self.layout_graph.addWidget(self.graph_large[self.current_state])
         
-    def graph_principal(self):
-        self.pw_roll = self.graph_axis("Roll")
-        self.pw_pitch = self.graph_axis("Pitch")
-        self.pw_yaw = self.graph_axis("Yaw")
-        self.pw_roll.show()
-        self.pw_pitch.show()
-        self.pw_yaw.show()
-        self.layout_roll.addWidget(self.pw_roll)
-        self.layout_pitch.addWidget(self.pw_pitch)
-        self.layout_yaw.addWidget(self.pw_yaw)
+    def _create_graphs(self):
+        self.pw_roll_large = self._graph_principal_axis("Roll")
+        self.pw_pitch_large = self._graph_principal_axis("Pitch")
+        self.pw_yaw_large = self._graph_principal_axis("Yaw")
+        self.graph_large = [self.pw_roll_large,self.pw_pitch_large,self.pw_yaw_large]
+        self.graph_small = [self._graph_result_axis("Roll"), self._graph_result_axis("Pitch"), self._graph_result_axis("Yaw")]
+
+        self.gridLayout.addWidget(self.graph_small[0], 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.graph_small[1], 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.graph_small[2], 1, 0, 1, 1)
+
+        self.layout_graph.addWidget(self.pw_roll_large)
+
+
         
     def load_variables(self):
         self.dt = 0
@@ -88,16 +88,16 @@ class WidgetTUG(QWidget):
         self.update_memories(data)
 
         peaks_roll, _ = find_peaks(self.mem_roll, distance=10)
-        self.pw_roll.plot(x=self.mem_time[peaks_roll], y=self.mem_roll[peaks_roll], symbol='t')
+        self.pw_roll_large.plot(x=self.mem_time[peaks_roll], y=self.mem_roll[peaks_roll], symbol='t')
         results_half = peak_widths(self.mem_roll, peaks_roll, rel_height=0.5)
         results_full = peak_widths(self.mem_roll, peaks_roll, rel_height=1)
         #line = pg.LineROI([0, 60], [20, 80], width=5, pen=(1,9))
         #self.pw_roll.addItem(line)
 
         peaks_pitch, _ = find_peaks(self.mem_pitch, distance=10)
-        self.pw_pitch.plot(x=self.mem_time[peaks_pitch], y=self.mem_pitch[peaks_pitch], symbol='t')
+        self.pw_pitch_large.plot(x=self.mem_time[peaks_pitch], y=self.mem_pitch[peaks_pitch], symbol='t')
         peaks_yaw, _ = find_peaks(self.mem_yaw, distance=10)
-        self.pw_yaw.plot(x=self.mem_time[peaks_yaw], y=self.mem_yaw[peaks_yaw], symbol='t')
+        self.pw_yaw_large.plot(x=self.mem_time[peaks_yaw], y=self.mem_yaw[peaks_yaw], symbol='t')
 
 
         plot_roll = self.set_curve(self.mem_time, self.mem_roll, pen='r')
@@ -105,9 +105,9 @@ class WidgetTUG(QWidget):
         plot_yaw = self.set_curve(self.mem_time, self.mem_yaw, pen='b')
 
           
-        self.pw_roll.addItem(plot_roll)
-        self.pw_pitch.addItem(plot_pitch)
-        self.pw_yaw.addItem(plot_yaw)
+        self.pw_roll_large.addItem(plot_roll)
+        self.pw_pitch_large.addItem(plot_pitch)
+        self.pw_yaw_large.addItem(plot_yaw)
 
         self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
 
@@ -132,29 +132,29 @@ class WidgetTUG(QWidget):
         if self.stop == False:
             if self.mem_time.size == 0:
             #if not self.mem_time:
-                self.graph_range(self.pw_roll)
-                self.graph_range(self.pw_pitch)
-                self.graph_range(self.pw_yaw)
+                self.graph_range(self.pw_roll_large)
+                self.graph_range(self.pw_pitch_large)
+                self.graph_range(self.pw_yaw_large)
             self.update_memories(data, True)
             self.calibrate_yaw(data[2])
             new_time = self.mem_time_func(data[3])
             self.clear_data()
-            plot_roll = self.pw_roll.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
-            plot_pitch = self.pw_pitch.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
-            plot_yaw = self.pw_yaw.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
+            plot_roll = self.pw_roll_large.plot(self.mem_time, self.mem_roll, pen='r', name='curve')
+            plot_pitch = self.pw_pitch_large.plot(self.mem_time, self.mem_pitch, pen='g', name='curve')
+            plot_yaw = self.pw_yaw_large.plot( self.mem_time, self.mem_yaw, pen='b', name='curve')
             if new_time > self.time_max:
                 self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
                 self.stop = True
 
     def clear_data(self):
-        self.pw_roll.clear()
-        self.pw_pitch.clear()
-        self.pw_yaw.clear()
+        self.pw_roll_large.clear()
+        self.pw_pitch_large.clear()
+        self.pw_yaw_large.clear()
 
     def _extracted_from_update_graph_display_9(self, plot_roll, plot_pitch, plot_yaw):
-        self.graph_tools(self.pw_roll, plot_roll)
-        self.graph_tools(self.pw_pitch, plot_pitch)
-        self.graph_tools(self.pw_yaw, plot_yaw)
+        self.graph_tools(self.pw_roll_large, plot_roll)
+        self.graph_tools(self.pw_pitch_large, plot_pitch)
+        self.graph_tools(self.pw_yaw_large, plot_yaw)
         
 
     def calibrate_yaw(self,data) -> float:
@@ -181,8 +181,21 @@ class WidgetTUG(QWidget):
         self.mem_time = np.append(self.mem_time, new_time)
         return new_time
 
-    def graph_axis(self, name):
+    def _graph_principal_axis(self, name):
         pw = pg.PlotWidget(name=name)
+        pw.setObjectName(name)
+        pw.setBackground('w')
+        pw.setYRange(-90, 90)
+        pw.showGrid(x=True, y=True)
+        pw.setMenuEnabled(False)
+        pw.setLabel('left', name, units='degrees')
+        pw.setLabel('bottom', 'Time', units='s')
+        pw.setLimits(xMin=0)
+        return pw
+    
+    def _graph_result_axis(self, name):
+        pw = pg.PlotWidget(name=name)
+        pw.setObjectName(name)
         pw.setBackground('w')
         pw.setYRange(-90, 90)
         pw.showGrid(x=True, y=True)
