@@ -43,14 +43,12 @@ class updateUI():
                 newName= extPY.replace(".ui", "_ui.py")
                 fileUiOrigin  = path_ui+Ui
                 filePy = path_uiForm+newName
-                filePyOuput   = open(filePy,"w")
-                fileTempOuput = path_uiForm+newName+".temp"
-                uic.compileUi(fileUiOrigin, filePyOuput, from_imports = False)
-                filePyOuput.close()
-                file_input   = open(filePy,"r")
-                file_ouput = open(fileTempOuput,'w')
-                file_read = file_input.readlines()
-                file_input.close()
+                with open(filePy,"w") as filePyOuput:
+                    fileTempOuput = path_uiForm+newName+".temp"
+                    uic.compileUi(fileUiOrigin, filePyOuput, from_imports = False)
+                with open(filePy,"r") as file_input:
+                    file_ouput = open(fileTempOuput,'w')
+                    file_read = file_input.readlines()
                 for line in file_read:
                     if String_new in line:
                         break
@@ -60,12 +58,12 @@ class updateUI():
                         file_ouput.write(line)
                         create = True
                 file_ouput.close()
-                if create:                    
-                    os.popen('rm '+filePy)
-                    os.popen('mv '+fileTempOuput+' '+filePy)
+                if create:    
+                    os.popen(f'rm {filePy}')
+                    os.popen(f'mv {fileTempOuput} {filePy}')
                     create = False
                 else:
-                    os.popen('rm '+fileTempOuput) 
+                    os.popen(f'rm {fileTempOuput}')
             time.sleep(1)
        
 
