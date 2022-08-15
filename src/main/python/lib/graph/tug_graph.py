@@ -112,8 +112,7 @@ class WidgetTUG(QWidget, Ui_layout_tug):
         self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
 
     def detect_up_stand(self, data) -> list:
-        result = 0
-        return result 
+        return 0 
     
     def set_curve(self, data_x, data_y, pen):
         curve = pg.PlotCurveItem()

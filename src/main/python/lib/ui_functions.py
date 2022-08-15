@@ -88,7 +88,7 @@ class UIFunctions():
         button.setLayoutDirection(Qt.RightToLeft)
         button.setStyleSheet(WStyles.btn_lateral)
         icon = QIcon()
-        icon_path = (":/icons_white/icons/png/16x16/cil-"+ico+".png")
+        icon_path = f":/icons_white/icons/png/16x16/cil-{ico}.png"
         icon.addPixmap(QPixmap(icon_path), QIcon.Normal, QIcon.Off)
         if tooltip != None:
             button.setToolTip(tooltip)
@@ -106,17 +106,15 @@ class UIFunctions():
             spacerItem = QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum)
         return spacerItem
     
-    def printer(text):
-        print(text)
+    def printer(self):
+        print(self)
               
-    def selectMenu(getStyle):
-        select = getStyle + (WStyles.btn_lateralActive)
-        return select
+    def selectMenu(self):
+        return self + WStyles.btn_lateralActive
     
     ## ==> DESELECT
-    def deselectMenu(getStyle):
-        deselect = getStyle.replace(WStyles.btn_lateralActive, "")
-        return deselect
+    def deselectMenu(self):
+        return self.replace(WStyles.btn_lateralActive, "")
     
     def resetStyle(self, widget):
         for w in self.LateralMenu.findChildren(QPushButton):
@@ -124,16 +122,21 @@ class UIFunctions():
                 w.setStyleSheet(UIFunctions.deselectMenu(w.styleSheet()))
 
     def openFile(self):
-        path = QFileDialog.getOpenFileName(None, 'Abrir Archivo de Datos', os.getenv("HOME") ,("Todos los formatos(*.csv *.json);;CSV(*.csv);;JSON(*.json)"))
-        return(path)
+        return QFileDialog.getOpenFileName(
+            None,
+            'Abrir Archivo de Datos',
+            os.getenv("HOME"),
+            ("Todos los formatos(*.csv *.json);;CSV(*.csv);;JSON(*.json)"),
+        )
 
     def saveFile(self, ext):
-        if ext == "ods":
-            MIME = "ODS(*.ods)"
         if ext == "json":
             MIME = "JSON(*.json)"
-        path = QFileDialog.getSaveFileName(None, 'Guardar Archivo de Datos', os.getenv("HOME") ,(MIME))
-        return(path)
+        elif ext == "ods":
+            MIME = "ODS(*.ods)"
+        return QFileDialog.getSaveFileName(
+            None, 'Guardar Archivo de Datos', os.getenv("HOME"), (MIME)
+        )
 
     
 

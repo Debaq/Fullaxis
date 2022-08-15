@@ -116,8 +116,7 @@ class WidgetTUG(QWidget):
         self._extracted_from_update_graph_display_9(plot_roll, plot_pitch, plot_yaw)
 
     def detect_up_stand(self, data) -> list:
-        result = 0
-        return result 
+        return 0 
     
     def set_curve(self, data_x, data_y, pen):
         curve = pg.PlotCurveItem()
@@ -340,7 +339,7 @@ class WidgetSOT(QWidget):
 
         mem = [np.array(data[0][0]), np.array(data[0][1]), 
                np.array(data[0][2]), np.array(data[0][3])]
-        
+
         for i in range(len(mem)):
             self.conditions_graph[i].plot(mem[i][0], mem[i][1],pen='b', name='curve')
         
@@ -416,10 +415,10 @@ class WidgetSOT(QWidget):
         min_lat = np.min(self.mem[idx_cond][0])
         size_x = max_lat - min_lat
         size_y = max_ant_pos - min_ant_pos
-        
+
         dist_lat = abs(abs(max_lat) - abs(min_lat))
         dis_ant = abs(abs(max_ant_pos) - abs(min_ant_pos))
-        
+
         if dist_lat > dis_ant:
             very_max= [min_lat, max_lat]
         else:
