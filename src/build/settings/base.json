@@ -1,7 +1,0 @@
-{
-    "app_name": "FullAxis",
-    "author": "Nicolas Quezada",
-    "main_module": "src/main/python/main.py",
-    "version": "22.2.25",
-    "hidden_imports": ["pandas", "tkinters"]
-}
