@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 492)
+        MainWindow.resize(800, 579)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"background-color: rgb(61, 64, 77)\n"
@@ -183,7 +183,6 @@ class Ui_MainWindow(object):
         self.frame_menu.setStyleSheet(u"background-color: rgb(245,245,245); \n"
 "")
         self.layout_menu = QHBoxLayout(self.frame_menu)
-        self.layout_menu.setSpacing(0)
         self.layout_menu.setObjectName(u"layout_menu")
         self.layout_menu.setContentsMargins(0, 0, 0, 0)
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>video</class>
+ <widget class="QWidget" name="video">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QFrame" name="horizontalFrame">
+     <layout class="QHBoxLayout" name="horizontalLayout"/>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="video_central_frame">
+     <layout class="QHBoxLayout" name="video_central_layout">
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <column>
+         <property name="text">
+          <string>Test VNG</string>
+         </property>
+        </column>
+        <item>
+         <property name="text">
+          <string>Calorica</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>bitermal alternada</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>monotermal alternada</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Nistagmo</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Posicional</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Espontaneo</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>Oculomotoras</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>sacadas</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>seguimiento</string>
+          </property>
+         </item>
+        </item>
+        <item>
+         <property name="text">
+          <string/>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="video_frame">
+        <layout class="QHBoxLayout" name="video_layout"/>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="horizontalFrame_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
