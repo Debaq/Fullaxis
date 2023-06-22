@@ -14,8 +14,8 @@ class Helpers():
             # remove it from the layout list
             layout.removeWidget(widgetToRemove)
             # remove it from the gui
-            widgetToRemove.setParent(None) 
-
+            widgetToRemove.setParent(None)
+    
     
     def handle_selection(self, selected, deselected):
         """crea un diccionario con los items seleccionados y deseleccionados
@@ -35,6 +35,19 @@ class Helpers():
             desel = [index.row(), index.column(), item.text()]
         
         return {'selected': sel, 'deselected': desel}
+    
+def istest(text: str, test: str) -> bool:
+    """
+    Esta función verifica si el string 'test' coincide con los primeros caracteres del string 'text'.
+
+    Parámetros:
+    text (str): El string en el que se buscará la coincidencia.
+    test (str): El string que se buscará al inicio de 'text'.
+
+    Retorna:
+    bool: True si 'test' coincide con los primeros caracteres de 'text', False en caso contrario.
+    """
+    return text.startswith(test)
 
 
 

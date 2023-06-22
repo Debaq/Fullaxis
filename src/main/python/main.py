@@ -3,11 +3,6 @@ __VERSION__ = '1.0.0'
 import sys
 import time
 
-from PySide6.QtCore import QPoint, Qt
-from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import (QFrame, QHBoxLayout, QMainWindow, QMessageBox,
-                               QPushButton, QSplashScreen, QTabBar)
-
 from base import context
 from lib.graph.sot_graph import WidgetSOT
 from lib.graph.tug_graph import WidgetTUG
@@ -15,7 +10,11 @@ from lib.graph.video_graph import WidgetVNG
 from lib.profile_data import ProfileData
 from lib.Ui_constructors import (UiFormBasic, UiNewProfile, UiSearchBar,
                                  UiWinPrincipal)
-from lib.ui_helper import Helpers
+from lib.ui_helper import Helpers, istest
+from PySide6.QtCore import QPoint, Qt
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import (QFrame, QHBoxLayout, QMainWindow, QMessageBox,
+                               QPushButton, QSplashScreen, QTabBar)
 from UI.main2 import Ui_MainWindow
 
 
@@ -39,13 +38,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_configure()
         self.profile_data = ProfileData()
         self.tabWidget.tabCloseRequested.connect(self._is_saved_tab)
+        self.tabWidget.currentChanged.connect(self._emit_change_current_tab)
         self.states_tabs=[]
         self.tab_widgets_list = []
+        self.prev_tab = 0
         self.icons_test = {"TUG":QPixmap(context.get_resource("icons/png/icon_tug.png")),
                            "SOT":QPixmap(context.get_resource("icons/png/icon_sot.png")),
                            "VNG":QPixmap(context.get_resource("icons/png/icon_vng.png"))}
         
     def _is_saved_tab(self, idx_tab):
+        #aca hay que agregar una función que rebise si tiene algun dato la pestaña de otra forma no es necesario guardar
         idx_tab = idx_tab - 1
         tab_data = (self.states_tabs[idx_tab])
         if tab_data["data"] and tab_data["save"] == False:
@@ -74,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _closetab(self, idx_tab, save=False):
         test = self.tabWidget.tabText(idx_tab+1)
         
-        if test[0:3] == "VNG": #debo agregarle la función action_end a todos los modulos
+        if istest(test, "VNG"):
             self.tab_widgets_list[idx_tab][1].action_end(save=save, name=test)
             
             
@@ -236,8 +238,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.wd_principal.populate_list_profile()
             self.wd_principal.inf_profile_complete(self.current_profile)#aca hay un problema desconocido dice que no existe current_profile
     
-    def _emit_change_current_tab():
-        pass
+    def _emit_change_current_tab(self, idx_tab):
+        new_tab_name = self.tabWidget.tabText(idx_tab)
+        prev_tab_name = self.tabWidget.tabText(self.prev_tab)
+        print(idx_tab)
+        
+        if istest(prev_tab_name, "VNG"):
+            self.tab_widgets_list[self.prev_tab-1][1].stop_video()
+        
+        if istest(new_tab_name, "VNG"):
+            self.tab_widgets_list[idx_tab-1][1].start_video()
+           
+        
+        self.prev_tab = idx_tab
+        
         
     def handler_edit_profile(self, profile):
         self.current_profile = profile
