@@ -1,4 +1,4 @@
-from lib.basic_graph_ui import Ui_graph
+from UI.Ui_basic_graph_ui import Ui_graph
 from PySide6.QtWidgets import QWidget
 
 

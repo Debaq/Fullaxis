@@ -358,7 +358,7 @@ class UiSearchBar(QWidget, Ui_search_bar):
         super().__init__()
         val = self.setup_list(values)
         self.setupUi(self)
-        logo = QPixmap(context.get_resource("img/logo_w_name.png"))
+        logo = QPixmap(context.get_resource("img/logo_w_name_sp.png"))
         #logo = logo.scaledToHeight(50, Qt.SmoothTransformation)
         self.label.setText("")
         self.label.setPixmap(logo)

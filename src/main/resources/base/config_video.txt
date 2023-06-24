@@ -1,0 +1,16 @@
+brightness -64 - 64
+contrast 0 - 100
+saturation 0 - 100
+hue -180 - 180
+White Balance, Automatic on/off
+Gamma 100 - 500
+Power Line Frecuency 50 Hz, 60 Hz, Disabled
+White Balance Temperature 2800 - 6500 (10)
+Sharpness 0 -100
+Blackligth Compensation 0 - 2
+exposure, dynamic framerate on/off
+
+
+960 * 540
+cinema 2.39:1
+

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'vng_ui.ui'
+## Form generated from reading UI file 'vng_uiFlkvBC.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.5.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,15 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QSizePolicy, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QHBoxLayout,
+    QHeaderView, QPushButton, QSizePolicy, QSlider,
+    QSpacerItem, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
     QWidget)
 
 class Ui_video(object):
     def setupUi(self, video):
         if not video.objectName():
             video.setObjectName(u"video")
-        video.resize(400, 300)
+        video.resize(832, 520)
         self.verticalLayout = QVBoxLayout(video)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalFrame = QFrame(video)
@@ -49,13 +50,63 @@ class Ui_video(object):
         QTreeWidgetItem(__qtreewidgetitem2)
         QTreeWidgetItem(self.treeWidget)
         self.treeWidget.setObjectName(u"treeWidget")
+        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy)
+        self.treeWidget.setMinimumSize(QSize(0, 150))
+        self.treeWidget.setMaximumSize(QSize(150, 16777215))
 
         self.video_central_layout.addWidget(self.treeWidget)
 
         self.video_frame = QFrame(self.video_central_frame)
         self.video_frame.setObjectName(u"video_frame")
-        self.video_layout = QHBoxLayout(self.video_frame)
-        self.video_layout.setObjectName(u"video_layout")
+        self.video_frame.setMinimumSize(QSize(640, 0))
+        self.video_frame.setMaximumSize(QSize(640, 16777215))
+        self.verticalLayout_2 = QVBoxLayout(self.video_frame)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.checkBox = QCheckBox(self.video_frame)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.horizontalLayout_2.addWidget(self.checkBox)
+
+        self.horizontalSlider_2 = QSlider(self.video_frame)
+        self.horizontalSlider_2.setObjectName(u"horizontalSlider_2")
+        self.horizontalSlider_2.setCursor(QCursor(Qt.SizeHorCursor))
+        self.horizontalSlider_2.setMaximum(255)
+        self.horizontalSlider_2.setTracking(True)
+        self.horizontalSlider_2.setOrientation(Qt.Horizontal)
+        self.horizontalSlider_2.setInvertedAppearance(False)
+        self.horizontalSlider_2.setInvertedControls(False)
+        self.horizontalSlider_2.setTickPosition(QSlider.NoTicks)
+        self.horizontalSlider_2.setTickInterval(6)
+
+        self.horizontalLayout_2.addWidget(self.horizontalSlider_2)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+        self.horizontalSlider = QSlider(self.video_frame)
+        self.horizontalSlider.setObjectName(u"horizontalSlider")
+        self.horizontalSlider.setCursor(QCursor(Qt.SizeHorCursor))
+        self.horizontalSlider.setOrientation(Qt.Horizontal)
+
+        self.horizontalLayout_2.addWidget(self.horizontalSlider)
+
+        self.pushButton_configvideo = QPushButton(self.video_frame)
+        self.pushButton_configvideo.setObjectName(u"pushButton_configvideo")
+
+        self.horizontalLayout_2.addWidget(self.pushButton_configvideo)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+
 
         self.video_central_layout.addWidget(self.video_frame)
 
@@ -102,5 +153,7 @@ class Ui_video(object):
         ___qtreewidgetitem9.setText(0, QCoreApplication.translate("video", u"seguimiento", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled)
 
+        self.checkBox.setText(QCoreApplication.translate("video", u"Auto", None))
+        self.pushButton_configvideo.setText("")
     # retranslateUi
 

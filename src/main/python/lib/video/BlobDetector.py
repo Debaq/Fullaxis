@@ -39,18 +39,19 @@ class BlobDetector:
 
     def detect(self, image, name, color=(0,0,0)):
         
-        
-        
         image_p = self._prepare_image(image)
         keypoints = self._keypoints(image_p)
 
         for keypoint in keypoints:
-            x = int(keypoint.pt[0])
-            y = int(keypoint.pt[1])
-            s = keypoint.size
-            r = int(math.floor(s/2))
-            self.position = (x,y,r)
-                        
+            if len(keypoints) == 1:
+                x = int(keypoint.pt[0])
+                y = int(keypoint.pt[1])
+                s = keypoint.size
+                r = int(math.floor(s/2))
+                self.position = (x,y,r)
+            else:
+                keypoints = ()
+                            
 
         image_edges = cv2.Canny(image,10,50)
 
