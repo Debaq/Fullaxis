@@ -5,6 +5,8 @@ from UI.Ui_vng_ui import Ui_video
 from lib.video.config_video import ConfigVideoWindow
 import pyqtgraph as pg
 import numpy as np
+from lib.Ui_constructors import set_button_icon
+
 
 class WidgetVNG(QWidget, Ui_video):
     config_open = Signal(bool)
@@ -19,7 +21,10 @@ class WidgetVNG(QWidget, Ui_video):
         self.verticalLayout_2.addWidget(self.label)
         graph = self.graph_cond("vng")
         self.horizontalLayout_3.addWidget(graph)
+        set_button_icon(self.pushButton_configvideo, 'ph.gear', tool_tip="Configuración")
+
         self.pushButton_configvideo.clicked.connect(self.open_config_video)
+        
     
     def open_config_video(self):
         self.config_open.emit(True)

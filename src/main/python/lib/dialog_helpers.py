@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 
+
 class NameDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -24,15 +25,33 @@ class NameDialog(QDialog):
 
     def accept(self):
         super().accept()
-        
+
     def get_name(self):
         return self.line_edit.text()
-    
+
+
 class ErrorMessageBox(QMessageBox):
-    def __init__(self):
+    def __init__(self, *args):
         super().__init__()
 
         self.setIcon(QMessageBox.Warning)
-        self.setText("Error")
-        self.setInformativeText("No se puede modificar.")
+        self.setText(args[0])
+        self.setInformativeText(args[1])
         self.setStandardButtons(QMessageBox.Ok)
+
+
+class SaveMessageBox(QMessageBox):
+    def __init__(self, *args):
+        super().__init__()
+
+        self.setText("El documento ha sido modificado.")
+        self.setInformativeText("¿Desea guardar?")
+        self.setStandardButtons(
+            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        btn_save = self.button(QMessageBox.Save)
+        btn_save.setText("Guardar")
+        btn_discard = self.button(QMessageBox.Discard)
+        btn_discard.setText("Descartar")
+        btn_cancel = self.button(QMessageBox.Cancel)
+        btn_cancel.setText("Cancelar")
+        self.setDefaultButton(QMessageBox.Save)

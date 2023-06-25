@@ -18,7 +18,7 @@ from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QMainWindow,
                                QMessageBox, QPushButton, QSplashScreen,
                                QTabBar, QWidget)
-from UI.main2 import Ui_MainWindow
+from UI.Ui_Main import Ui_MainWindow
 from lib.video.config_video import ConfigVideoWindow
 from lib.dialog_helpers import SaveMessageBox
 

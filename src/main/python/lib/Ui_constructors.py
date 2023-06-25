@@ -129,7 +129,6 @@ class UiNewProfile(QWidget, Ui_new_profile):
         self.setupUi(self)
         self.change_connect_save()
         self.profile_data = ProfileData()
-
         self.btn_cancel_new_profile.clicked.connect(lambda: self.exit_.emit(True))
     
     def change_connect_save(self, save=True):
