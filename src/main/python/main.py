@@ -60,7 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def activate_video(self):
         self.config = ConfigVideoWindow()
-        self.thread_video = OpenCVProcessingThread(cam_n=2)
+        self.thread_video = OpenCVProcessingThread(cam_n=0)
         self.thread_video.start()
         self.config.slides_values.connect(self.thread_video.update_config_video)
         self.thread_video.change_pixmap_signal.connect(self.update_image)
