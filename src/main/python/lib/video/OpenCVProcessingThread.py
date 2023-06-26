@@ -7,6 +7,8 @@ from lib.video.BlobDetector import BlobDetector
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QImage
 from base import context
+import os
+
 
 
 
@@ -94,9 +96,12 @@ class OpenCVProcessingThread(QThread):
         #print(slides_values)
         
     def open_cap(self):
-        self.cap = self.open_camera(self.cam_n)
-        self.cap.set(cv2.CAP_PROP_FOURCC,
-                     cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+        if os.name == 'nt':
+            self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        else:
+            self.cap = self.open_camera(self.cam_n)
+            self.cap.set(cv2.CAP_PROP_FOURCC,
+                         cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
         size_frame = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                       int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         FPS = self.cap.get(cv2.CAP_PROP_FPS)

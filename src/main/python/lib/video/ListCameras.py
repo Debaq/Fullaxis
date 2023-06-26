@@ -1,4 +1,4 @@
-import usb.core
+"""import usb.core
 import usb.util
 import usb.backend.libusb1
 
@@ -24,9 +24,9 @@ for dev in devs:
     print('Producto: ', usb.util.get_string(dev, dev.iProduct))
     print('Número de serie: ', usb.util.get_string(dev, dev.iSerialNumber))
     print('-----------------------------')
-    print('-----------------------------')
+    print('-----------------------------')"""
 
-
+"""
 from pywinusb import hid
 
 # Obtén todos los dispositivos HID
@@ -42,3 +42,22 @@ for device in all_devices:
 
     # Cierra el dispositivo
     device.close()
+"""
+import asyncio
+import winsdk.windows.devices.enumeration as windows_devices
+
+
+CAMERA_NAME = "USB GS CAM"
+
+async def get_camera_info():
+    return await windows_devices.DeviceInformation.find_all_async(4)
+
+connected_cameras = asyncio.run(get_camera_info())
+names = [camera.name for camera in connected_cameras]
+
+if CAMERA_NAME not in names:
+    print("Camera not found")
+else:
+    print(names)
+    camera_index = names.index(CAMERA_NAME)
+    print(camera_index)
