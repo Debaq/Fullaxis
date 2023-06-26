@@ -97,7 +97,7 @@ class OpenCVProcessingThread(QThread):
         
     def open_cap(self):
         if os.name == 'nt':
-            self.cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+            self.cap = cv2.VideoCapture(self.cam_n, cv2.CAP_DSHOW)
         else:
             self.cap = self.open_camera(self.cam_n)
             self.cap.set(cv2.CAP_PROP_FOURCC,

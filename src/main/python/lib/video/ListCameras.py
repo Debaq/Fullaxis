@@ -43,21 +43,60 @@ for device in all_devices:
     # Cierra el dispositivo
     device.close()
 """
-import asyncio
-import winsdk.windows.devices.enumeration as windows_devices
+
+import os
+
+class CameraId:
+    def __init__(self, name_cam="USB GS CAM"):
+        if os.name == 'posix':
+            self.camera = self.linux(name_cam)
+        elif os.name == 'nt':
+            self.camera = self.windows(name_cam)
+
+    def get_camera(self):
+        return self.camera
+
+    def linux(self, name):
+        cameras = []
+        for i in range(10):
+            try:
+                with open(f"/sys/class/video4linux/video{i}/name","r") as hw_video:
+                    hw_name = hw_video.read()
+                    hw_name = hw_name.replace("\n","")
+                    cameras.append([hw_name, i])
+            except FileNotFoundError:
+                cameras.append(["None", i])
+        
+        print(f"cameras found: {cameras}")
+        for c in cameras:
+            if  c[0].startswith(name):
+                return(True, c[1])
+            
+        print("Camera not found")
+
+                
+        
+            
+   
+    def windows(self, name):
+        import asyncio
+        import winsdk.windows.devices.enumeration as windows_devices
+
+        async def get_camera_info():
+            return await windows_devices.DeviceInformation.find_all_async(4)
+
+        connected_cameras = asyncio.run(get_camera_info())
+        names = [camera.name for camera in connected_cameras]
+        print(f"cameras found: {names}")
+        if name not in names:
+            print("Camera not found")
+            return (False, None)
+        else:
+            camera_index = names.index(name)
+            return(True, camera_index)
+        
 
 
-CAMERA_NAME = "USB GS CAM"
-
-async def get_camera_info():
-    return await windows_devices.DeviceInformation.find_all_async(4)
-
-connected_cameras = asyncio.run(get_camera_info())
-names = [camera.name for camera in connected_cameras]
-
-if CAMERA_NAME not in names:
-    print("Camera not found")
-else:
-    print(names)
-    camera_index = names.index(CAMERA_NAME)
-    print(camera_index)
+if __name__ == "__main__":
+    cam = CameraId()
+    cam.get_camera()
