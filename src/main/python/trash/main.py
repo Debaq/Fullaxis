@@ -18,9 +18,10 @@ from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QMainWindow,
                                QMessageBox, QPushButton, QSplashScreen,
                                QTabBar, QWidget)
-from UI.Ui_Main import Ui_MainWindow
+from UI.main2 import Ui_MainWindow
 from lib.video.config_video import ConfigVideoWindow
 from lib.dialog_helpers import SaveMessageBox
+from lib.video.ListCameras import CameraId
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -59,11 +60,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.activate_video()  # este se deberia abrir solo si hay una pestaña con vng
 
     def activate_video(self):
-        self.config = ConfigVideoWindow()
-        self.thread_video = OpenCVProcessingThread(cam_n=2)
-        self.thread_video.start()
-        self.config.slides_values.connect(self.thread_video.update_config_video)
-        self.thread_video.change_pixmap_signal.connect(self.update_image)
+        camera_id = CameraId("Integrated Camera")
+        camera_id = camera_id.get_camera()
+        if camera_id[0] :
+            self.config = ConfigVideoWindow()
+            self.thread_video = OpenCVProcessingThread(cam_n=camera_id[1])
+            self.thread_video.start()
+            self.config.slides_values.connect(self.thread_video.update_config_video)
+            self.thread_video.change_pixmap_signal.connect(self.update_image)
+        else:
+            pass
 
     @Slot(QImage)
     def update_image(self, image):
