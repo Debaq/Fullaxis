@@ -17,6 +17,4 @@ for dev in devs:
     print('Fabricante: ', usb.util.get_string(dev, dev.iManufacturer))
     print('Producto: ', usb.util.get_string(dev, dev.iProduct))
     print('Número de serie: ', usb.util.get_string(dev, dev.iSerialNumber))
-    print('ID del vendedor:', hex(dev.idVendor))
-    print('ID del producto:', hex(dev.idProduct))
     print('-----------------------------')
