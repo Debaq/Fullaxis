@@ -26,3 +26,19 @@ for dev in devs:
     print('-----------------------------')
     print('-----------------------------')
 
+
+from pywinusb import hid
+
+# Obtén todos los dispositivos HID
+all_devices = hid.find_all_hid_devices()
+
+# Itera sobre todos los dispositivos
+for device in all_devices:
+    # Abre el dispositivo para que podamos acceder a sus propiedades
+    device.open()
+
+    # Imprime el nombre amigable del dispositivo
+    print('Nombre amigable: ', device.product_name)
+
+    # Cierra el dispositivo
+    device.close()
