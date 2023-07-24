@@ -1,3 +1,8 @@
+
+from PySide6.QtGui import QImage, QPixmap,QAction
+from PySide6.QtWidgets import QMenu
+from lib.CustomWidgets import TabButton
+
 class Helpers():
     def __init__(self) -> None:
         pass
@@ -36,20 +41,59 @@ class Helpers():
         
         return {'selected': sel, 'deselected': desel}
     
-def istest(text: str, test: str) -> bool:
-    """
-    Esta función verifica si el string 'test' coincide con los primeros caracteres del string 'text'.
-
-    Parámetros:
-    text (str): El string en el que se buscará la coincidencia.
-    test (str): El string que se buscará al inicio de 'text'.
-
-    Retorna:
-    bool: True si 'test' coincide con los primeros caracteres de 'text', False en caso contrario.
-    """
-    return text.startswith(test)
+    def menu(self, button, action_func, list_):
+        menu = QMenu()
+        test = list_
+        for i in test:
+            action = QAction(i, button)
+            action.triggered.connect(action_func)
+            menu.addAction(action)
+        return menu
 
 
+class TabsHelper():
+    def __init__(self, tab_layout , tab_widget) -> None:
+        self.tabs_layout = tab_layout
+        self.tabs_widget = tab_widget
+        self.last_tab = 0
+    
+    def create_tab(self, test, func_select, func_close):
+        self.last_tab += 1
+        tab = TabButton(test, f"new {test} {self.last_tab}")
+        tab.setObjectName(f"tab_{self.last_tab}")
+        tab.click_close.connect(self.close_tab)
+        tab.click_tab.connect(self.select_tab)
+        tab.click_tab.connect(func_select)
+        tab.click_close.connect(func_close)
+
+        tab.setName(f"tab_{self.last_tab}")
+        self.tabs_layout.addWidget(tab)
+        self.select_tab(f"tab_{self.last_tab}")
+        return f"tab_{self.last_tab}"
+
+    def close_tab(self, tab_name=None):
+        if tab_name is None:
+            tab_name = self.sender().objectName()
+        tab = self.tabs_widget.findChild(TabButton, tab_name)
+        if tab is not None:
+            self.tabs_layout.removeWidget(tab)
+            tab.deleteLater()
+
+    def select_tab(self, tab_name=None):
+        if tab_name is None:
+            tab_name = self.sender().objectName()
+        tabs = self.tabs_widget.findChildren(TabButton)
+        for tab in tabs:
+            if tab.objectName() == tab_name:
+                tab.setActive(True)
+            else:
+                tab.setActive(False)
+        return tab_name
+    
+    def type_tab(self, tab_name=None):
+        tab = self.tabs_widget.findChild(TabButton, tab_name)
+        return tab.get_test()
+        
 
 
 

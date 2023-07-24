@@ -169,23 +169,26 @@ QTabBar::close-button:hover {background: rgb(107,114,132);}</string>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QPushButton" name="btn_new">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="text">
-            <string> + Nueva Prueba </string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="tabs_layout"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_new">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer">
@@ -237,7 +240,6 @@ QTabBar::close-button:hover {background: rgb(107,114,132);}</string>
           <font>
            <family>Noto Rashi Hebrew Thin</family>
            <pointsize>16</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -280,43 +282,6 @@ QTabBar::close-button:hover {background: rgb(107,114,132);}</string>
          </property>
         </widget>
        </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QFrame" name="frame_menu">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>58</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>58</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(245,245,245); 
-</string>
-      </property>
-      <layout class="QHBoxLayout" name="layout_menu">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
       </layout>
      </widget>
     </item>

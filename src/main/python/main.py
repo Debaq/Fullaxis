@@ -10,258 +10,170 @@ from lib.graph.video_graph import WidgetVNG
 from lib.profile_data import ProfileData
 from lib.Ui_constructors import (UiFormBasic, UiNewProfile, UiSearchBar,
                                  UiWinPrincipal, set_button_icon)
-from lib.ui_helper import Helpers, istest
+from lib.ui_helper import Helpers, TabsHelper
 from lib.video.OpenCVProcessingThread import OpenCVProcessingThread
 from lib.window_helpers import check_screen_resolution
 from PySide6.QtCore import QPoint, Qt, QTimer, Slot
-from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtGui import QImage, QPixmap,QAction
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QMainWindow,
                                QMessageBox, QPushButton, QSplashScreen,
-                               QTabBar, QWidget)
-from UI.main2 import Ui_MainWindow
+                               QTabBar, QWidget, QMenu)
+from UI.Ui_Main import Ui_MainWindow
 from lib.video.config_video import ConfigVideoWindow
 from lib.dialog_helpers import SaveMessageBox
 from lib.video.ListCameras import CameraId
+from lib.CustomWidgets import TabButton
+from lib.video.opencamera_test import VideoThread
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        # insertar aca una función que revise la resolución de la pantalla y si esta es menor a 720p no se abre la aplicación
         self.resize(1280, 720)
-        self.window_buttons()
+        self.helpers = Helpers()
+        self.helpers_tab = TabsHelper(self.tabs_layout, self.tabs_widget)
         self.wd_principal = UiWinPrincipal()
-        data_list_user = self.wd_principal.get_list()
-        self.wd_newprofile = UiNewProfile()
-        self.wd_bar_search = UiSearchBar(data_list_user)
-        self.create_central_layers()
-        self._populate_layer_principal()
-        self.btn_configure()
-        self.profile_data = ProfileData()
-        self.states_tabs = []
+   
+        self.create_menu_new_tab()
+        self.conf_buttons_main()
+        self.tests_actives = {"active":None}
+        self.is_video_enabled = False
+        self.is_serial_enabled = False
         self.tab_widgets_list = []
-        self.prev_tab = 0
-        self.connect_signals()
-        self.current_profile = None
 
-        self.icons_test = {"TUG": QPixmap(f"{context.get_resource('icons/png/icon_tug.png')}"),
-                           "SOT": QPixmap(f"{context.get_resource('icons/png/icon_sot.png')}"),
-                           "VNG": QPixmap(f"{context.get_resource('icons/png/icon_vng.png')}")}
+        self.main_()
+        
+    def create_menu_new_tab(self) :
+        test = ["TUG", "SOT", "VNG"]
+        self.menu_test=self.helpers.menu(self.btn_menu, self.new_tab, test)        
+        self.btn_new.clicked.connect(lambda: self.menu_test.exec_(
+            self.btn_new.mapToGlobal(self.btn_new.rect().bottomLeft())
+            ))
 
-    def connect_signals(self):
-        self.tabWidget.currentChanged.connect(self._emit_change_current_tab)
-        self.wd_principal.signal_profile.connect(self.handler_edit_profile)
-        self.wd_principal.signal_test_new.connect(self.new_test)
-        self.wd_bar_search.data_signal.connect(
-            self.wd_principal.search_in_list)
-        self.tabWidget.tabCloseRequested.connect(self._is_saved_tab)
-        self.activate_video()  # este se deberia abrir solo si hay una pestaña con vng
+    def conf_buttons_main(self):
+        self.btn_menu.clicked.connect(self.main_)
 
-    def activate_video(self):
-        camera_id = CameraId("Integrated Camera")
-        camera_id = camera_id.get_camera()
-        if camera_id[0] :
-            self.config = ConfigVideoWindow()
-            self.thread_video = OpenCVProcessingThread(cam_n=camera_id[1])
-            self.thread_video.start()
-            self.config.slides_values.connect(self.thread_video.update_config_video)
-            self.thread_video.change_pixmap_signal.connect(self.update_image)
+    def new_tab(self):
+        name_tab = self.sender().text()
+        tab = self.helpers_tab.create_tab(name_tab, self.selected_test, self.close_and_save)
+        self.create_tab_test(tab)
+    
+    def create_tab_test(self, name_tab):
+        info_tab = self.helpers_tab.type_tab(name_tab)
+        if info_tab[0] == "TUG":
+            test = WidgetTUG()
+            self.activate_serial()
+        elif info_tab[0] == "SOT":
+            test = WidgetSOT()
+            self.activate_serial()
+        elif info_tab[0] == "VNG":
+            test = WidgetVNG()
+            self.activate_video()
+            
+        # TODO: se crea un diccionario que contenga {"nombretab":[widget, tipo, guardado, profile, data,enabled(bool)]}
+        self.tests_actives[info_tab[1]] = [test,info_tab[0],False,None,None,True]
+        self.tests_actives["active"] = info_tab[1]
+        self.update_layout_central()
+        
+    def update_layout_central(self):
+        active = self.tests_actives["active"]
+        Helpers.reset_layout(self, self.layout_central)
+        if active is not None:
+            self.layout_central.addWidget(self.tests_actives[active][0])
+        if active is None:
+            self.main_()
+    
+    def selected_test(self, d):
+        self.tests_actives["active"] = d
+        self.update_layout_central()
+
+    def main_(self):
+        Helpers.reset_layout(self, self.layout_central)
+        self.layout_central.addWidget(self.wd_principal)
+        self.tests_actives["active"] = None
+        
+
+    def close_and_save(self, d):
+        is_SOT = self.tests_actives[d][1] == "SOT"
+        active = self.tests_actives["active"]
+
+        # Si el test activo es el que se está cerrando
+        if active == d:
+            # Crea una lista con los nombres de los tests que no están cerrados
+            open_tests = [test for test in self.tests_actives if test != "active" and self.tests_actives[test][5]]
+            # Encuentra el índice del test que se está cerrando en la lista de tests abiertos
+            idx_d = open_tests.index(d)
+
+            # Si el test que se está cerrando no es el último de la lista, el nuevo test activo será el siguiente
+            # Si es el último, el nuevo test activo será el anterior
+            new_active = open_tests[idx_d+1] if idx_d < len(open_tests)-1 else open_tests[idx_d-1]
+
+            # Actualiza el test activo y la interfaz de usuario
+            self.tests_actives["active"] = new_active
+            self.update_layout_central()
+            self.helpers_tab.select_tab(new_active)
+
+        # Si el test que se está cerrando es un SOT, marca como cerrado
+        # Si no es un SOT, elimina del diccionario
+        if is_SOT:
+            self.tests_actives[d][5] = False
         else:
-            pass
+            self.tests_actives.pop(d)
+
+
+        if any(self.tests_actives[test][0] == 'video' for test in self.tests_actives):
+            print("existe un video")
+        else:
+            self.deactivate_video()
+        
+        # Comprueba si quedan tests abiertos
+        if any(self.tests_actives[test][5] for test in self.tests_actives if test != "active"):
+            return 0
+        else:
+            self.main_()
+
+    def activate_serial(self):
+        if self.is_serial_enabled:
+            print("Activating serial")
+            self.is_serial_enabled = True
+            
+    def deactivate_serial(self):
+        print("Deactivating serial")
+        self.is_serial_enabled = False
+        
+    def activate_video(self):
+        if not self.is_video_enabled:
+            try:
+                self.thread.start()
+            except:
+                self.thread_video = VideoThread()
+                self.thread_video.start()
+                print("Activating video")
+                self.thread_video.change_pixmap_signal.connect(self.update_image)
+            
+            self.is_video_enabled = True
+    def deactivate_video(self):
+        print("Deactivating video")
+        if self.is_serial_enabled:
+            try:
+                self.thread_video.stop()
+            except:
+                self.thread_video = VideoThread()
+                self.thread_video.stop()
+            self.is_video_enabled = False
+            
 
     @Slot(QImage)
     def update_image(self, image):
         self.image_video = image
-        for i in self.tab_widgets_list:
-            for l in i:
-                if l.objectName() == "video":
-                    l.update(image)
-
-    def _is_saved_tab(self, idx_tab):
-        idx_tab = idx_tab - 1
-        tab_data = (self.states_tabs[idx_tab])
-        if tab_data["data"] and tab_data["save"] == False:
-            sav = SaveMessageBox()
-            ret = sav.exec()
-            if ret == QMessageBox.Save:
-                self._save_data_tab(idx_tab, True)
-            elif ret == QMessageBox.Discard:
-                self._closetab(idx_tab)
-        else:
-            self._closetab(idx_tab)
-
-    def _closetab(self, idx_tab, save=False):
-        test = self.tabWidget.tabText(idx_tab+1)
-
-        # if istest(test, "VNG"):
-        #    self.tab_widgets_list[idx_tab][1].action_end(save=save, name=test)
-
-        self.tabWidget.removeTab(idx_tab+1)
-        self.states_tabs.pop(idx_tab)
-        self.tab_widgets_list.pop(idx_tab)
-        for idx in range(len(self.tab_widgets_list)):
-            self.tab_widgets_list[idx][0].set_number(idx)
-
-    def _save_data_tab(self, idx_tab, close=False):
-        self.states_tabs[idx_tab]["save"] = True
-        if close:
-            self._closetab(idx_tab, True)
-
-    # action #1
-    def mousePressEvent(self, event):
-        self.oldPosition = event.globalPosition().toPoint()
-
-        # action #2
-    def mouseMoveEvent(self, event):
-        delta = QPoint(event.globalPosition().toPoint() - self.oldPosition)
-        self.move(self.x() + delta.x(), self.y() + delta.y())
-        self.oldPosition = event.globalPosition().toPoint()
-
-    def window_buttons(self):
-        self.btn_min = QPushButton()
-        self.btn_max = QPushButton()
-        self.btn_exit = QPushButton()
-        self.btn_exit.setObjectName(u"btn_exit")
-        self.btn_max.setObjectName(u"btn_max")
-        self.btn_min.setObjectName(u"btn_min")
-        self.btn_exit.setFlat(True)
-        self.btn_max.setFlat(True)
-        self.btn_min.setFlat(True)
-        set_button_icon(self.btn_min, "fa5.window-minimize", color='white', size=10)
-        set_button_icon(self.btn_max, "fa5.window-maximize", color='white', size=10)
-        set_button_icon(self.btn_exit, "fa5.window-close", color='white', size=10)
-        frame = QWidget()
-        frame.setMaximumHeight(10)
-        layer = QHBoxLayout(frame)
-        
-        layer.setContentsMargins(0, 0, 0, 0)
-        layer.addWidget(self.btn_min)
-        layer.addWidget(self.btn_max)
-        layer.addWidget(self.btn_exit)
-        self.tabWidget.setCornerWidget(frame)
-
-    def create_central_layers(self):
-        frame_menu = QFrame()
-        frame_central = QFrame()
-        self.main_layout.addWidget(frame_menu)
-        self.main_layout.addWidget(frame_central)
-        self.layout_menu = QHBoxLayout(frame_menu)
-        self.layout_menu.setContentsMargins(0, 0, 0, 0)
-        self.layout_central = QHBoxLayout(frame_central)
-        self.layout_central.setContentsMargins(0, 0, 0, 0)
-        self._populate_layer_principal()
-
-    def _populate_layer_principal(self):
-        self._clear_layer_principal()
-        self.layout_menu.addWidget(self.wd_bar_search)
-        self.layout_central.addWidget(self.wd_principal)
-
-    def _clear_layer_principal(self):
-        self._clear_central()
-        Helpers.reset_layout(self, self.layout_menu)
-
-    def _clear_central(self):
-        Helpers.reset_layout(self, self.layout_central)
-
-    def btn_configure(self):
-        self.btn_exit.clicked.connect(self.close)
-        self.btn_max.clicked.connect(self._toggle_maxmin)
-        self.btn_min.clicked.connect(self.showMinimized)
-        self.wd_principal.btn_new_user.clicked.connect(self.win_profile_data)
-        self.wd_bar_search.btn_config.clicked.connect(self.configure_window)
-
-    def create_new_tab(self, profile, icon):
-        name_user = self.profile_data.get_profile_by_number(profile[0])
-        name_user = f"{name_user['first_name']} {name_user['last_name']}"
-        test_name = profile[1].upper()
-        frame, widget_test = self.tab_basic(test_name)
-        name_tab = f"{test_name} - {name_user}"
-        frame.horizontalLayout_2.addWidget(widget_test)
-        self.tabWidget.addTab(frame, icon, name_tab)
-        count = self.tabWidget.count()
-        self.tabWidget.setCurrentIndex(count-1)
-        self.tabWidget.setTabsClosable(True)
-        self.tabWidget.tabBar().setTabButton(0, QTabBar.RightSide, None)
-        tab_n = self.tabWidget.currentIndex()
-        data = [profile, tab_n]
-        self._create_state_tab(data)
-
-    def _create_state_tab(self, data):
-        n_tab = data[1]-1
-        self.tab_widgets_list[n_tab][0].set_number(n_tab)
-        self.tab_widgets_list[n_tab][0].set_profile(data[0][0])
-        data_dict = {"profile": data[0][0],
-                     "test": data[0][1], "save": False, "data": []}
-        self.states_tabs.append(data_dict)
-
-    def data_memory(self, n_profile, test):
-        return {"profile": n_profile, "test": test, "data": list, "state": "unsave"}
-
-    def tab_basic(self, name_test):
-        new_tab_test = UiFormBasic(name_test)
-        new_tab_test.state.connect(self.actions_tab)
-        if name_test == "TUG":
-            widget = WidgetTUG()
-        elif name_test == "SOT":
-            widget = WidgetSOT()
-        elif name_test == "VNG":
-            widget = WidgetVNG()
-            widget.config_open.connect(self.configure_window)
+        for i in self.tests_actives:
+            if i != "active":
+               if self.tests_actives[i][0].objectName() == "video": 
+                   self.tests_actives[i][0].update(image)
             
-        set_widget = [new_tab_test, widget]
-        self.tab_widgets_list.append(set_widget)
-        return self.tab_widgets_list[-1][0], self.tab_widgets_list[-1][1]
-
-    def actions_tab(self, signal):
-        if signal[0] == 'new':
-            test = signal[3].lower()
-            self.new_test([signal[4], test])
-        if signal[0] == 'save':
-            self._save_data_tab(signal[2])
-            
-    def configure_window(self):
-        self.config.exec()
-
-    def win_profile_data(self):
-        self._clear_central()
-        self.layout_central.addWidget(self.wd_newprofile)
-        self.wd_newprofile.exit_.connect(self.return_principal)
-
-    def return_principal(self, event):
-        if event:
-            self._clear_central()
-            self.layout_central.addWidget(self.wd_principal)
-            self.wd_principal.list_user.clear()
-            self.wd_principal.populate_list_profile()
-            # aca hay un problema desconocido dice que no existe current_profile
-            if self.current_profile is not None:
-                self.wd_principal.inf_profile_complete(self.current_profile)
-
-    def _emit_change_current_tab(self, idx_tab):
-        new_tab_name = self.tabWidget.tabText(idx_tab)
-        prev_tab_name = self.tabWidget.tabText(self.prev_tab)
-        self.prev_tab = idx_tab
-
-    def handler_edit_profile(self, profile):
-        self.current_profile = profile
-        self.win_profile_data()
-        self.wd_newprofile.load_profile(profile)
-
-    def new_test(self, data):
-        icon = self.icons_test[data[1].upper()]
-        self.create_new_tab(data, icon=icon)
-
-    def _toggle_maxmin(self):
-        if self.isMaximized():
-            self.showNormal()
-            self.resize(1200, 650)
-            set_button_icon(self.btn_max, "fa5.window-maximize", color='white', size=10)
-        else:
-            set_button_icon(self.btn_max, "fa5.window-restore", color='white', size=10)
-
-            self.showMaximized()
 
 
 if __name__ == '__main__':
