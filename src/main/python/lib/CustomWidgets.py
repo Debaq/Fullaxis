@@ -26,8 +26,6 @@ class TabButton(QFrame):
         self.layout = QHBoxLayout(self)
         self.label = QLabel(text, self)
 
-   
-
         self.btn_close = QPushButton('x', self)
         self.btn_close.setFlat(True)
 
