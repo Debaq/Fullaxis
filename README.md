@@ -4,7 +4,7 @@
 
 # Fullaxis: Sistema de Evaluación Neurootológica
 
-Fullaxis es un sistema avanzado diseñado para la evaluación neurootológica, proporcionando una interfaz gráfica intuitiva y herramientas de análisis de datos.
+Fullaxis es un sistema diseñado para la evaluación neurootológica, proporcionando una interfaz gráfica intuitiva y herramientas de análisis de datos.
 
 ## Características
 

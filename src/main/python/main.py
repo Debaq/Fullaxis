@@ -15,7 +15,7 @@ from lib.graph.tug_graph import WidgetTUG
 from lib.graph.video_graph import WidgetVNG
 from lib.Ui_constructors import UiWinPrincipal
 from lib.ui_helper import Helpers, TabsHelper
-from lib.video.opencamera_test import VideoThread
+from lib.video.OpenCVProcessingThread import OpenCVProcessingThread
 from lib.window_helpers import check_screen_resolution
 
 # pylint: disable=E0611
@@ -132,7 +132,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             activation_function()
 
             # Create a dictionary entry for the tab 
-            self.tests_actives[info_tab[1]] = Test(widget=test, type=info_tab[0], save=False, profile=None, data=None, enabled=True)
+            self.tests_actives[info_tab[1]] = Test(widget=test, type=info_tab[0], save=False, 
+                                                   profile=None, data=None, enabled=True)
             self.tests_actives["active"] = info_tab[1]
             self.update_layout_central()
 
@@ -223,7 +224,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Activate the video interface."""
         if not self.video.enabled:
             try:
-                self.video.thread = VideoThread()
+                self.video.thread = OpenCVProcessingThread()
                 self.video.thread.start()
                 self.video.thread.change_pixmap_signal.connect(self.update_image)
                 self.video.enabled = True
