@@ -15,7 +15,7 @@ class OpenCVProcessingThread(QThread):
     change_pixmap_signal = Signal(QImage)
     signal_frame_states = Signal(dict)
 
-    def __init__(self, parent=None, cam_n=0):
+    def __init__(self, parent=None, cam_n=2):
         super().__init__(parent)
         self._running = True
         self._flip_horizontal = False
@@ -96,6 +96,7 @@ class OpenCVProcessingThread(QThread):
 
     def setup_video_writer(self):
         """Setup the video writer for recording."""
+        self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
         size_frame = (int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                       int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         FPS = self.cap.get(cv2.CAP_PROP_FPS)
