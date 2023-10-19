@@ -1,6 +1,7 @@
 from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtWidgets import QLabel, QHBoxLayout, QPushButton, QFrame
 from PySide6.QtCore import Qt, Signal, Property, QTimer, QSize
+
 from lib.Ui_constructors import set_button_icon
 import qtawesome as qta
 
@@ -9,8 +10,10 @@ class PupilWidget(QLabel):
     def __init__(self):
         super().__init__()
 
+
     def update_image(self, image):
         self.setPixmap(QPixmap.fromImage(image))
+    
 
 
 class TabButton(QFrame):

@@ -40,9 +40,9 @@ class OpenCVProcessingThread(QThread):
 
         left_half, right_half = self.split_frame(frame)
         left_half = self.blob_detector_left.detect(
-            left_half, "left", self.get_color("left"))
+            left_half, self.get_color("left"))
         right_half = self.blob_detector_rigth.detect(
-            right_half, "right", self.get_color("right"))
+            right_half, self.get_color("right"))
 
         result = np.hstack((left_half, right_half))
         self.emit_frame(result)

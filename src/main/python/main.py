@@ -19,9 +19,9 @@ from lib.video.OpenCVProcessingThread import OpenCVProcessingThread
 from lib.window_helpers import check_screen_resolution
 
 # pylint: disable=E0611
-from PySide6.QtCore import Qt, QTimer, Slot
+from PySide6.QtCore import Qt, QTimer, Slot, QEvent
 from PySide6.QtGui import QImage, QPixmap
-from PySide6.QtWidgets import (QApplication, QMainWindow, QSplashScreen, QWidget)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QSplashScreen, QWidget, QPushButton)
 # pylint: enable=E0611
 
 from UI.Ui_Main import Ui_MainWindow
@@ -80,6 +80,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Initialize the main window with default settings."""
         super().__init__()
         self.setup_window()
+        self.disable_focus_for_widgets()
         self.video = VideoData()
         self.serial = SerialData()
         self.tests_actives = {"active": None}
@@ -96,6 +97,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.helpers_tab = TabsHelper(self.tabs_layout, self.tabs_widget)
         self.create_menu_new_tab()
         self.conf_buttons_main()
+        
+    def disable_focus_for_widgets(self):
+        for widget in self.findChildren(QWidget):
+            if isinstance(widget, QPushButton):  # o cualquier otro tipo de widget que desees
+                widget.setFocusPolicy(Qt.NoFocus)
+
 
     def create_menu_new_tab(self) :
         """Create a new tab menu with test options."""
@@ -224,10 +231,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Activate the video interface."""
         if not self.video.enabled:
             try:
-                self.video.thread = OpenCVProcessingThread()
+                self.video.thread = OpenCVProcessingThread(cam_n=2) #acá hay que insertar una función que busque la camara correcta
                 self.video.thread.start()
                 self.video.thread.change_pixmap_signal.connect(self.update_image)
                 self.video.enabled = True
+
             except Exception as exeption:
                 print(f"Error activating video: {exeption}")
 
@@ -237,12 +245,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.video.enabled:
             try:
                 self.video.thread.change_pixmap_signal.disconnect(self.update_image)
-                self.video.thread.stop()
+                self.video.thread.stop(True, "test")
                 self.video.enabled = False
             except Exception as exeption:
                 print(f"Error deactivating video: {exeption}")
 
 
+            
     @Slot(QImage)
     def update_image(self, image: QImage) -> None:
         """
@@ -255,6 +264,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for test, val in self.tests_actives.items():
             if test != "active" and val.widget.objectName() == "video":
                 val.widget.update(image)
+
 
 
 if __name__ == '__main__':

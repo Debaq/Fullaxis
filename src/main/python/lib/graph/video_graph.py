@@ -1,11 +1,17 @@
-from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import Signal
-from lib.CustomWidgets import PupilWidget
-from UI.Ui_vng_ui import Ui_video
-from lib.video.config_video import ConfigVideoWindow
+# pylint: disable=E0611
 import pyqtgraph as pg
-import numpy as np
+from lib.CustomWidgets import PupilWidget
 from lib.Ui_constructors import set_button_icon
+from lib.video.config_video import ConfigVideoWindow
+from PySide6.QtCore import QEvent, Signal
+from PySide6.QtWidgets import QWidget, QLabel, QApplication
+from PySide6.QtCore import Qt, QEvent
+from UI.Ui_vng_ui import Ui_video
+from lib.video.FullScreenVideo import VideoPopup
+from lib.Qtcronometer import Cronometro
+
+
+
 
 class WidgetVNG(QWidget, Ui_video):
     """
@@ -23,6 +29,63 @@ class WidgetVNG(QWidget, Ui_video):
         super().__init__()
         self.setupUi(self)
         self.init_ui()
+        self.installEventFilters(self)
+        self.fullscreen_window_open = False
+        self.fullscreen_window = VideoPopup()
+        
+        self.cronometro = Cronometro()
+        self.cronometro.tiempo_actualizado.connect(self.on_tiempo_actualizado)
+        self.video_frame.setFocus()
+
+        
+
+    def installEventFilters(self, parent):
+        for child in parent.children():
+            child.installEventFilter(self)
+            self.installEventFilters(child)  # Recursividad para todos los hijos
+
+    def eventFilter(self, obj, event):
+        # Filtra el evento para detectar doble clics del mouse
+        if event.type() == QEvent.MouseButtonDblClick and isinstance(obj, QLabel):
+            # Imprime el objectName del QLabel al que se le hizo doble clic
+            if not self.fullscreen_window_open:  # Verificar si ya hay una ventana emergente abierta
+                self.open_fullscreen_window()
+        return super().eventFilter(obj, event)
+    
+    def open_fullscreen_window(self):
+        
+        self.fullscreen_window_open = True  # Marcamos que la ventana emergente está abierta
+        #self.fullscreen_window.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        screens = QApplication.screens()
+        current_screen = QApplication.screenAt(self.geometry().center())
+
+        for screen in screens:
+            if screen != current_screen:
+                # Si encontramos una pantalla que no es la pantalla actual, movemos la ventana emergente a esa pantalla
+                screen_geometry = screen.geometry()
+                self.fullscreen_window.move(screen_geometry.x(), screen_geometry.y())
+                break
+
+        self.fullscreen_window.closed.connect(self.reset_fullscreen_window_open)  # Conectar una función para resetear la variable cuando la ventana se destruye
+        self.fullscreen_window.showFullScreen()
+
+    def reset_fullscreen_window_open(self):
+        # Función para resetear la variable fullscreen_window_open cuando la ventana emergente se destruye
+        self.fullscreen_window_open = False
+        
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Space:
+            if self.cronometro.is_paused:
+                self.cronometro.start()
+            else:
+                self.cronometro.pause()
+        elif event.key() == Qt.Key_Escape:
+            self.cronometro.reset()
+                
+    def on_tiempo_actualizado(self, tiempo, show_dot, state):
+        dot = ' .' if show_dot else ' '
+        self.time_text = f"{state} : {tiempo} s{dot}"
+        print(self.time_text)
 
     def init_ui(self):
         """
@@ -32,9 +95,9 @@ class WidgetVNG(QWidget, Ui_video):
         self.verticalLayout_2.addWidget(self.video_frame)
         graph = self.graph_cond("vng")
         self.horizontalLayout_3.addWidget(graph)
-        set_button_icon(self.pushButton_configvideo, 'ph.gear', tool_tip="Configuración")
+        set_button_icon(self.btn_configvideo, 'ph.gear', tool_tip="Configuración")
 
-        self.pushButton_configvideo.clicked.connect(self.open_config_video)
+        self.btn_configvideo.clicked.connect(self.open_config_video)
 
 
     def open_config_video(self):
@@ -51,6 +114,10 @@ class WidgetVNG(QWidget, Ui_video):
             image: The image to be displayed.
         """
         self.video_frame.update_image(image)
+        
+        if self.fullscreen_window_open:
+            self.fullscreen_window.update_video(image)
+        
 
     def graph_cond(self, name:str) -> pg.PlotWidget:
         """

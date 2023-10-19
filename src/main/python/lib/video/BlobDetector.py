@@ -37,28 +37,50 @@ class BlobDetector:
         else:
             self.detector = cv2.SimpleBlobDetector_create(params)
 
-    def detect(self, image, name, color=(0,0,0)):
+    def detect(self, image, color=(0,0,0)):
+                # 1. Carga la imagen
         
-        image_p = self._prepare_image(image)
-        keypoints = self._keypoints(image_p)
+        # 2. Reduce la resolución (por ejemplo, reduciendo a la mitad)
+        small = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
+        
+        # 3. Carga el clasificador de ojos
+        eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+        
+        # 4. Convierte la imagen reducida a escala de grises
+        gray_small = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
+        
+        # 5. Detecta los ojos en la imagen reducida
+        eyes = eye_cascade.detectMultiScale(gray_small)
 
-        for keypoint in keypoints:
-            if len(keypoints) == 1:
-                x = int(keypoint.pt[0])
-                y = int(keypoint.pt[1])
-                s = keypoint.size
-                r = int(math.floor(s/2))
-                self.position = (x,y,r)
+        # 6. Si necesitas las coordenadas de los ojos en la imagen original, escala las coordenadas
+        eyes_original = [(int(x*2), int(y*2), int(w*2), int(h*2)) for (x,y,w,h) in eyes]
+
+
+            
+        for (x, y, w, h) in eyes_original:
+            if x >= 0 and y >= 0 and x + w <= gray_small.shape[1] and y + h <= gray_small.shape[0]:
+            # 1. Acota el área del ojo
+                roi_gray = gray_small[y:y+h, x:x+w]
+                
+                # 2. Binarización utilizando umbral adaptativo
+                thresh = cv2.adaptiveThreshold(roi_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+
+                # 3. Detección de contornos
+                contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                if contours:
+                    # 4. Elige el contorno más grande (suponiendo que es la pupila)
+                    c = max(contours, key=cv2.contourArea)
+                    # Encuentra el círculo del contorno
+                    (cx, cy), radius = cv2.minEnclosingCircle(c)
+                    center = (int(cx), int(cy))
+                    radius = int(radius)
+                    # Dibuja el círculo en la imagen original
+                    cv2.circle(image, (x + center[0], y + center[1]), radius, (0, 255, 0), 2)
             else:
-                keypoints = ()
-                            
-
-        image_edges = cv2.Canny(image,10,50)
-
-        draw_result = cv2.drawKeypoints(image, keypoints, np.array([]), color,
-                                             cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-        return draw_result
-        
+                continue
+            
+        return image
+            
 
     
     def _prepare_image(self, image):
