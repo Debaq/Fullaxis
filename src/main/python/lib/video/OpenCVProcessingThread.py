@@ -19,8 +19,8 @@ class OpenCVProcessingThread(QThread):
         super().__init__(parent)
         self._running = True
         self._flip_horizontal = False
-        self.blob_detector_left = BlobDetector()
-        self.blob_detector_rigth = BlobDetector()
+        #self.blob_detector_left = BlobDetector()
+        #self.blob_detector_rigth = BlobDetector()
         self.record = [False, 0, False]
         self.cam_n = cam_n
 

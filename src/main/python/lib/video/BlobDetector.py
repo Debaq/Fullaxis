@@ -38,49 +38,37 @@ class BlobDetector:
             self.detector = cv2.SimpleBlobDetector_create(params)
 
     def detect(self, image, color=(0,0,0)):
-                # 1. Carga la imagen
-        
-        # 2. Reduce la resolución (por ejemplo, reduciendo a la mitad)
-        small = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
-        
-        # 3. Carga el clasificador de ojos
-        eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-        
-        # 4. Convierte la imagen reducida a escala de grises
-        gray_small = cv2.cvtColor(small, cv2.COLOR_BGR2GRAY)
-        
-        # 5. Detecta los ojos en la imagen reducida
-        eyes = eye_cascade.detectMultiScale(gray_small)
+        # 1. Convierte la imagen a escala de grises
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # 6. Si necesitas las coordenadas de los ojos en la imagen original, escala las coordenadas
-        eyes_original = [(int(x*2), int(y*2), int(w*2), int(h*2)) for (x,y,w,h) in eyes]
+        # 2. Recorre la imagen buscando ojos (usaremos la imagen completa)
+        h, w = gray.shape[:2]
+        for y in range(h):
+            for x in range(w):
+                if x >= 0 and y >= 0 and x + w <= gray.shape[1] and y + h <= gray.shape[0]:
+                    # 1. Acota el área del ojo
+                    roi_gray = gray[y:y+h, x:x+w]
+                    
+                    # 2. Binarización utilizando umbral adaptativo
+                    thresh = cv2.adaptiveThreshold(roi_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
 
-
-            
-        for (x, y, w, h) in eyes_original:
-            if x >= 0 and y >= 0 and x + w <= gray_small.shape[1] and y + h <= gray_small.shape[0]:
-            # 1. Acota el área del ojo
-                roi_gray = gray_small[y:y+h, x:x+w]
-                
-                # 2. Binarización utilizando umbral adaptativo
-                thresh = cv2.adaptiveThreshold(roi_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
-
-                # 3. Detección de contornos
-                contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                if contours:
-                    # 4. Elige el contorno más grande (suponiendo que es la pupila)
-                    c = max(contours, key=cv2.contourArea)
-                    # Encuentra el círculo del contorno
-                    (cx, cy), radius = cv2.minEnclosingCircle(c)
-                    center = (int(cx), int(cy))
-                    radius = int(radius)
-                    # Dibuja el círculo en la imagen original
-                    cv2.circle(image, (x + center[0], y + center[1]), radius, (0, 255, 0), 2)
-            else:
-                continue
-            
+                    # 3. Detección de contornos
+                    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    if contours:
+                        # 4. Elige el contorno más grande (suponiendo que es la pupila)
+                        c = max(contours, key=cv2.contourArea)
+                        # Encuentra el círculo del contorno
+                        (cx, cy), radius = cv2.minEnclosingCircle(c)
+                        center = (int(cx), int(cy))
+                        radius = int(radius)
+                        # Dibuja el círculo en la imagen original
+                        cv2.circle(image, (x + center[0], y + center[1]), radius, (0, 255, 0), 2)
+                else:
+                    continue
+        print(type(image))
         return image
-            
+
+                
 
     
     def _prepare_image(self, image):
