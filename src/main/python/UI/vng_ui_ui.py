@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'vng_ui.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QHBoxLayout,
-    QHeaderView, QPushButton, QSizePolicy, QSlider,
-    QSpacerItem, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
+    QHBoxLayout, QHeaderView, QLabel, QPushButton,
+    QSizePolicy, QSlider, QSpacerItem, QTextEdit,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_video(object):
     def setupUi(self, video):
@@ -31,6 +31,42 @@ class Ui_video(object):
         self.horizontalFrame.setObjectName(u"horizontalFrame")
         self.horizontalLayout = QHBoxLayout(self.horizontalFrame)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.lbl_name_user = QLabel(self.horizontalFrame)
+        self.lbl_name_user.setObjectName(u"lbl_name_user")
+        font = QFont()
+        font.setBold(True)
+        self.lbl_name_user.setFont(font)
+
+        self.horizontalLayout.addWidget(self.lbl_name_user)
+
+        self.btn_save = QPushButton(self.horizontalFrame)
+        self.btn_save.setObjectName(u"btn_save")
+
+        self.horizontalLayout.addWidget(self.btn_save)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_5)
+
+        self.lbl_test_name = QLabel(self.horizontalFrame)
+        self.lbl_test_name.setObjectName(u"lbl_test_name")
+
+        self.horizontalLayout.addWidget(self.lbl_test_name)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
+        self.label = QLabel(self.horizontalFrame)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout.addWidget(self.label)
+
+        self.cb_hardware = QComboBox(self.horizontalFrame)
+        self.cb_hardware.setObjectName(u"cb_hardware")
+
+        self.horizontalLayout.addWidget(self.cb_hardware)
+
 
         self.verticalLayout.addWidget(self.horizontalFrame)
 
@@ -38,6 +74,9 @@ class Ui_video(object):
         self.video_central_frame.setObjectName(u"video_central_frame")
         self.video_central_layout = QHBoxLayout(self.video_central_frame)
         self.video_central_layout.setObjectName(u"video_central_layout")
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, -1, -1, -1)
         self.treeWidget = QTreeWidget(self.video_central_frame)
         __qtreewidgetitem = QTreeWidgetItem(self.treeWidget)
         QTreeWidgetItem(__qtreewidgetitem)
@@ -58,7 +97,48 @@ class Ui_video(object):
         self.treeWidget.setMinimumSize(QSize(0, 150))
         self.treeWidget.setMaximumSize(QSize(150, 16777215))
 
-        self.video_central_layout.addWidget(self.treeWidget)
+        self.horizontalLayout_4.addWidget(self.treeWidget)
+
+        self.verticalFrame = QFrame(self.video_central_frame)
+        self.verticalFrame.setObjectName(u"verticalFrame")
+        self.verticalFrame.setMinimumSize(QSize(0, 0))
+        self.verticalLayout_3 = QVBoxLayout(self.verticalFrame)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.textEdit = QTextEdit(self.verticalFrame)
+        self.textEdit.setObjectName(u"textEdit")
+
+        self.verticalLayout_3.addWidget(self.textEdit)
+
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(-1, 0, -1, -1)
+        self.btn_play = QPushButton(self.verticalFrame)
+        self.btn_play.setObjectName(u"btn_play")
+
+        self.verticalLayout_4.addWidget(self.btn_play)
+
+        self.btn_stop = QPushButton(self.verticalFrame)
+        self.btn_stop.setObjectName(u"btn_stop")
+
+        self.verticalLayout_4.addWidget(self.btn_stop)
+
+        self.btn_fix = QPushButton(self.verticalFrame)
+        self.btn_fix.setObjectName(u"btn_fix")
+
+        self.verticalLayout_4.addWidget(self.btn_fix)
+
+
+        self.verticalLayout_3.addLayout(self.verticalLayout_4)
+
+
+        self.horizontalLayout_4.addWidget(self.verticalFrame)
+
+
+        self.video_central_layout.addLayout(self.horizontalLayout_4)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.video_central_layout.addItem(self.horizontalSpacer_3)
 
         self.video_frame = QFrame(self.video_central_frame)
         self.video_frame.setObjectName(u"video_frame")
@@ -70,45 +150,49 @@ class Ui_video(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.checkBox = QCheckBox(self.video_frame)
-        self.checkBox.setObjectName(u"checkBox")
+        self.cbx_auto = QCheckBox(self.video_frame)
+        self.cbx_auto.setObjectName(u"cbx_auto")
 
-        self.horizontalLayout_2.addWidget(self.checkBox)
+        self.horizontalLayout_2.addWidget(self.cbx_auto)
 
-        self.horizontalSlider_2 = QSlider(self.video_frame)
-        self.horizontalSlider_2.setObjectName(u"horizontalSlider_2")
-        self.horizontalSlider_2.setCursor(QCursor(Qt.SizeHorCursor))
-        self.horizontalSlider_2.setMaximum(255)
-        self.horizontalSlider_2.setTracking(True)
-        self.horizontalSlider_2.setOrientation(Qt.Horizontal)
-        self.horizontalSlider_2.setInvertedAppearance(False)
-        self.horizontalSlider_2.setInvertedControls(False)
-        self.horizontalSlider_2.setTickPosition(QSlider.NoTicks)
-        self.horizontalSlider_2.setTickInterval(6)
+        self.Slicer_OD = QSlider(self.video_frame)
+        self.Slicer_OD.setObjectName(u"Slicer_OD")
+        self.Slicer_OD.setCursor(QCursor(Qt.SizeHorCursor))
+        self.Slicer_OD.setMaximum(255)
+        self.Slicer_OD.setTracking(True)
+        self.Slicer_OD.setOrientation(Qt.Horizontal)
+        self.Slicer_OD.setInvertedAppearance(False)
+        self.Slicer_OD.setInvertedControls(False)
+        self.Slicer_OD.setTickPosition(QSlider.NoTicks)
+        self.Slicer_OD.setTickInterval(6)
 
-        self.horizontalLayout_2.addWidget(self.horizontalSlider_2)
+        self.horizontalLayout_2.addWidget(self.Slicer_OD)
 
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.horizontalSlider = QSlider(self.video_frame)
-        self.horizontalSlider.setObjectName(u"horizontalSlider")
-        self.horizontalSlider.setCursor(QCursor(Qt.SizeHorCursor))
-        self.horizontalSlider.setOrientation(Qt.Horizontal)
+        self.Slicer_OI = QSlider(self.video_frame)
+        self.Slicer_OI.setObjectName(u"Slicer_OI")
+        self.Slicer_OI.setCursor(QCursor(Qt.SizeHorCursor))
+        self.Slicer_OI.setOrientation(Qt.Horizontal)
 
-        self.horizontalLayout_2.addWidget(self.horizontalSlider)
+        self.horizontalLayout_2.addWidget(self.Slicer_OI)
 
-        self.pushButton_configvideo = QPushButton(self.video_frame)
-        self.pushButton_configvideo.setObjectName(u"pushButton_configvideo")
+        self.btn_configvideo = QPushButton(self.video_frame)
+        self.btn_configvideo.setObjectName(u"btn_configvideo")
 
-        self.horizontalLayout_2.addWidget(self.pushButton_configvideo)
+        self.horizontalLayout_2.addWidget(self.btn_configvideo)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
 
         self.video_central_layout.addWidget(self.video_frame)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.video_central_layout.addItem(self.horizontalSpacer_4)
 
 
         self.verticalLayout.addWidget(self.video_central_frame)
@@ -128,6 +212,10 @@ class Ui_video(object):
 
     def retranslateUi(self, video):
         video.setWindowTitle(QCoreApplication.translate("video", u"Form", None))
+        self.lbl_name_user.setText(QCoreApplication.translate("video", u"Nuevo sin guardar", None))
+        self.btn_save.setText(QCoreApplication.translate("video", u"Guardar", None))
+        self.lbl_test_name.setText("")
+        self.label.setText(QCoreApplication.translate("video", u"Dispositivo", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("video", u"Test VNG", None));
 
@@ -153,7 +241,10 @@ class Ui_video(object):
         ___qtreewidgetitem9.setText(0, QCoreApplication.translate("video", u"seguimiento", None));
         self.treeWidget.setSortingEnabled(__sortingEnabled)
 
-        self.checkBox.setText(QCoreApplication.translate("video", u"Auto", None))
-        self.pushButton_configvideo.setText("")
+        self.btn_play.setText(QCoreApplication.translate("video", u"Iniciar", None))
+        self.btn_stop.setText(QCoreApplication.translate("video", u"Detener", None))
+        self.btn_fix.setText(QCoreApplication.translate("video", u"Fijar", None))
+        self.cbx_auto.setText(QCoreApplication.translate("video", u"Auto", None))
+        self.btn_configvideo.setText("")
     # retranslateUi
 
