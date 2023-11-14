@@ -1,14 +1,16 @@
-from PySide6.QtWidgets import QDialog
-from UI.Ui_video_config import Ui_video_config
-from PySide6.QtCore import Signal, QCoreApplication
-from PySide6.QtWidgets import QSlider, QLabel
 import json
+
 from base import context
-from lib.dialog_helpers import NameDialog, ErrorMessageBox
+from lib.dialog_helpers import ErrorMessageBox, NameDialog
+from PySide6.QtCore import QCoreApplication, QRegularExpression, Signal
+from PySide6.QtWidgets import (QDialog, QDoubleSpinBox, QLabel, QSlider,
+                               QSpinBox)
+from UI.video_config_ui import Ui_video_config
 
 
 class ConfigVideoWindow(QDialog, Ui_video_config):
     slides_values = Signal(dict)
+    strategy_values = Signal(dict)
 
     def __init__(self):
         super().__init__()
@@ -29,6 +31,13 @@ class ConfigVideoWindow(QDialog, Ui_video_config):
     def config_btn(self):
         self.pushButton_savepreset.clicked.connect(self.save_values)
         self.pushButton_newpreset.clicked.connect(self.create_new_preset)
+        self.doubles = self.tab_2.findChildren(QDoubleSpinBox)
+        self.spin = self.tab_2.findChildren(QSpinBox)
+        for i in self.doubles:
+            i.valueChanged.connect(self.houghcircles_setting)
+        for i in self.spin:
+            i.valueChanged.connect(self.houghcircles_setting)
+
 
     def open_config(self):
         with open(context.get_resource('setting/video_config.json'), 'r') as f:
@@ -54,8 +63,10 @@ class ConfigVideoWindow(QDialog, Ui_video_config):
         values = self.slider_changed()
         dialog = NameDialog()
         if dialog.exec_():
+            print("creando")
             name = dialog.get_name()
             self.data[name] = values
+            self.data['protect'] = False
             self.comboBox_preset.addItem(name)
             self.comboBox_preset.setCurrentText(name)
             self.save_values()
@@ -96,3 +107,14 @@ class ConfigVideoWindow(QDialog, Ui_video_config):
 
         self.slides_values.emit(slides_values)
         return slides_values
+    
+    def houghcircles_setting(self):
+        blurred = {'ksizeW' : self.sb_ksize_hough.value(), 
+                  'ksizeH': self.sb_ksize_hough.value(), 
+                  'sigmaX': self.sb_sigma_hough.value()}
+        hough = {'dp':self.sb_dp_hough.value(), 'minDist':self.sb_mindist_hough.value(), 
+                 'param1':self.sb_param1_hough.value(), 'param2':self.sb_param2_hough.value(), 
+                 'minRadius':self.sb_minrad_hough.value(),'maxRadius':self.sb_maxrad_hough.value()}
+        result = {'hough':{'hough': hough, 'blurred': blurred }}
+        self.strategy_values.emit(result)
+

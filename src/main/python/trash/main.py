@@ -67,7 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.thread_video = OpenCVProcessingThread(cam_n=camera_id[1])
             self.thread_video.start()
             self.config.slides_values.connect(self.thread_video.update_config_video)
-            self.thread_video.change_pixmap_signal.connect(self.update_image)
+            self.thread_video.sig_change_pixmap.connect(self.update_image)
         else:
             pass
 

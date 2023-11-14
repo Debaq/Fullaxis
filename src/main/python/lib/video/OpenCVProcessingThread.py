@@ -3,7 +3,7 @@ import time
 
 import cv2
 import numpy as np
-from lib.video.BlobDetector import BlobDetector
+from lib.video.Detector import PupilDetector
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QImage
 from base import context
@@ -13,15 +13,16 @@ import os
 
 
 class OpenCVProcessingThread(QThread):
-    change_pixmap_signal = Signal(QImage)
-    signal_frame_states = Signal(dict)
+    sig_change_pixmap = Signal(QImage)
+    sig_frame_states = Signal(dict)
+    sig_coords = Signal(dict)
 
     def __init__(self, parent=None, cam_n=0):
         super().__init__(parent)
         self._running = True
         self._flip_horizontal = False
-        self.blob_detector_left = BlobDetector()
-        self.blob_detector_rigth = BlobDetector()
+        self.detector_left = PupilDetector("OD")
+        self.detector_rigth = PupilDetector("OI")
         self.record = [False, 0, False]
         self.cam_n = cam_n
 
@@ -41,26 +42,25 @@ class OpenCVProcessingThread(QThread):
                         self.out.write(im_bgr)
 
                     height, width = frame.shape[:2]
-                    left_half = frame[:, :width//2]
-                    right_half = frame[:, width//2:]
+                    self.left_half = frame[:, :width//2]
+                    self.right_half = frame[:, width//2:]
                     # Dibujar rectángulos alrededor de las mitades de la imagen
-                    cv2.rectangle(left_half, (0, 0),
-                                  (width//2, height), (255, 255, 255), 2)
-                    cv2.rectangle(right_half, (0, 0),
-                                  (width//2, height), (255, 255, 255), 2)
+                    #cv2.rectangle(left_half, (0, 0),
+                    #              (width//2, height), (255, 255, 255), 2)
+                    #cv2.rectangle(right_half, (0, 0),
+                    #              (width//2, height), (255, 255, 255), 2)
                     # Definir textos y colores para cada lado
-                    left_text, left_color = ("Ojo Derecho", (0, 0, 255)) if not self._flip_horizontal else (
-                        "Ojo Izquierdo", (255, 0, 0))
-                    right_text, right_color = ("Ojo Izquierdo", (255, 0, 0)) if not self._flip_horizontal else (
-                        "Ojo Derecho", (0, 0, 255))
+
 
                     # Detectar y dibujar blobs en cada mitad
-                    left_half = self.blob_detector_left.detect(
-                        left_half, "left", left_color)
-                    right_half = self.blob_detector_rigth.detect(
-                        right_half, "right", right_color)
 
-                    result = np.hstack((left_half, right_half))
+                    self.right_half = self.detector_rigth.detect(self.right_half)
+                    self.left_half = self.detector_left.detect(self.left_half)
+
+                    self.detector_left.set_strategy("hough")
+                    self.detector_rigth.set_strategy("hough")
+                    
+                    result = np.hstack((self.left_half[0], self.right_half[0]))
 
                     rgb_image = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
                     h, w, ch = rgb_image.shape
@@ -70,8 +70,13 @@ class OpenCVProcessingThread(QThread):
                     p = convert_to_Qt_format.scaled(
                         640, 480, Qt.KeepAspectRatio)
 
-                    self.change_pixmap_signal.emit(p)
+                    self.sig_change_pixmap.emit(p)
+                    self.update_graph()
     
+    def update_graph(self):
+        coord = {"r": self.right_half[1], "l": self.left_half[1]}
+        self.sig_coords.emit(coord)
+
 
     def update_config_video(self, slides_values):
         #{'contrast': 50, 'blackligth': 0, 'whitebalance': 4600, 'brightness': -28, 'gamma': 300, 'sharpness': 50, 'hue': 0, 'saturation': 50}
@@ -94,6 +99,11 @@ class OpenCVProcessingThread(QThread):
         self.cap.set(cv2.CAP_PROP_SATURATION, saturation)
 
         #print(slides_values)
+    def update_method(self, value):
+        if 'hough' in value:
+            self.detector_left.houghcircle_detector.set_param(value)
+            self.detector_rigth.houghcircle_detector.set_param(value)
+
         
     def open_cap(self):
         if os.name == 'nt':
@@ -114,7 +124,7 @@ class OpenCVProcessingThread(QThread):
             if cap.isOpened():
                 print("La cámara se abrió correctamente")
                 self.record[2] = True
-                self.signal_frame_states.emit(self.record)
+                self.sig_frame_states.emit(self.record)
                 self._running = True
                 return cap
             else:
@@ -124,7 +134,7 @@ class OpenCVProcessingThread(QThread):
         self._running = False
         self.cap.release()
         self.record[2] = False
-        self.signal_frame_states.emit(self.record)
+        self.sig_frame_states.emit(self.record)
         self.out.release()
 
     def stop(self, save, name):

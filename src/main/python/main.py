@@ -60,14 +60,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.activate_video()  # este se deberia abrir solo si hay una pestaña con vng
 
     def activate_video(self):
-        camera_id = CameraId("Integrated Camera")
+        camera_id = CameraId("USB Camera: USB GS CAM")
         camera_id = camera_id.get_camera()
         if camera_id[0] :
             self.config = ConfigVideoWindow()
             self.thread_video = OpenCVProcessingThread(cam_n=camera_id[1])
             self.thread_video.start()
             self.config.slides_values.connect(self.thread_video.update_config_video)
-            self.thread_video.change_pixmap_signal.connect(self.update_image)
+            self.config.strategy_values.connect(self.thread_video.update_method)
+            self.thread_video.sig_change_pixmap.connect(self.update_image)
+            self.thread_video.sig_coords.connect(self.update_coords)
+
         else:
             pass
 
@@ -78,6 +81,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for l in i:
                 if l.objectName() == "video":
                     l.update(image)
+    @Slot(QImage)
+    def update_coords(self, coords):
+        for i in self.tab_widgets_list:
+            for l in i:
+                if l.objectName() == "video":
+                    l.update_graph(coords)
 
     def _is_saved_tab(self, idx_tab):
         idx_tab = idx_tab - 1
@@ -222,7 +231,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._save_data_tab(signal[2])
             
     def configure_window(self):
-        self.config.exec()
+        self.config.show()
 
     def win_profile_data(self):
         self._clear_central()

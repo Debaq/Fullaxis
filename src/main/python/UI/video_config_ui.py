@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'video_config.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QLayout,
-    QPushButton, QSizePolicy, QSlider, QSpacerItem,
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
+    QDoubleSpinBox, QFrame, QGridLayout, QHBoxLayout,
+    QLabel, QLayout, QPushButton, QSizePolicy,
+    QSlider, QSpacerItem, QSpinBox, QTabWidget,
     QVBoxLayout, QWidget)
 
 class Ui_video_config(object):
@@ -50,7 +51,13 @@ class Ui_video_config(object):
 
         self.verticalLayout.addWidget(self.line)
 
-        self.grid_datas = QWidget(video_config)
+        self.tabWidget = QTabWidget(video_config)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.Camara = QWidget()
+        self.Camara.setObjectName(u"Camara")
+        self.verticalLayout_2 = QVBoxLayout(self.Camara)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.grid_datas = QWidget(self.Camara)
         self.grid_datas.setObjectName(u"grid_datas")
         self.gridLayout_2 = QGridLayout(self.grid_datas)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
@@ -227,7 +234,147 @@ class Ui_video_config(object):
         self.gridLayout_2.addWidget(self.lbl_blackligth, 8, 2, 1, 1)
 
 
-        self.verticalLayout.addWidget(self.grid_datas)
+        self.verticalLayout_2.addWidget(self.grid_datas)
+
+        self.tabWidget.addTab(self.Camara, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.gridLayout = QGridLayout(self.tab_2)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.sb_dp_hough = QDoubleSpinBox(self.tab_2)
+        self.sb_dp_hough.setObjectName(u"sb_dp_hough")
+        self.sb_dp_hough.setMinimum(0.100000000000000)
+        self.sb_dp_hough.setSingleStep(0.100000000000000)
+        self.sb_dp_hough.setValue(1.000000000000000)
+
+        self.gridLayout.addWidget(self.sb_dp_hough, 4, 2, 1, 1)
+
+        self.label_14 = QLabel(self.tab_2)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_14, 2, 4, 1, 1)
+
+        self.sb_param2_hough = QDoubleSpinBox(self.tab_2)
+        self.sb_param2_hough.setObjectName(u"sb_param2_hough")
+        self.sb_param2_hough.setMinimum(0.100000000000000)
+        self.sb_param2_hough.setSingleStep(0.100000000000000)
+        self.sb_param2_hough.setValue(30.000000000000000)
+
+        self.gridLayout.addWidget(self.sb_param2_hough, 5, 2, 1, 1)
+
+        self.label_18 = QLabel(self.tab_2)
+        self.label_18.setObjectName(u"label_18")
+        self.label_18.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_18, 5, 1, 1, 1)
+
+        self.label_15 = QLabel(self.tab_2)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_15, 4, 1, 1, 1)
+
+        self.label_13 = QLabel(self.tab_2)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_13, 2, 1, 1, 1)
+
+        self.checkBox = QCheckBox(self.tab_2)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.gridLayout.addWidget(self.checkBox, 0, 1, 1, 1)
+
+        self.sb_ksize_hough = QSpinBox(self.tab_2)
+        self.sb_ksize_hough.setObjectName(u"sb_ksize_hough")
+        self.sb_ksize_hough.setMinimum(1)
+        self.sb_ksize_hough.setSingleStep(2)
+        self.sb_ksize_hough.setStepType(QAbstractSpinBox.DefaultStepType)
+        self.sb_ksize_hough.setValue(3)
+
+        self.gridLayout.addWidget(self.sb_ksize_hough, 2, 2, 1, 1)
+
+        self.label_16 = QLabel(self.tab_2)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_16, 4, 3, 1, 1)
+
+        self.label_19 = QLabel(self.tab_2)
+        self.label_19.setObjectName(u"label_19")
+        self.label_19.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_19, 5, 3, 1, 1)
+
+        self.sb_mindist_hough = QDoubleSpinBox(self.tab_2)
+        self.sb_mindist_hough.setObjectName(u"sb_mindist_hough")
+        self.sb_mindist_hough.setMinimum(0.100000000000000)
+        self.sb_mindist_hough.setSingleStep(0.100000000000000)
+        self.sb_mindist_hough.setValue(20.000000000000000)
+
+        self.gridLayout.addWidget(self.sb_mindist_hough, 4, 4, 1, 1)
+
+        self.sb_minrad_hough = QSpinBox(self.tab_2)
+        self.sb_minrad_hough.setObjectName(u"sb_minrad_hough")
+
+        self.gridLayout.addWidget(self.sb_minrad_hough, 5, 4, 1, 1)
+
+        self.label_17 = QLabel(self.tab_2)
+        self.label_17.setObjectName(u"label_17")
+        self.label_17.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_17, 4, 5, 1, 1)
+
+        self.label_20 = QLabel(self.tab_2)
+        self.label_20.setObjectName(u"label_20")
+        self.label_20.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout.addWidget(self.label_20, 5, 5, 1, 1)
+
+        self.sb_param1_hough = QDoubleSpinBox(self.tab_2)
+        self.sb_param1_hough.setObjectName(u"sb_param1_hough")
+        self.sb_param1_hough.setMinimum(0.100000000000000)
+        self.sb_param1_hough.setSingleStep(0.100000000000000)
+        self.sb_param1_hough.setValue(50.000000000000000)
+
+        self.gridLayout.addWidget(self.sb_param1_hough, 4, 6, 1, 1)
+
+        self.sb_maxrad_hough = QSpinBox(self.tab_2)
+        self.sb_maxrad_hough.setObjectName(u"sb_maxrad_hough")
+
+        self.gridLayout.addWidget(self.sb_maxrad_hough, 5, 6, 1, 1)
+
+        self.label_12 = QLabel(self.tab_2)
+        self.label_12.setObjectName(u"label_12")
+        self.label_12.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_12, 3, 1, 1, 6)
+
+        self.label_9 = QLabel(self.tab_2)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_9, 1, 1, 1, 6)
+
+        self.sb_sigma_hough = QDoubleSpinBox(self.tab_2)
+        self.sb_sigma_hough.setObjectName(u"sb_sigma_hough")
+        self.sb_sigma_hough.setSingleStep(0.100000000000000)
+
+        self.gridLayout.addWidget(self.sb_sigma_hough, 2, 5, 1, 1)
+
+        self.tabWidget.addTab(self.tab_2, "")
+        self.Canny = QWidget()
+        self.Canny.setObjectName(u"Canny")
+        self.tabWidget.addTab(self.Canny, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.tabWidget.addTab(self.tab_3, "")
+        self.tab_4 = QWidget()
+        self.tab_4.setObjectName(u"tab_4")
+        self.tabWidget.addTab(self.tab_4, "")
+
+        self.verticalLayout.addWidget(self.tabWidget)
 
         self.pushButton_resetpreset = QPushButton(video_config)
         self.pushButton_resetpreset.setObjectName(u"pushButton_resetpreset")
@@ -276,6 +423,7 @@ class Ui_video_config(object):
 
         self.retranslateUi(video_config)
 
+        self.tabWidget.setCurrentIndex(1)
         self.comboBox_powerline.setCurrentIndex(1)
 
 
@@ -308,6 +456,22 @@ class Ui_video_config(object):
         self.lbl_sharpness.setText("")
         self.lbl_whitebalance.setText("")
         self.lbl_blackligth.setText("")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Camara), QCoreApplication.translate("video_config", u"Camara", None))
+        self.label_14.setText(QCoreApplication.translate("video_config", u"Sigma", None))
+        self.label_18.setText(QCoreApplication.translate("video_config", u"Param2", None))
+        self.label_15.setText(QCoreApplication.translate("video_config", u"dp", None))
+        self.label_13.setText(QCoreApplication.translate("video_config", u"Ksize", None))
+        self.checkBox.setText(QCoreApplication.translate("video_config", u"Activate", None))
+        self.label_16.setText(QCoreApplication.translate("video_config", u"minDist", None))
+        self.label_19.setText(QCoreApplication.translate("video_config", u"minRadius", None))
+        self.label_17.setText(QCoreApplication.translate("video_config", u"param1", None))
+        self.label_20.setText(QCoreApplication.translate("video_config", u"MaxRadius", None))
+        self.label_12.setText(QCoreApplication.translate("video_config", u"Circles", None))
+        self.label_9.setText(QCoreApplication.translate("video_config", u"Blurred", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("video_config", u"HoughCircles", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Canny), QCoreApplication.translate("video_config", u"Canny", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("video_config", u"Blobs", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("video_config", u"P\u00e1gina", None))
         self.pushButton_resetpreset.setText(QCoreApplication.translate("video_config", u"Reset Preset", None))
         self.pushButton_savepreset.setText(QCoreApplication.translate("video_config", u"Save preset", None))
         self.pushButton_newpreset.setText(QCoreApplication.translate("video_config", u"Create new preset", None))

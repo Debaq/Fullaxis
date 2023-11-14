@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'vng_ui.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.4.3
+## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -104,6 +104,11 @@ class Ui_video(object):
 
         self.horizontalLayout_2.addWidget(self.pushButton_configvideo)
 
+        self.btn_start = QPushButton(self.video_frame)
+        self.btn_start.setObjectName(u"btn_start")
+
+        self.horizontalLayout_2.addWidget(self.btn_start)
+
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
@@ -155,5 +160,6 @@ class Ui_video(object):
 
         self.checkBox.setText(QCoreApplication.translate("video", u"Auto", None))
         self.pushButton_configvideo.setText("")
+        self.btn_start.setText(QCoreApplication.translate("video", u"Grabar", None))
     # retranslateUi
 
