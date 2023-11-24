@@ -24,23 +24,16 @@ class StraHoughCircles:
                                    param2=self.param_hough['param2'], minRadius=self.param_hough['minRadius'],
                                    maxRadius=self.param_hough['maxRadius'])
         colored_image = cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR)
-        center = 0
         if circles is not None:
             circles = np.uint16(np.around(circles))
-            #print(len(circles[0]))
-            center = (circles[0][0][0],circles[0][0][1])
+            # Tomamos solo el primer círculo detectado
+            center = (circles[0][0][0], circles[0][0][1])
             radius = circles[0][0][2]
             cv2.circle(colored_image, center, 1, (0, 100, 100), 3)
             cv2.circle(colored_image, center, radius, self.color, 3)
+        else:
+            center = None
 
-            #for i in circles[0, :]:
-            #    center = (i[0], i[1])
-            #    print(center)
-                # Dibujar el centro del círculo
-            #    cv2.circle(colored_image, center, 1, (0, 100, 100), 3)
-                # Dibujar el círculo
-            #    radius = i[2]
-            #    cv2.circle(colored_image, center, radius, (255, 0, 255), 3)
         return colored_image, center
     
     def set_param(self, param:dict):

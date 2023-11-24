@@ -47,7 +47,7 @@ for device in all_devices:
 import os
 
 class CameraId:
-    def __init__(self, name_cam="USB GS CAM"):
+    def __init__(self, name_cam="USB Camera: USB GS CAM"):
         if os.name == 'posix':
             self.camera = self.linux(name_cam)
         elif os.name == 'nt':

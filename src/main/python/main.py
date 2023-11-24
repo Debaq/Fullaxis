@@ -60,7 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.activate_video()  # este se deberia abrir solo si hay una pestaña con vng
 
     def activate_video(self):
-        camera_id = CameraId("USB Camera: USB GS CAM")
+        camera_id = CameraId("Integrated Camera: Integrated C")
         camera_id = camera_id.get_camera()
         if camera_id[0] :
             self.config = ConfigVideoWindow()
