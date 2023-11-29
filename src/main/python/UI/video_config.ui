@@ -335,8 +335,55 @@
        <string>HoughCircles</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="2">
-        <widget class="QDoubleSpinBox" name="sb_dp_hough">
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="checkBox">
+         <property name="text">
+          <string>Activate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="5">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>minDist</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="7">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>param1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="5">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>minRadius</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QCheckBox" name="cb_ksize_equals">
+         <property name="text">
+          <string>=</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="8">
+        <widget class="QDoubleSpinBox" name="sb_param1_hough">
          <property name="minimum">
           <double>0.100000000000000</double>
          </property>
@@ -344,14 +391,47 @@
           <double>0.100000000000000</double>
          </property>
          <property name="value">
-          <double>1.000000000000000</double>
+          <double>50.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="8">
+        <widget class="QSpinBox" name="sb_maxrad_hough"/>
+       </item>
+       <item row="2" column="5">
+        <widget class="QSpinBox" name="sb_ksizew_hough"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>KsizeH</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Sigma</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
        <item row="2" column="4">
-        <widget class="QLabel" name="label_14">
+        <widget class="QLabel" name="label_21">
          <property name="text">
-          <string>Sigma</string>
+          <string>KsizeW</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Param2</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -371,13 +451,55 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="label_18">
+       <item row="4" column="6">
+        <widget class="QDoubleSpinBox" name="sb_mindist_hough">
+         <property name="minimum">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>20.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QDoubleSpinBox" name="sb_dp_hough">
+         <property name="minimum">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="8">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Param2</string>
+          <string>Circles</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="sb_ksizeh_hough">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="stepType">
+          <enum>QAbstractSpinBox::DefaultStepType</enum>
+         </property>
+         <property name="value">
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -391,86 +513,17 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>Ksize</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>Activate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QSpinBox" name="sb_ksize_hough">
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="singleStep">
-          <number>2</number>
-         </property>
-         <property name="stepType">
-          <enum>QAbstractSpinBox::DefaultStepType</enum>
-         </property>
-         <property name="value">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>minDist</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>minRadius</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QDoubleSpinBox" name="sb_mindist_hough">
-         <property name="minimum">
-          <double>0.100000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-         <property name="value">
-          <double>20.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
+       <item row="5" column="6">
         <widget class="QSpinBox" name="sb_minrad_hough"/>
        </item>
-       <item row="4" column="5">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>param1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <item row="2" column="7">
+        <widget class="QDoubleSpinBox" name="sb_sigma_hough">
+         <property name="singleStep">
+          <double>0.100000000000000</double>
          </property>
         </widget>
        </item>
-       <item row="5" column="5">
+       <item row="5" column="7">
         <widget class="QLabel" name="label_20">
          <property name="text">
           <string>MaxRadius</string>
@@ -480,46 +533,13 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="6">
-        <widget class="QDoubleSpinBox" name="sb_param1_hough">
-         <property name="minimum">
-          <double>0.100000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-         <property name="value">
-          <double>50.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="6">
-        <widget class="QSpinBox" name="sb_maxrad_hough"/>
-       </item>
-       <item row="3" column="1" colspan="6">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Circles</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="6">
+       <item row="1" column="1" colspan="8">
         <widget class="QLabel" name="label_9">
          <property name="text">
           <string>Blurred</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5">
-        <widget class="QDoubleSpinBox" name="sb_sigma_hough">
-         <property name="singleStep">
-          <double>0.100000000000000</double>
          </property>
         </widget>
        </item>
@@ -594,21 +614,33 @@
  </widget>
  <tabstops>
   <tabstop>comboBox_preset</tabstop>
-  <tabstop>Slider_brightness</tabstop>
-  <tabstop>Slider_contrast</tabstop>
-  <tabstop>Slider_hue</tabstop>
-  <tabstop>Slider_gamma</tabstop>
-  <tabstop>Slider_saturation</tabstop>
-  <tabstop>Slider_sharpness</tabstop>
-  <tabstop>Slider_whitebalance</tabstop>
-  <tabstop>Slider_blackligth</tabstop>
-  <tabstop>checkBox_exposure</tabstop>
-  <tabstop>checkBox_whitebalance</tabstop>
-  <tabstop>comboBox_powerline</tabstop>
-  <tabstop>pushButton_ok</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>sb_ksizeh_hough</tabstop>
+  <tabstop>cb_ksize_equals</tabstop>
+  <tabstop>sb_ksizew_hough</tabstop>
+  <tabstop>sb_sigma_hough</tabstop>
+  <tabstop>sb_dp_hough</tabstop>
+  <tabstop>sb_param2_hough</tabstop>
+  <tabstop>sb_mindist_hough</tabstop>
+  <tabstop>sb_minrad_hough</tabstop>
+  <tabstop>sb_param1_hough</tabstop>
+  <tabstop>sb_maxrad_hough</tabstop>
   <tabstop>pushButton_resetpreset</tabstop>
   <tabstop>pushButton_savepreset</tabstop>
   <tabstop>pushButton_newpreset</tabstop>
+  <tabstop>pushButton_ok</tabstop>
+  <tabstop>Slider_whitebalance</tabstop>
+  <tabstop>Slider_blackligth</tabstop>
+  <tabstop>Slider_contrast</tabstop>
+  <tabstop>Slider_hue</tabstop>
+  <tabstop>checkBox_exposure</tabstop>
+  <tabstop>checkBox_whitebalance</tabstop>
+  <tabstop>comboBox_powerline</tabstop>
+  <tabstop>Slider_brightness</tabstop>
+  <tabstop>Slider_sharpness</tabstop>
+  <tabstop>Slider_saturation</tabstop>
+  <tabstop>Slider_gamma</tabstop>
  </tabstops>
  <resources/>
  <connections/>
