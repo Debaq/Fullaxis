@@ -104,7 +104,7 @@ class TabsHelper():
         tab.click_tab.connect(self.select_tab)
 
 
-        tab.setName(f"tab_{self.last_tab}")
+        tab.set_name(f"tab_{self.last_tab}")
         self.tabs_layout.addWidget(tab)
         self.select_tab(f"tab_{self.last_tab}")
         return f"tab_{self.last_tab}"
@@ -157,6 +157,7 @@ class TabsHelper():
             str: The test type of the tab.
         """        
         tab = self.tabs_widget.findChild(TabButton, tab_name)
+        print(tab.get_test)
         return tab.get_test()
 
 

@@ -207,6 +207,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tests_actives.pop(n_tab)
 
         # Si no hay ningún test de video activo, desactiva el video
+        print(self.tests_actives)
         if not any(value[1] == 'VNG' for _, value in self.tests_actives.items()):
             self.deactivate_video()
 
@@ -231,7 +232,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Activate the video interface."""
         if not self.video.enabled:
             try:
-                self.video.thread = OpenCVProcessingThread(cam_n=2) #acá hay que insertar una función que busque la camara correcta
+                self.video.thread = OpenCVProcessingThread(cam_n=0) #acá hay que insertar una función que busque la camara correcta
+                #el error debe ser capturado desde opencv
                 self.video.thread.start()
                 self.video.thread.change_pixmap_signal.connect(self.update_image)
                 self.video.enabled = True
