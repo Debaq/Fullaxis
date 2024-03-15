@@ -172,7 +172,9 @@ QTabBar::close-button:hover {background: rgb(107,114,132);}</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="tabs_layout"/>
+        <widget class="QWidget" name="tabs_widget" native="true">
+         <layout class="QHBoxLayout" name="tabs_layout"/>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_new">

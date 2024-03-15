@@ -129,10 +129,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addLayout(self.layotu_btn_tabs)
 
-        self.tabs_layout = QHBoxLayout()
+        self.tabs_widget = QWidget(self.frame_win_bar)
+        self.tabs_widget.setObjectName(u"tabs_widget")
+        self.tabs_layout = QHBoxLayout(self.tabs_widget)
         self.tabs_layout.setObjectName(u"tabs_layout")
 
-        self.horizontalLayout.addLayout(self.tabs_layout)
+        self.horizontalLayout.addWidget(self.tabs_widget)
 
         self.btn_new = QPushButton(self.frame_win_bar)
         self.btn_new.setObjectName(u"btn_new")

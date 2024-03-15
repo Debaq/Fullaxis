@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainlJhIov.ui'
+## Form generated from reading UI file 'maindUsgyr.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.0
+## Created by: Qt User Interface Compiler version 6.6.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.btn_menu = QPushButton(self.frame_win_bar)
         self.btn_menu.setObjectName(u"btn_menu")
         self.btn_menu.setEnabled(False)
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_menu.sizePolicy().hasHeightForWidth())
@@ -126,17 +126,24 @@ class Ui_MainWindow(object):
 
         self.layotu_btn_tabs.addWidget(self.btn_menu)
 
+
+        self.horizontalLayout.addLayout(self.layotu_btn_tabs)
+
+        self.tabs_widget = QWidget(self.frame_win_bar)
+        self.tabs_widget.setObjectName(u"tabs_widget")
+        self.tabs_layout = QHBoxLayout(self.tabs_widget)
+        self.tabs_layout.setObjectName(u"tabs_layout")
+
+        self.horizontalLayout.addWidget(self.tabs_widget)
+
         self.btn_new = QPushButton(self.frame_win_bar)
         self.btn_new.setObjectName(u"btn_new")
         self.btn_new.setMinimumSize(QSize(0, 25))
         self.btn_new.setFlat(False)
 
-        self.layotu_btn_tabs.addWidget(self.btn_new)
+        self.horizontalLayout.addWidget(self.btn_new)
 
-
-        self.horizontalLayout.addLayout(self.layotu_btn_tabs)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
@@ -176,19 +183,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.frame_win_bar)
 
-        self.frame_menu = QFrame(self.centralwidget)
-        self.frame_menu.setObjectName(u"frame_menu")
-        self.frame_menu.setMinimumSize(QSize(0, 58))
-        self.frame_menu.setMaximumSize(QSize(16777215, 58))
-        self.frame_menu.setStyleSheet(u"background-color: rgb(245,245,245); \n"
-"")
-        self.layout_menu = QHBoxLayout(self.frame_menu)
-        self.layout_menu.setSpacing(0)
-        self.layout_menu.setObjectName(u"layout_menu")
-        self.layout_menu.setContentsMargins(0, 0, 0, 0)
-
-        self.verticalLayout.addWidget(self.frame_menu)
-
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         self.frame.setStyleSheet(u"background-color: rgb(245,245,245); \n"
@@ -210,7 +204,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.btn_menu.setText(QCoreApplication.translate("MainWindow", u" FullAxis ", None))
-        self.btn_new.setText(QCoreApplication.translate("MainWindow", u" + Nueva Prueba ", None))
+        self.btn_new.setText(QCoreApplication.translate("MainWindow", u"+", None))
         self.btn_min.setText(QCoreApplication.translate("MainWindow", u"\u2014", None))
         self.btn_max.setText(QCoreApplication.translate("MainWindow", u"\u25a1", None))
         self.btn_exit.setText(QCoreApplication.translate("MainWindow", u"X", None))
