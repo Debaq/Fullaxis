@@ -16,7 +16,7 @@ class OpenCVProcessingThread(QThread):
     sig_frame_states = Signal(dict)
     sig_coords = Signal(dict)
 
-    def __init__(self, parent=None, cam_n=0):
+    def __init__(self, parent=None, cam_n=2):
         super().__init__(parent)
         self._running = True
         self._flip_horizontal = False

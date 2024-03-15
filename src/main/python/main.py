@@ -230,7 +230,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Activate the video interface."""
         if not self.video.enabled:
             try:
-                self.video.thread = OpenCVProcessingThread(cam_n=0) #acá hay que insertar una función que busque la camara correcta
+                self.video.thread = OpenCVProcessingThread(cam_n=2) #acá hay que insertar una función que busque la camara correcta
                 #el error debe ser capturado desde opencv
                 self.video.thread.start()
                 self.video.thread.sig_change_pixmap.connect(self.update_image)
