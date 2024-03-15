@@ -1,6 +1,9 @@
 from PySide6.QtCore import Qt, Signal, QTimer, QObject, QTime
 import numpy as np
-import simpleaudio as sa
+import os
+
+if os.name == 'posix':
+    import simpleaudio as sa
 
 class Cronometro(QObject):
     tiempo_actualizado = Signal(int, bool, str)
@@ -72,7 +75,9 @@ class Cronometro(QObject):
         t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
         x = np.sin(2 * np.pi * frequency * t)
         audio = (x * 32767).astype(np.int16)
-        play_obj = sa.play_buffer(audio, 1, 2, sample_rate)
-        play_obj.wait_done()
+        if os.name == 'posix':
+
+            play_obj = sa.play_buffer(audio, 1, 2, sample_rate)
+            play_obj.wait_done()
 
 
