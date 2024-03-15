@@ -9,6 +9,7 @@ from PySide6.QtCore import Qt, QEvent
 from UI.Ui_vng_ui import Ui_video
 from lib.video.FullScreenVideo import VideoPopup
 from lib.Qtcronometer import Cronometro
+from lib.video.ListCameras import CameraId
 
 
 
@@ -20,8 +21,8 @@ class WidgetVNG(QWidget, Ui_video):
     Attributes:
         config_open (Signal): Signal emitted when the video configuration is opened.
     """
-    config_open = Signal(bool)
-
+    sig_config_open = Signal(bool)
+    sig_camera_id = Signal(int)
     def __init__(self):
         """
         Initialize the WidgetVNG instance and set up the UI.
@@ -36,8 +37,10 @@ class WidgetVNG(QWidget, Ui_video):
         self.cronometro = Cronometro()
         self.cronometro.tiempo_actualizado.connect(self.on_tiempo_actualizado)
         self.video_frame.setFocus()
+        self.current_cam = None
+        self.cb_hardware.currentIndexChanged.connect(self.change_cam)
+        self.hardware_fill()
 
-        
 
     def installEventFilters(self, parent):
         for child in parent.children():
@@ -104,7 +107,7 @@ class WidgetVNG(QWidget, Ui_video):
         """
         Emit a signal indicating that the video configuration should be opened.
         """
-        self.config_open.emit(True)
+        self.sig_config_open.emit(True)
 
     def update(self, image):
         """
@@ -140,4 +143,12 @@ class WidgetVNG(QWidget, Ui_video):
         plot_widget.setLabel('bottom', 'Time', units='seconds')
         plot_widget.setLimits(xMin=-45, xMax=45, yMin=-45, yMax=45)
         return plot_widget
+    
+    def hardware_fill(self):
+        cameras = CameraId()
+        for i in cameras.get_cameras_list():
+            if i[0] != 'None':
+                self.cb_hardware.addItem(i[0])
 
+    def change_cam(self):
+        self.sig_camera_id.emit(self.cb_hardware.currentIndex())

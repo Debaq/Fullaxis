@@ -17,6 +17,7 @@ from lib.Ui_constructors import UiWinPrincipal
 from lib.ui_helper import Helpers, TabsHelper
 from lib.video.OpenCVProcessingThread import OpenCVProcessingThread
 from lib.window_helpers import check_screen_resolution
+from lib.video.ListCameras import CameraId
 
 # pylint: disable=E0611
 from PySide6.QtCore import Qt, QTimer, Slot, QEvent
@@ -139,8 +140,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             activation_function()
 
             # Create a dictionary entry for the tab 
-            self.tests_actives[info_tab[1]] = Test(widget=test, type=info_tab[0], save=False, 
-                                                   profile=None, data=None, enabled=True)
+            test = Test(widget=test, type=info_tab[0], save=False,
+                        profile=None, data=None, enabled=True)
+            if test.type == 'VNG':
+                test.widget.sig_camera_id.connect(self.video.thread.change_camera)
+            self.tests_actives[info_tab[1]] = test
             self.tests_actives["active"] = info_tab[1]
             self.update_layout_central()
 
@@ -174,7 +178,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Args:
             n_tab (int): Tab number being checked.
         """
-
         is_sot = self.tests_actives[n_tab].type == "SOT"
         active = self.tests_actives["active"]
         #print(f"save: {self.tests_actives[]}")
@@ -182,9 +185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Si el test activo es el que se está cerrando
         if active == n_tab:
             # Crea una lista con los nombres de los tests que no están cerrados
-
             open_tests = [test for test, value in self.tests_actives.items() if test != "active" and value.enabled]
-
 
             # Si n_tab no está en open_tests, simplemente regresa
             if n_tab not in open_tests:
@@ -207,15 +208,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tests_actives.pop(n_tab)
 
         # Si no hay ningún test de video activo, desactiva el video
-        print(self.tests_actives)
         if not any(value[1] == 'VNG' for _, value in self.tests_actives.items()):
             self.deactivate_video()
 
         # Si no hay tests abiertos, vuelve a la vista principal
         if not any(value[5] for _, value in self.tests_actives.items() if _ != "active"):
             self.main_()
-
-
 
     def activate_serial(self):
         """Activate the serial interface."""
@@ -235,7 +233,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.video.thread = OpenCVProcessingThread(cam_n=0) #acá hay que insertar una función que busque la camara correcta
                 #el error debe ser capturado desde opencv
                 self.video.thread.start()
-                self.video.thread.change_pixmap_signal.connect(self.update_image)
+                self.video.thread.sig_change_pixmap.connect(self.update_image)
                 self.video.enabled = True
 
             except Exception as exeption:
@@ -246,14 +244,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Deactivating video")
         if self.video.enabled:
             try:
-                self.video.thread.change_pixmap_signal.disconnect(self.update_image)
+                self.video.thread.sig_change_pixmap.disconnect(self.update_image)
                 self.video.thread.stop(True, "test")
                 self.video.enabled = False
             except Exception as exeption:
                 print(f"Error deactivating video: {exeption}")
 
-
-            
     @Slot(QImage)
     def update_image(self, image: QImage) -> None:
         """
@@ -266,6 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for test, val in self.tests_actives.items():
             if test != "active" and val.widget.objectName() == "video":
                 val.widget.update(image)
+
 
 
 

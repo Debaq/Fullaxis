@@ -208,7 +208,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             widget = WidgetSOT()
         elif name_test == "VNG":
             widget = WidgetVNG()
-            widget.config_open.connect(self.configure_window)
+            widget.sig_config_open.connect(self.configure_window)
             
         set_widget = [new_tab_test, widget]
         self.tab_widgets_list.append(set_widget)

@@ -47,7 +47,8 @@ for device in all_devices:
 import os
 
 class CameraId:
-    def __init__(self, name_cam="USB GS CAM"):
+    def __init__(self, name_cam="USB Camera: USB GS CAM"):
+        self.cameras_list = []
         if os.name == 'posix':
             self.camera = self.linux(name_cam)
         elif os.name == 'nt':
@@ -56,23 +57,26 @@ class CameraId:
     def get_camera(self):
         return self.camera
 
+    def get_cameras_list(self):
+        return self.cameras_list
+
+
     def linux(self, name):
-        cameras = []
         for i in range(10):
             try:
                 with open(f"/sys/class/video4linux/video{i}/name","r") as hw_video:
                     hw_name = hw_video.read()
                     hw_name = hw_name.replace("\n","")
-                    cameras.append([hw_name, i])
+                    self.cameras_list.append([hw_name, i])
             except FileNotFoundError:
-                cameras.append(["None", i])
+                self.cameras_list.append(["None", i])
         
-        print(f"cameras found: {cameras}")
-        for c in cameras:
+        #print(f"cameras found: {cameras}")
+        for c in self.cameras_list:
             if  c[0].startswith(name):
                 return(True, c[1])
             
-        print("Camera not found")
+        #print("Camera not found")
 
                 
         
